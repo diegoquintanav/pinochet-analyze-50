@@ -1,6 +1,7 @@
 # custom gitignores
 .env
 .*.env
+assets/maps/*
 
 # vscode sql extension
 *.session.sql
