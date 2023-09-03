@@ -33,7 +33,7 @@ seeds:
       - name: perpetrator_affiliation_detail
       - name: nationality
       - name: place_1
-      - name: location_1
+      - name: start_location_1
       - name: latitude_1
       - name: longitude_1
       - name: exact_coordinates_1
@@ -43,22 +43,22 @@ seeds:
       - name: longitude_2
       - name: exact_coordinates_2
       - name: place_3
-      - name: location_3
+      - name: end_location_3
       - name: latitude_3
       - name: longitude_3
       - name: exact_coordinates_3
       - name: place_4
-      - name: location_4
+      - name: end_location_4
       - name: latitude_4
       - name: longitude_4
       - name: exact_coordinates_4
       - name: place_5
-      - name: location_5
+      - name: end_location_5
       - name: latitude_5
       - name: longitude_5
       - name: exact_coordinates_5
       - name: place_6
-      - name: location_6
+      - name: end_location_6
       - name: latitude_6
       - name: longitude_6
       - name: exact_coordinates_6
