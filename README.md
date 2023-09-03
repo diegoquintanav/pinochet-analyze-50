@@ -54,7 +54,7 @@ Check other commands with `make help`.
 
 ## Services
 
-These services are deployed locally using docker compose
+These services are deployed locally using docker compose. You can start them with `docker compose up -d`. You need to provide a valid `.env` file, see `example.env` for an example.
 
 ### Postgis
 
