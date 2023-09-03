@@ -3,5 +3,18 @@
 		"activityBar.background": "#3A2B0B",
 		"titleBar.activeBackground": "#513D0F",
 		"titleBar.activeForeground": "#FDF9F2"
-	}
+	},
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"server": "0.0.0.0",
+			"port": 5433,
+			"driver": "PostgreSQL",
+			"name": "pinochet-dev",
+			"group": "dev",
+			"database": "pinochet",
+			"username": "postgres",
+			"password": "postgres"
+		}
+	]
 }
