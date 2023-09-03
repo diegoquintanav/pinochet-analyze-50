@@ -12,7 +12,16 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - 5433:5432
+    networks:
+      - nw_pinochet
 
 volumes:
   pgdata:
     driver: local
+
+networks:
+  default:
+    driver: bridge
+  nw_pinochet:
+    driver: bridge
+    external: true

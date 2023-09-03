@@ -56,6 +56,20 @@ Check other commands with `make help`.
 
 These services are deployed locally using docker compose. You can start them with `docker compose up -d`. You need to provide a valid `.env` file, see `example.env` for an example.
 
+### Networking between postgis and superset
+
+We use an external network to allow superset to connect to postgis. This network is managed by docker, and it needs to be created _before_ starting the services.
+
+```bash
+docker network create nw_pinochet
+```
+
+See <https://stackoverflow.com/a/67811533/5819113> and <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose/#configuring-docker-compose> for more details.
+
+Quote from the superset docs:
+
+> Note: Users often want to connect to other databases from Superset. Currently, the easiest way to do this is to modify the docker-compose-non-dev.yml file and add your database as a service that the other services depend on (via x-superset-depends-on). Others have attempted to set network_mode: host on the Superset services, but these generally break the installation, because the configuration requires use of the Docker Compose DNS resolver for the service names. If you have a good solution for this, let us know!
+
 ### Postgis
 
 A database with postgis extension enabled. The database is empty by default, and it is populated by dbt.
@@ -64,6 +78,3 @@ A database with postgis extension enabled. The database is empty by default, and
 
 We use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
 
-#### Networking between postgis and superset
-
-We use an external network to allow superset to connect to postgis. This network is created by docker compose.

@@ -59,6 +59,9 @@ services:
       - 8088:8088
     depends_on: *superset-depends-on
     volumes: *superset-volumes
+    networks:
+      - default
+      - nw_pinochet
 
   superset-init:
     image: *superset-image
@@ -86,6 +89,9 @@ services:
           "CMD-SHELL",
           "celery -A superset.tasks.celery_app:app inspect ping -d celery@$$HOSTNAME",
         ]
+    networks:
+      - default
+      - nw_pinochet
 
   superset-worker-beat:
     image: *superset-image
@@ -106,3 +112,10 @@ volumes:
     external: false
   redis:
     external: false
+
+networks:
+  default:
+    driver: bridge
+  nw_pinochet:
+    driver: bridge
+    external: true
