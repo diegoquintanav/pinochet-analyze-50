@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-x-superset-image: &superset-image apachesuperset.docker.scarf.sh/apache/superset:${TAG:-latest-dev}
+x-superset-image: &superset-image apachesuperset.docker.scarf.sh/apache/superset:2.1.0
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
@@ -38,6 +38,8 @@ services:
   db:
     env_file: services/superset/docker/.env-non-dev
     image: postgres:15
+    ports:
+      - 5434:5432
     container_name: superset_db
     restart: unless-stopped
     volumes:
