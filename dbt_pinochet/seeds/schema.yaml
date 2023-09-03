@@ -1,0 +1,72 @@
+version: 2
+
+seeds:
+  - name: pinochet_raw
+    description: Raw pinochet dataset
+    notes: https://github.com/danilofreire/pinochet/blob/master/data/pinochet.csv
+    columns:
+      - name: individual_id
+      - name: group_id
+      - name: start_date_daily
+      - name: end_date_daily
+      - name: start_date_monthly
+      - name: end_date_monthly
+      - name: last_name
+      - name: first_name
+      - name: minor
+      - name: age
+      - name: male
+      - name: occupation
+      - name: occupation_detail
+      - name: victim_affiliation
+      - name: victim_affiliation_detail
+      - name: violence
+      - name: method
+      - name: interrogation
+      - name: torture
+      - name: mistreatment
+      - name: targeted
+      - name: press
+      - name: war_tribunal
+      - name: number_previous_arrests
+      - name: perpetrator_affiliation
+      - name: perpetrator_affiliation_detail
+      - name: nationality
+      - name: place_1
+      - name: location_1
+      - name: latitude_1
+      - name: longitude_1
+      - name: exact_coordinates_1
+      - name: place_2
+      - name: location_2
+      - name: latitude_2
+      - name: longitude_2
+      - name: exact_coordinates_2
+      - name: place_3
+      - name: location_3
+      - name: latitude_3
+      - name: longitude_3
+      - name: exact_coordinates_3
+      - name: place_4
+      - name: location_4
+      - name: latitude_4
+      - name: longitude_4
+      - name: exact_coordinates_4
+      - name: place_5
+      - name: location_5
+      - name: latitude_5
+      - name: longitude_5
+      - name: exact_coordinates_5
+      - name: place_6
+      - name: location_6
+      - name: latitude_6
+      - name: longitude_6
+      - name: exact_coordinates_6
+      - name: page
+      - name: additional_comments
+        description: >
+          This variable gives additional information about cases that are
+          too ambiguous to fit precisely into a single category. For instance, when the Truth and
+          Commission Report is unsure whether the victim was killed or committed suicide, or if a
+          given human rights abuse may have occurred in Santiago or elsewhere. Only 10 cases have
+          additional information.
