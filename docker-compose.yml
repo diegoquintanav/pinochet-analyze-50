@@ -27,7 +27,16 @@ services:
       PGRST_DB_ANON_ROLE: web_anon
       PGRST_JWT_SECRET: ${PGRST_JWT_SECRET}
     ports:
-      - 3010:3000
+      - 3000:3000
+    networks:
+      - default
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8080:8080
+    environment:
+      API_URL: http://localhost:3000/
     networks:
       - default
 
