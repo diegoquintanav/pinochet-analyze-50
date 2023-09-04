@@ -12,23 +12,11 @@ services:
       PGRST_JWT_SECRET: ${PGRST_JWT_SECRET}
     ports:
       - 3000:3000
-    networks:
-      - default
-      - nw_pinochet
-
+    depends_on:
+      - postgis
   swagger-ui:
     image: swaggerapi/swagger-ui
     ports:
       - 8080:8080
     environment:
       API_URL: http://localhost:3000/
-    networks:
-      - default
-      - nw_pinochet
-
-networks:
-  default:
-    driver: bridge
-  nw_pinochet:
-    driver: bridge
-    external: true
