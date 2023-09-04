@@ -1,0 +1,34 @@
+version: "3.9"
+name: pinochet
+
+services:
+  postgrest:
+    image: postgrest/postgrest:v11.2.0
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${PGRST_AUTHENTICATOR_PASSWORD}@postgis:5432/${POSTGRES_DB}
+      PGRST_AUTHENTICATOR_PASSWORD: ${PGRST_AUTHENTICATOR_PASSWORD}
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_JWT_SECRET: ${PGRST_JWT_SECRET}
+    ports:
+      - 3000:3000
+    networks:
+      - default
+      - nw_pinochet
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8080:8080
+    environment:
+      API_URL: http://localhost:3000/
+    networks:
+      - default
+      - nw_pinochet
+
+networks:
+  default:
+    driver: bridge
+  nw_pinochet:
+    driver: bridge
+    external: true
