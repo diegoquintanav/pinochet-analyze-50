@@ -15,6 +15,17 @@
 			"database": "pinochet",
 			"username": "postgres",
 			"password": "postgres"
+		},
+		{
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 5434,
+			"driver": "PostgreSQL",
+			"name": "pinochet-superset",
+			"group": "dev",
+			"database": "superset",
+			"username": "superset",
+			"password": "superset"
 		}
 	]
 }

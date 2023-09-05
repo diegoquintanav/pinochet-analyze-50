@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  streamlit:
+    image: ghcr.io/diegoquintanav/pinochet-streamlit:latest
+    build:
+      context: ./services/streamlit
+    ports:
+      - 8501:8501
+    volumes:
+      - streamlit-cachedata:/root/.cache
+      - ./services/streamlit/src/:/src/
+
+volumes:
+  streamlit-cachedata:
+    driver: local
+  venv:
+    driver: local

@@ -27,6 +27,11 @@ pytest = "^7.4.0"
 coverage = "^7.3.0"
 git-changelog = "^2.1.0"
 
+
+[tool.poetry.group.streamlit.dependencies]
+streamlit = "^1.26.0"
+python-decouple = "^3.8"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
