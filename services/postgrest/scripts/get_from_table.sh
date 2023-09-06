@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # example postgrest query
-POSTGIS_TABLE="t_pinochet__construct_geometries"
+POSTGIS_TABLE="dm_pinochet__base"
 POSTGREST_ENDPOINT="http://localhost:3000"
 QUERY_PARAMS="?limit=2"
 

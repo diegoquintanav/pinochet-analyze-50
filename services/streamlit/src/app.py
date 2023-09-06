@@ -1,6 +1,8 @@
+import geopandas as gpd
 import pandas as pd
 import streamlit as st
 from decouple import config
+from shapely import wkb
 from sqlalchemy import create_engine
 
 POSTGRES_USER = config("POSTGRES_USER")
@@ -22,17 +24,18 @@ def get_data():
         latitude,
         longitude,
         occupation_detail,
-        ST_AsText(geo_location) as geom_wkt,
-        geo_location as geom
+        geometry,
     FROM
-        dbt_dev.t_pinochet__unnest_locations tpul
+        dbt_dev.dm_pinochet__base tpul
     LIMIT 10;
     """
     df = pd.read_sql(sql=query, con=engine)
+    df["geometry"] = df["geometry"].apply(wkb.loads)
+    df = gpd.GeoDataFrame(df, geometry="geometry")
     return df
 
 
-df = get_data().dropna()
+df = get_data()
 
 st.dataframe(df)
 
