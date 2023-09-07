@@ -15,9 +15,10 @@ services:
     volumes:
       - streamlit-cachedata:/root/.cache
       - ./services/streamlit/src/:/src/
+      - streamlit-venv:/home/daniellopez/.venv
 
 volumes:
   streamlit-cachedata:
     driver: local
-  venv:
+  streamlit-venv:
     driver: local

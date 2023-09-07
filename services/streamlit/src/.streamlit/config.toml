@@ -11,3 +11,6 @@ address="0.0.0.0"
 
 [logger]
 level = "debug"
+
+[global]
+dataFrameSerialization = "arrow"

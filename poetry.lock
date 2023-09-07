@@ -2217,7 +2217,7 @@ email = ["email-validator (>=1.0.3)"]
 name = "pydeck"
 version = "0.8.0"
 description = "Widget for deck.gl maps"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -3230,4 +3230,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1ea0b7dfae3dfa668cc78576f69f0d97eb10fc0a282112c5d8e80435d5fcb854"
+content-hash = "35ac68216bf62e268e57e1f4ef7b2d083235e2c3e93ad2f7360237be21e586da"

@@ -9,12 +9,13 @@ packages = [{include = "pinochet_analyze"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pandas = "^2.0.3"
 numpy = "^1.25.2"
 folium = "^0.14.0"
 geopandas = "^0.13.2"
 py2neo = "^2021.2.3"
 dbt-postgres = "^1.6.1"
+pandas = "^2.1.0"
+pydeck = "^0.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -34,7 +35,6 @@ python-decouple = "^3.8"
 psycopg2-binary = "^2.9.7"
 geopandas = "^0.13.2"
 sqlalchemy = "^2.0.20"
-pandas = "^2.1.0"
 numpy = "^1.25.2"
 
 [build-system]

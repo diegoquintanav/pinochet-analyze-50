@@ -21,13 +21,10 @@ st.header("Hello World!")
 def get_data():
     query = """
     SELECT
-        latitude,
-        longitude,
-        occupation_detail,
-        geometry,
+        *
     FROM
         dbt_dev.dm_pinochet__base tpul
-    LIMIT 10;
+    LIMIT 100;
     """
     df = pd.read_sql(sql=query, con=engine)
     df["geometry"] = df["geometry"].apply(wkb.loads)
@@ -37,6 +34,14 @@ def get_data():
 
 df = get_data()
 
-st.dataframe(df)
+st.date_input("dates", df["start_date_daily"].min())
+
+nationalities = df["nationality"].unique().tolist()
+st.multiselect("nationalities", options=nationalities, default=nationalities)
+
+st.dataframe(
+    df.drop(columns=["geometry"]),
+    use_container_width=True,
+)
 
 st.map(df)
