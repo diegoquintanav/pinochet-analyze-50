@@ -8,11 +8,17 @@ superset_compose_file:= docker-compose.superset-non-dev.yml
 compose_superset := "-f $(postgis_compose_file) -f $(superset_compose_file)"
 compose_streamlit := "-f $(postgis_compose_file) -f $(streamlit_compose_file)"
 
+dbt_project_dir := $(shell pwd)/dbt_pinochet
+dbt_profiles_dir := $(dbt_project_dir)/profiles
+
 help: ## Print this help
 	@grep -E '^[0-9a-zA-Z_\-\.]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 dbt_docs.devserver: ## Regenerate dbt docs
-	@DBT_PROJECT_DIR=$(DBT_PROJECT_DIR) dbt docs generate && dbt docs serve
+	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt docs generate && dbt docs serve
+
+dbt_build.dev_target: ## Run dbt build on target dev
+	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target dev
 
 streamlit.make_requirements: ## Regenerate requirements.txt
 	@echo "Generating requirements.txt for streamlit at ./services/streamlit/requirements.txt"
