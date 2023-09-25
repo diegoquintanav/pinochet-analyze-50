@@ -16,7 +16,6 @@ services:
       - 5433:5432
     networks:
       - default
-      - nw_pinochet
 
 volumes:
   pgdata:
@@ -25,6 +24,3 @@ volumes:
 networks:
   default:
     driver: bridge
-  nw_pinochet:
-    driver: bridge
-    external: true
