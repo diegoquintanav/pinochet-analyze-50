@@ -11,7 +11,7 @@ dbt_pinochet:
       dbname: pinochet
       schema: dbt_dev
 
-    api-dev:
+    api:
       type: postgres
       threads: 1
       host: 0.0.0.0

@@ -1,7 +1,7 @@
 version: 2
 
 seeds:
-  - name: pinochet_raw
+  - name: seed_pinochet
     description: Raw pinochet dataset
     notes: https://github.com/danilofreire/pinochet/blob/master/data/pinochet.csv
     columns:

@@ -7,7 +7,7 @@ WITH source AS (
     SELECT
         *
     FROM
-        {{ ref('pinochet_raw') }}
+        {{ ref('raw_pinochet__seed') }}
 ),
 renamed AS (
     SELECT

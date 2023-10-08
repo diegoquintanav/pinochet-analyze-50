@@ -1,0 +1,5 @@
+# Define the models
+models:
+  - name: raw_pinochet__seed
+    description: |
+      A raw table containing all events data from the pinochet dataset.
