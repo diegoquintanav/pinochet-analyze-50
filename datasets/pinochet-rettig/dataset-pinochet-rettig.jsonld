@@ -1,0 +1,33 @@
+{
+    "@context": "https://raw.githubusercontent.com/bio2kg/bio2kg-etl/main/resources/context.jsonld",
+    "@type": "http://purl.org/dc/dcmitype/Dataset",
+    "@id": "https://w3id.org/bio2kg/dataset/$dataset_id",
+
+    "identifier": "$dataset_id",
+    "preferredPrefix": "$dataset_id",
+    "label": "PinochetRettig dataset",
+    "title": "PinochetRettig",
+    "description": "An ontology for describing the events reported in the Rettig Report after Pinochet's Dictatorship in Chile",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+    "keyword": "pinochet",
+    "page": "http://d2s.semanticscience.org/",
+    "references": "https://www.ncbi.nlm.nih.gov/pubmed/29126136",
+    "publisher": {
+        "@type": "http://purl.org/dc/terms/Agent",
+        "name": "Institute of Data Science at Maastricht University",
+        "page": "https://maastrichtuniversity.nl/ids"
+    },
+
+    "sparqlEndpoint": "https://triplestore-bio2kg.apps.dsri2.unimaas.nl/sparql",
+    "graph": "https://triplestore-bio2kg.apps.dsri2.unimaas.nl/DAV/ldp/$dataset_id",
+    "processor": "rmlmapper-java",
+    "rdfSyntax": "turtle",
+    "downloadFiles": [
+        {
+            "@type": "https://w3id.org/d2s/vocab/FileDownload",
+            "downloadURL": "https://www.drugbank.ca/releases/5-1-1/downloads/all-full-database",
+            "downloadScript": "wget -N https://www.drugbank.ca/releases/5-1-1/downloads/all-full-database",
+            "postProcessScript": "prepare.sh"
+        }
+    ]
+}

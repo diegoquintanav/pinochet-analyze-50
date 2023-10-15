@@ -1,0 +1,32 @@
+prefixes:
+  grel: "http://users.ugent.be/~bjdmeest/function/grel.ttl#"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  schema: "https://schema.org/"
+  d2s: "https://w3id.org/d2s/"
+  e: "http://myontology.com/"
+  dbo: "https://dbpedia.org/ontology/"
+  rettig: "https://pinochet-rettig.301621.xyz/ontology#"
+
+
+mappings:
+  victims:
+    graph: rettig:Victims
+    sources:
+      - ['data/stg_pinochet__base.csv~csv']
+    s: $(individual_id)
+    po:
+      - [a, rettig:Victim]
+      - [rettig:hasFirstName, $(first_name)]
+      - [rettig:hasLastName, $(last_name)]
+      - [rettig:hasAge, $(age)]
+  locations:
+    graph: rettig:Locations
+    sources:
+      - ['data/stg_pinochet__base.csv~csv']
+    s: $(individual_id)
+    po:
+      - [a, rettig:Location]
+      - [rettig:hasLatitude, $(latitude)]
+      - [rettig:hasLongitude, $(longitude)]
+      - [rettig:isExactCoordinates, $(exact_coordinates)]
+      - [rettig:hasLocationOrder, $(location_n)]
