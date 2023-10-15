@@ -1,10 +1,14 @@
 .DEFAULT_GOAL := help
 .PHONY: help
 
+# source .env file
+include .env
+
 postgis_compose_file := docker-compose.postgis.yml
 streamlit_compose_file := docker-compose.streamlit.yml
 superset_compose_file:= docker-compose.superset-non-dev.yml
 
+compose_postgis := "-f $(postgis_compose_file)"
 compose_superset := "-f $(postgis_compose_file) -f $(superset_compose_file)"
 compose_streamlit := "-f $(postgis_compose_file) -f $(streamlit_compose_file)"
 
@@ -19,6 +23,9 @@ dbt_docs.devserver: ## Regenerate dbt docs
 
 dbt_build.dev_target: ## Run dbt build on target dev
 	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target dev
+
+dbt_build.api_target: ## Run dbt build on target api
+	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target api
 
 streamlit.make_requirements: ## Regenerate requirements.txt
 	@echo "Generating requirements.txt for streamlit at ./services/streamlit/requirements.txt"
@@ -53,3 +60,6 @@ superset.down: ## Shut down superset containers
 
 superset.ps: ## Get current superset services
 	@docker compose "$(compose_superset)" ps
+
+db.psql: ## Run psql on postgres container
+	@docker compose "$(compose_postgis)" exec postgis psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
