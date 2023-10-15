@@ -1,6 +1,5 @@
 dbt_pinochet:
   outputs:
-    
     dev:
       type: postgres
       threads: 1
@@ -31,4 +30,8 @@ dbt_pinochet:
       dbname: "{{ env_var('DBT_DB_PINOCHET_DBNAME') }}"
       schema: "{{ env_var('DBT_DB_PINOCHET_PROD_SCHEMA') }}"
 
-  target: dev
+    ddb:
+      type: duckdb
+      path: pinochet.duckdb
+      
+  target: ddb
