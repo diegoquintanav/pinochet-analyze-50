@@ -1,46 +1,46 @@
 [tool.poetry]
-name = "pinochet-analyze"
-version = "1.0.0rc1"
-description = "Utilities for analyzing the pinochet dataset"
 authors = ["Diego Quintana <daquintanav@gmail.com>"]
+description = "Utilities for analyzing the pinochet dataset"
 license = "MIT"
-readme = "README.md"
+name = "pinochet-analyze"
 packages = [{include = "pinochet_analyze"}]
+readme = "README.md"
+version = "1.0.0rc1"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^1.25.2"
+dbt-duckdb = "^1.6.0"
+dbt-postgres = "^1.6.5"
+elementary-data = "^0.10.0"
 folium = "^0.14.0"
 geopandas = "^0.13.2"
-py2neo = "^2021.2.3"
-dbt-postgres = "^1.6.1"
+numpy = "^1.25.2"
 pandas = "^2.1.0"
+py2neo = "^2021.2.3"
 pydeck = "^0.8.0"
-
+python = "^3.10"
+rdflib = "^7.0.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.7.0"
-isort = "^5.12.0"
-pre-commit = "^3.3.3"
-ruff = "^0.0.284"
-ipykernel = "^6.25.1"
-pytest = "^7.4.0"
+black = "^23.9.1"
 coverage = "^7.3.0"
 git-changelog = "^2.1.0"
-
+ipykernel = "^6.25.1"
+isort = "^5.12.0"
+pre-commit = "^3.3.3"
+pytest = "^7.4.0"
+ruff = "^0.0.284"
 
 [tool.poetry.group.streamlit.dependencies]
-streamlit = "^1.26.0"
-python-decouple = "^3.8"
-psycopg2-binary = "^2.9.7"
 geopandas = "^0.13.2"
-sqlalchemy = "^2.0.20"
 numpy = "^1.25.2"
+psycopg2-binary = "^2.9.7"
+python-decouple = "^3.8"
+sqlalchemy = "^2.0.20"
+streamlit = "^1.26.0"
 
 [build-system]
-requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
+requires = ["poetry-core"]
 
 [[tool.poetry_bumpversion.replacements]]
 files = ["pinochet_analyze/__init__.py"]

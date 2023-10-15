@@ -1,3 +1,6 @@
 [submodule "services/superset"]
 	path = services/superset
 	url = https://github.com/apache/superset
+[submodule "services/blazegraph"]
+	path = services/blazegraph
+	url = https://github.com/DrSnowbird/blazegraph-docker
