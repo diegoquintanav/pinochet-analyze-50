@@ -26,7 +26,8 @@ identified_locations AS (
 
 SELECT
     ours.*,
-    theirs.location_id
+    theirs.location_id,
+    row_number() OVER (ORDER BY ours.individual_id, ours.group_id, ours.start_date_daily, ours.end_date_daily) AS event_id
 FROM {{ ref("int_pinochet__drop_nulls") }} AS ours
 LEFT JOIN
     identified_locations AS theirs
