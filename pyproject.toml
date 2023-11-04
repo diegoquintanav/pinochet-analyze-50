@@ -29,6 +29,8 @@ isort = "^5.12.0"
 pre-commit = "^3.3.3"
 pytest = "^7.4.0"
 ruff = "^0.0.284"
+shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.21.0"}
+sqlfluff-templater-dbt = "^2.3.5"
 
 [tool.poetry.group.streamlit.dependencies]
 geopandas = "^0.13.2"

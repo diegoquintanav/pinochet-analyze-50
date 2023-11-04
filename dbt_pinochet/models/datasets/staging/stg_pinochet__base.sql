@@ -1,6 +1,5 @@
-{{ config(materialized = "table")}}
+{{ config(materialized = "table") }}
 
-SELECT
-	*
+SELECT *
 FROM
-	{{ ref("int_pinochet__drop_nulls") }}
+    {{ ref("int_pinochet__individualize_locations") }}

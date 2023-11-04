@@ -1,12 +1,14 @@
 {{ config(
-    materialized = 'view',
+    materialized = "view",
 ) }}
 
 SELECT
-	{{ dbt_utils.star(from=ref("int_pinochet__unnest_locations"), except=['geometry']) }},
-	geometry
+	{{ dbt_utils.star(
+        from = ref("int_pinochet__unnest_locations"),
+        except = ["geometry"]
+    ) }},
+    {{ adapter.quote("geometry") }}
 FROM
-	{{ ref("int_pinochet__unnest_locations") }}
+    {{ ref("int_pinochet__unnest_locations") }}
 WHERE
-	geometry IS NOT NULL
-
+    {{ adapter.quote("geometry") }} IS NOT null
