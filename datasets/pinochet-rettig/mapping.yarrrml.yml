@@ -16,7 +16,6 @@ mappings:
         s: $(individual_id)
         po:
             - [a, "rettig:Victim"]
-            - ["rettig:individualId", $(individual_id)]
             - ["rettig:firstName", $(first_name)]
             - ["rettig:lastName", $(last_name)]
             - ["rettig:age", $(age), "xsd:integer"]
@@ -24,10 +23,9 @@ mappings:
         graph: rettig:Locations
         sources:
             - ["data/stg_pinochet__base.csv~csv"]
-        s: $(individual_id)
+        s: $(location_id)
         po:
             - [a, "rettig:Location"]
-            - ["rettig:locationId", $(location_id)]
             - ["rettig:latitude", $(latitude)]
             - ["rettig:longitude", $(longitude)]
             - ["rettig:isExactCoordinates", $(exact_coordinates)]
@@ -36,10 +34,9 @@ mappings:
         graph: rettig:Events
         sources:
             - ["data/stg_pinochet__base.csv~csv"]
-        s: $(individual_id)
+        s: $(event_id)
         po:
-            - [a, "rettig:Location"]
-            - ["rettig:locationId", $(location_id)]
+            - [a, "rettig:Event"]
             - ["rettig:startDate", $(start_date_monthly)]
             - ["rettig:endDate", $(end_date_monthly)]
             - p: rettig:hasPersonInvolved
