@@ -11,5 +11,8 @@ csv: ## Create csv files needed for the mapping
 yarrrml.parse: ## Parse rules.rml.ttl
 	yarrrml-parser -i mapping.yarrrml.yml -o rules.rml.ttl
 
-rmlmapper.run: ## Run rmlmapper from docker
-	docker run --rm -v $(ROOT_DIR):/data rmlmapper -m rules.rml.ttl > mapped.rml.ttl
+rmlmapper.run.turtle: ## Run rmlmapper from docker, map to turtle
+	docker run --rm -v $(ROOT_DIR):/data rmlmapper -m rules.rml.ttl -s turtle > mapped.rml.ttl
+
+rmlmapper.run.nquads: ## Run rmlmapper from docker, map to nquads
+	docker run --rm -v $(ROOT_DIR):/data rmlmapper -m rules.rml.ttl > mapped.rml.ttl.nquads

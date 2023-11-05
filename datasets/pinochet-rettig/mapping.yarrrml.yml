@@ -42,7 +42,7 @@ mappings:
             - ["rettig:locationId", $(location_id)]
             - ["rettig:startDate", $(start_date_monthly)]
             - ["rettig:endDate", $(end_date_monthly)]
-            - p: e:hasPersonInvolved
+            - p: rettig:hasPersonInvolved
               o:
                   mapping: victims
                   condition:
@@ -50,7 +50,7 @@ mappings:
                       parameters:
                           - [str1, $(event_id), s]
                           - [str2, $(individual_id), o]
-            - p: e:hasLocation
+            - p: rettig:hasLocation
               o:
                   mapping: locations
                   condition:

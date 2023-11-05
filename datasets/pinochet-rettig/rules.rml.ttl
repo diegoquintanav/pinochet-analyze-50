@@ -197,12 +197,12 @@
 :map_events_000 rr:predicateObjectMap :pom_015.
 :pm_015 a rr:PredicateMap.
 :pom_015 rr:predicateMap :pm_015.
-:pm_015 rr:constant e:hasPersonInvolved.
+:pm_015 rr:constant rettig:hasPersonInvolved.
 :pom_016 a rr:PredicateObjectMap.
 :map_events_000 rr:predicateObjectMap :pom_016.
 :pm_016 a rr:PredicateMap.
 :pom_016 rr:predicateMap :pm_016.
-:pm_016 rr:constant e:hasLocation.
+:pm_016 rr:constant rettig:hasLocation.
 :pom_015 rr:objectMap :om_015.
 :om_015 a rr:ObjectMap;
     rr:parentTriplesMap :map_victims_000;
