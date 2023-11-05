@@ -194,3 +194,4 @@ dbt_packages/
 logs/
 
 # End of https://www.toptal.com/developers/gitignore/api/dbt
+services/fuseki/databases/pinochet/Data-0001/*
