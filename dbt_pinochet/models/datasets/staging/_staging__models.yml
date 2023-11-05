@@ -1,0 +1,104 @@
+---
+models:
+    - name: stg_pinochet__base
+      description: ""
+      columns:
+          - name: individual_id
+            description: ""
+            tests:
+                - not_null
+          - name: group_id
+            description: ""
+            tests:
+                - not_null
+          - name: start_date_daily
+            description: ""
+          - name: end_date_daily
+            description: ""
+          - name: start_date_monthly
+            description: ""
+          - name: end_date_monthly
+            description: ""
+          - name: last_name
+            description: ""
+            tests:
+                - not_null
+          - name: first_name
+            description: ""
+            tests:
+                - not_null
+          - name: minor
+            description: ""
+          - name: age
+            description: ""
+          - name: male
+            description: ""
+          - name: occupation
+            description: ""
+          - name: occupation_detail
+            description: ""
+          - name: victim_affiliation
+            description: ""
+          - name: victim_affiliation_detail
+            description: ""
+          - name: violence
+            description: ""
+          - name: method
+            description: ""
+          - name: interrogation
+            description: ""
+          - name: torture
+            description: ""
+          - name: mistreatment
+            description: ""
+          - name: targeted
+            description: ""
+          - name: press
+            description: ""
+          - name: war_tribunal
+            description: ""
+          - name: number_previous_arrests
+            description: ""
+          - name: perpetrator_affiliation
+            description: ""
+          - name: perpetrator_affiliation_detail
+            description: ""
+          - name: nationality
+            description: ""
+          - name: page
+            description: ""
+            tests:
+                - not_null
+          - name: place
+            description: ""
+          - name: location
+            description: ""
+            tests:
+                - not_null
+          - name: latitude
+            description: ""
+            tests:
+                - not_null
+          - name: longitude
+            description: ""
+            tests:
+                - not_null
+          - name: exact_coordinates
+            description: ""
+          - name: location_n
+            description: ""
+            tests:
+                - not_null
+          - name: geometry
+            description: ""
+            tests:
+                - not_null
+          - name: location_id
+            description: ""
+            tests:
+                - not_null
+          - name: event_id
+            description: ""
+            tests:
+                - not_null
+                - unique
