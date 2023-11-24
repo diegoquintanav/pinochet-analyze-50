@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  fastapi:
+    image: ghcr.io/diegoquintanav/pinochet-api:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: postgis
+      POSTGRES_PORT: 5432
+      API_ENV: dev
+    build:
+      context: ./services/pinochet-api
+    ports:
+      - 8888:8000
+    volumes:
+      - ./services/pinochet-api/src/:/src/
+      - pinochet-api-venv:/home/daniellopez/src/.venv
+
+volumes:
+  pinochet-api-venv:
+    driver: local

@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from loguru import logger
-from pydantic import DirectoryPath, PostgresDsn
+from pydantic import DirectoryPath, PostgresDsn, SecretStr
 from pydantic_settings import BaseSettings
 
 
@@ -22,9 +22,9 @@ class ApiSettings(BaseSettings, ABC):
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
-    POSTGRES_SERVER: str
+    POSTGRES_HOST: str
     POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
+    POSTGRES_PASSWORD: SecretStr
     POSTGRES_DB: str
     POSTGRES_PORT: int = 5432
     BACKEND_CORS_ORIGINS: str
@@ -46,8 +46,8 @@ class ApiSettings(BaseSettings, ABC):
             PostgresDsn.build(
                 scheme="postgresql",
                 username=self.POSTGRES_USER,
-                password=self.POSTGRES_PASSWORD,
-                host=self.POSTGRES_SERVER,
+                password=self.POSTGRES_PASSWORD.get_secret_value(),
+                host=self.POSTGRES_HOST,
                 path=self.POSTGRES_DB,
                 port=self.POSTGRES_PORT,
             )
@@ -73,17 +73,17 @@ class DevSettings(ProdSettings):
         "http://localhost:8080",
     ]
 
-    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_HOST: str = "localhost"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_PASSWORD: SecretStr = "postgres"
     POSTGRES_DB: str = "pinochet"
     POSTGRES_PORT: int = 5433
 
 
 class TestSettings(DevSettings):
-    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_HOST: str = "localhost"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "password"
+    POSTGRES_PASSWORD: SecretStr = "password"
     POSTGRES_DB: str = "test"
 
 

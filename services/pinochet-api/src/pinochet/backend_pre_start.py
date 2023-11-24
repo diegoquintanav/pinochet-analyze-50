@@ -1,9 +1,9 @@
 import logging
 
-from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
-
 from loguru import logger
 from pinochet.database.session import SessionLocal
+from sqlalchemy import text
+from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
 max_tries = 60 * 5  # 5 minutes
 wait_seconds = 1
@@ -19,7 +19,7 @@ def init() -> None:
     try:
         db = SessionLocal()
         # Try to create session to check if DB is awake
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
     except Exception as e:
         logger.error(e)
         raise e
