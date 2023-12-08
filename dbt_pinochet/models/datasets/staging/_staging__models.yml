@@ -67,8 +67,6 @@ models:
             description: ""
           - name: page
             description: ""
-            tests:
-                - not_null
           - name: place
             description: ""
           - name: location
