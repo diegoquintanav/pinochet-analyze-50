@@ -131,7 +131,8 @@
 
 
 ###  http://example.org/pinochet-rettig#hasFirstName
-:hasFirstName rdf:type owl:DatatypeProperty .
+:hasFirstName rdf:type owl:DatatypeProperty ;
+              owl:equivalentProperty <http://xmlns.com/foaf/0.1/firstName> .
 
 
 ###  http://example.org/pinochet-rettig#hasGender
@@ -139,7 +140,8 @@
 
 
 ###  http://example.org/pinochet-rettig#hasLastName
-:hasLastName rdf:type owl:DatatypeProperty .
+:hasLastName rdf:type owl:DatatypeProperty ;
+             owl:equivalentProperty <http://xmlns.com/foaf/0.1/lastName> .
 
 
 ###  http://example.org/pinochet-rettig#hasLatitude
