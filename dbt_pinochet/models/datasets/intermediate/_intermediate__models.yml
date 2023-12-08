@@ -1,0 +1,942 @@
+version: 2
+
+models:
+  - name: int_pinochet__construct_geometries
+    description: ""
+    columns:
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: start_date_monthly
+        data_type: date
+        description: ""
+
+      - name: end_date_monthly
+        data_type: date
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+
+      - name: place_1
+        data_type: text
+        description: ""
+
+      - name: location_1
+        data_type: text
+        description: ""
+
+      - name: latitude_1
+        data_type: real
+        description: ""
+
+      - name: longitude_1
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_1
+        data_type: boolean
+        description: ""
+
+      - name: place_2
+        data_type: text
+        description: ""
+
+      - name: location_2
+        data_type: text
+        description: ""
+
+      - name: latitude_2
+        data_type: real
+        description: ""
+
+      - name: longitude_2
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_2
+        data_type: boolean
+        description: ""
+
+      - name: place_3
+        data_type: text
+        description: ""
+
+      - name: location_3
+        data_type: text
+        description: ""
+
+      - name: latitude_3
+        data_type: real
+        description: ""
+
+      - name: longitude_3
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_3
+        data_type: boolean
+        description: ""
+
+      - name: place_4
+        data_type: text
+        description: ""
+
+      - name: location_4
+        data_type: text
+        description: ""
+
+      - name: latitude_4
+        data_type: real
+        description: ""
+
+      - name: longitude_4
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_4
+        data_type: boolean
+        description: ""
+
+      - name: place_5
+        data_type: text
+        description: ""
+
+      - name: location_5
+        data_type: text
+        description: ""
+
+      - name: latitude_5
+        data_type: real
+        description: ""
+
+      - name: longitude_5
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_5
+        data_type: boolean
+        description: ""
+
+      - name: place_6
+        data_type: text
+        description: ""
+
+      - name: location_6
+        data_type: text
+        description: ""
+
+      - name: latitude_6
+        data_type: real
+        description: ""
+
+      - name: longitude_6
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_6
+        data_type: boolean
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+      - name: additional_comments
+        data_type: text
+        description: ""
+
+      - name: geometry_1
+        data_type: user-defined
+        description: ""
+
+      - name: geometry_2
+        data_type: user-defined
+        description: ""
+
+      - name: geometry_3
+        data_type: user-defined
+        description: ""
+
+      - name: geometry_4
+        data_type: user-defined
+        description: ""
+
+      - name: geometry_5
+        data_type: user-defined
+        description: ""
+
+      - name: geometry_6
+        data_type: user-defined
+        description: ""
+
+  - name: int_pinochet__drop_nulls
+    description: ""
+    columns:
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: start_date_monthly
+        data_type: date
+        description: ""
+
+      - name: end_date_monthly
+        data_type: date
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+      - name: place
+        data_type: text
+        description: ""
+
+      - name: location
+        data_type: text
+        description: ""
+
+      - name: latitude
+        data_type: real
+        description: ""
+
+      - name: longitude
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates
+        data_type: boolean
+        description: ""
+
+      - name: location_n
+        data_type: bigint
+        description: ""
+
+      - name: geometry
+        data_type: user-defined
+        description: ""
+
+  - name: int_pinochet__individualize_locations
+    description: ""
+    columns:
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: start_date_monthly
+        data_type: date
+        description: ""
+
+      - name: end_date_monthly
+        data_type: date
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+      - name: place
+        data_type: text
+        description: ""
+
+      - name: location
+        data_type: text
+        description: ""
+
+      - name: latitude
+        data_type: real
+        description: ""
+
+      - name: longitude
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates
+        data_type: boolean
+        description: ""
+
+      - name: location_n
+        data_type: bigint
+        description: ""
+
+      - name: geometry
+        data_type: user-defined
+        description: ""
+
+      - name: location_id
+        data_type: bigint
+        description: ""
+
+      - name: event_id
+        data_type: bigint
+        description: ""
+
+  - name: int_pinochet__renamed_and_cast
+    description: ""
+    columns:
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: start_date_monthly
+        data_type: date
+        description: ""
+
+      - name: end_date_monthly
+        data_type: date
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+
+      - name: place_1
+        data_type: text
+        description: ""
+
+      - name: location_1
+        data_type: text
+        description: ""
+
+      - name: latitude_1
+        data_type: real
+        description: ""
+
+      - name: longitude_1
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_1
+        data_type: boolean
+        description: ""
+
+      - name: place_2
+        data_type: text
+        description: ""
+
+      - name: location_2
+        data_type: text
+        description: ""
+
+      - name: latitude_2
+        data_type: real
+        description: ""
+
+      - name: longitude_2
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_2
+        data_type: boolean
+        description: ""
+
+      - name: place_3
+        data_type: text
+        description: ""
+
+      - name: location_3
+        data_type: text
+        description: ""
+
+      - name: latitude_3
+        data_type: real
+        description: ""
+
+      - name: longitude_3
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_3
+        data_type: boolean
+        description: ""
+
+      - name: place_4
+        data_type: text
+        description: ""
+
+      - name: location_4
+        data_type: text
+        description: ""
+
+      - name: latitude_4
+        data_type: real
+        description: ""
+
+      - name: longitude_4
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_4
+        data_type: boolean
+        description: ""
+
+      - name: place_5
+        data_type: text
+        description: ""
+
+      - name: location_5
+        data_type: text
+        description: ""
+
+      - name: latitude_5
+        data_type: real
+        description: ""
+
+      - name: longitude_5
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_5
+        data_type: boolean
+        description: ""
+
+      - name: place_6
+        data_type: text
+        description: ""
+
+      - name: location_6
+        data_type: text
+        description: ""
+
+      - name: latitude_6
+        data_type: real
+        description: ""
+
+      - name: longitude_6
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates_6
+        data_type: boolean
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+      - name: additional_comments
+        data_type: text
+        description: ""
+
+  - name: int_pinochet__unnest_locations
+    description: ""
+    columns:
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: start_date_monthly
+        data_type: date
+        description: ""
+
+      - name: end_date_monthly
+        data_type: date
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+      - name: place
+        data_type: text
+        description: ""
+
+      - name: location
+        data_type: text
+        description: ""
+
+      - name: latitude
+        data_type: real
+        description: ""
+
+      - name: longitude
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates
+        data_type: boolean
+        description: ""
+
+      - name: geometry
+        data_type: user-defined
+        description: ""
+
+      - name: location_n
+        data_type: bigint
+        description: ""
+
