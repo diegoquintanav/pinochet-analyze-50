@@ -2,6 +2,9 @@
 #                         hand coded, custom gitignores                        #
 # ---------------------------------------------------------------------------- #
 
+# fuseki things
+services/fuseki/databases/pinochet/Data-0001/*
+
 # env files with secrets
 .env
 .*.env
@@ -11,6 +14,11 @@ assets/maps/*
 
 # dbt profiles id
 dbt_pinochet/profiles/.user.yml
+dbt_pinochet/pre/*
+
+# elementary dbt stuff
+edr_target/*
+
 
 # vscode sql extension
 *.session.sql
@@ -194,4 +202,3 @@ dbt_packages/
 logs/
 
 # End of https://www.toptal.com/developers/gitignore/api/dbt
-services/fuseki/databases/pinochet/Data-0001/*

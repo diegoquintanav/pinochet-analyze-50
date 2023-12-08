@@ -4,9 +4,9 @@ packages:
 - package: calogica/dbt_expectations
   version: 0.9.0
 - package: elementary-data/elementary
-  version: 0.10.2
+  version: 0.13.0
 - package: dbt-labs/codegen
   version: 0.12.1
 - package: calogica/dbt_date
   version: 0.8.1
-sha1_hash: 81528fcc6e6dcefc2e9bab641cf42f99e483a943
+sha1_hash: e521698eff5a558773f5dfda852d0ef6222bc3f5
