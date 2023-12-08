@@ -1,18 +1,20 @@
-@prefix : <http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/> .
+@prefix : <http://example.org/pinochet-rettig#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1> .
+@prefix obda: <https://w3id.org/obda/vocabulary#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/> .
+@base <http://example.org/pinochet-rettig#> .
 
-<http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig> rdf:type owl:Ontology .
+<http://example.org/pinochet-rettig#> rdf:type owl:Ontology .
 
 #################################################################
 #    Object Properties
 #################################################################
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasFinalLocation
+###  http://example.org/pinochet-rettig#hasFinalLocation
 :hasFinalLocation rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf :hasLocation ;
                   rdf:type owl:InverseFunctionalProperty ,
@@ -21,7 +23,7 @@
                   rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasFirstLocation
+###  http://example.org/pinochet-rettig#hasFirstLocation
 :hasFirstLocation rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf :hasLocation ;
                   rdf:type owl:InverseFunctionalProperty ;
@@ -29,7 +31,7 @@
                   rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasLocation
+###  http://example.org/pinochet-rettig#hasLocation
 :hasLocation rdf:type owl:ObjectProperty ;
              owl:inverseOf :isLocationOf ;
              rdf:type owl:AsymmetricProperty ,
@@ -38,7 +40,7 @@
              rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasNextLocation
+###  http://example.org/pinochet-rettig#hasNextLocation
 :hasNextLocation rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf :hasLocation ;
                  owl:inverseOf :hasPreviousLocation ;
@@ -46,66 +48,66 @@
                  rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasPerpetrator
+###  http://example.org/pinochet-rettig#hasPerpetrator
 :hasPerpetrator rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf :hasPersonInvolved ;
                 owl:inverseOf :isPerpetratorIn .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasPersonInvolved
+###  http://example.org/pinochet-rettig#hasPersonInvolved
 :hasPersonInvolved rdf:type owl:ObjectProperty ;
                    owl:inverseOf :isInvolvedIn ;
                    rdfs:domain :Event ;
                    rdfs:range :Person .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasPreviousLocation
+###  http://example.org/pinochet-rettig#hasPreviousLocation
 :hasPreviousLocation rdf:type owl:ObjectProperty ;
                      rdfs:subPropertyOf :hasLocation ;
                      rdfs:domain :Location ;
                      rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasVictim
+###  http://example.org/pinochet-rettig#hasVictim
 :hasVictim rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf :hasPersonInvolved ;
            owl:inverseOf :isVictimIn .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isInvolvedIn
+###  http://example.org/pinochet-rettig#isInvolvedIn
 :isInvolvedIn rdf:type owl:ObjectProperty ;
               rdfs:domain :Person ;
               rdfs:range :Event .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isLocationOf
+###  http://example.org/pinochet-rettig#isLocationOf
 :isLocationOf rdf:type owl:ObjectProperty ;
               rdfs:domain :Location ;
               rdfs:range :Event .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isNextLocationOf
+###  http://example.org/pinochet-rettig#isNextLocationOf
 :isNextLocationOf rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf :isLocationOf ;
                   rdfs:domain :Location ;
                   rdfs:range :Event .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isPerpetratorIn
+###  http://example.org/pinochet-rettig#isPerpetratorIn
 :isPerpetratorIn rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf :isInvolvedIn ;
                  rdfs:domain :Person ;
                  rdfs:range :Event .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isPreviousLocationOf
+###  http://example.org/pinochet-rettig#isPreviousLocationOf
 :isPreviousLocationOf rdf:type owl:ObjectProperty ;
                       rdfs:subPropertyOf :isLocationOf ;
                       rdfs:domain :Location ;
                       rdfs:range :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/isVictimIn
+###  http://example.org/pinochet-rettig#isVictimIn
 :isVictimIn rdf:type owl:ObjectProperty ;
             rdfs:subPropertyOf :isInvolvedIn ;
             rdfs:domain :Person ;
@@ -116,93 +118,102 @@
 #    Data properties
 #################################################################
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig#hasFirstName
-:hasFirstName rdf:type owl:DatatypeProperty .
-
-
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig#hasLastName
-:hasLastName rdf:type owl:DatatypeProperty .
-
-
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig#hasLatitude
-:hasLatitude rdf:type owl:DatatypeProperty .
-
-
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig#hasLongitude
-:hasLongitude rdf:type owl:DatatypeProperty .
-
-
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasAffiliation
+###  http://example.org/pinochet-rettig#hasAffiliation
 :hasAffiliation rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasAffiliationDetails
+###  http://example.org/pinochet-rettig#hasAffiliationDetails
 :hasAffiliationDetails rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasAge
+###  http://example.org/pinochet-rettig#hasAge
 :hasAge rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasGender
+###  http://example.org/pinochet-rettig#hasGender
 :hasGender rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasNationality
+###  http://example.org/pinochet-rettig#hasLastName
+:hasLastName rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/pinochet-rettig#hasLatitude
+:hasLatitude rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/pinochet-rettig#hasLongitude
+:hasLongitude rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/pinochet-rettig#hasNationality
 :hasNationality rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasOccupation
+###  http://example.org/pinochet-rettig#hasOccupation
 :hasOccupation rdf:type owl:DatatypeProperty .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/hasOccupationDetails
+###  http://example.org/pinochet-rettig#hasOccupationDetails
 :hasOccupationDetails rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/pinochet-rettig#/hasFirstName
+<http://example.org/pinochet-rettig#/hasFirstName> rdf:type owl:DatatypeProperty .
+
+
+###  http://xmlns.com/foaf/0.1/firstName
+<http://xmlns.com/foaf/0.1/firstName> rdf:type owl:DatatypeProperty .
+
+
+###  http://xmlns.com/foaf/0.1/lastName
+<http://xmlns.com/foaf/0.1/lastName> rdf:type owl:DatatypeProperty ;
+                                     rdfs:subPropertyOf owl:topDataProperty .
 
 
 #################################################################
 #    Classes
 #################################################################
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Event
+###  http://example.org/pinochet-rettig#Event
 :Event rdf:type owl:Class .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Location
+###  http://example.org/pinochet-rettig#Location
 :Location rdf:type owl:Class .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Perpetrator
+###  http://example.org/pinochet-rettig#Perpetrator
 :Perpetrator rdf:type owl:Class ;
              rdfs:subClassOf :Person ;
              owl:disjointWith :Victim .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Person
+###  http://example.org/pinochet-rettig#Person
 :Person rdf:type owl:Class .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/PrivateLocation
+###  http://example.org/pinochet-rettig#PrivateLocation
 :PrivateLocation rdf:type owl:Class ;
                  rdfs:subClassOf :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/PublicLocation
+###  http://example.org/pinochet-rettig#PublicLocation
 :PublicLocation rdf:type owl:Class ;
                 rdfs:subClassOf :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Unknown
-:Unknown rdf:type owl:Class ;
-         rdfs:subClassOf :Location .
+###  http://example.org/pinochet-rettig#UnknownLocation
+:UnknownLocation rdf:type owl:Class ;
+                 rdfs:subClassOf :Location .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/Victim
+###  http://example.org/pinochet-rettig#Victim
 :Victim rdf:type owl:Class ;
         rdfs:subClassOf :Person .
 
 
-###  http://www.semanticweb.org/diego/ontologies/2023/8/pinochet-rettig/ViolentEvent
+###  http://example.org/pinochet-rettig#ViolentEvent
 :ViolentEvent rdf:type owl:Class ;
               rdfs:subClassOf :Event .
 
@@ -210,7 +221,7 @@
 ###  http://www.w3.org/2002/07/owl#Thing
 owl:Thing owl:disjointUnionOf ( :PrivateLocation
                                 :PublicLocation
-                                :Unknown
+                                :UnknownLocation
                               ) .
 
 
