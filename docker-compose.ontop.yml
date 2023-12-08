@@ -11,7 +11,11 @@ services:
       ONTOP_CORS_ALLOWED_ORIGINS: "*"
       ONTOP_DEV_MODE: "true"
     volumes:
+      # we map the properties file separately because db hostname and port change internally
+      - ./services/ontop/input/mapping.protege.properties:/opt/ontop/input/mapping.protege.properties
+      # files needed by ontop to map the ontology to the db
       - ./datasets/pinochet-rettig/semantics:/opt/ontop/input
+      # postgres jdbc driver to connect to postgis
       - ./services/ontop/jdbc:/opt/ontop/jdbc
     ports:
       - "8083:8080"
