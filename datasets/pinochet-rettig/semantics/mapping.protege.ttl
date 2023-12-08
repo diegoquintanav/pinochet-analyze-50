@@ -130,6 +130,10 @@
 :hasAge rdf:type owl:DatatypeProperty .
 
 
+###  http://example.org/pinochet-rettig#hasFirstName
+:hasFirstName rdf:type owl:DatatypeProperty .
+
+
 ###  http://example.org/pinochet-rettig#hasGender
 :hasGender rdf:type owl:DatatypeProperty .
 
@@ -156,10 +160,6 @@
 
 ###  http://example.org/pinochet-rettig#hasOccupationDetails
 :hasOccupationDetails rdf:type owl:DatatypeProperty .
-
-
-###  http://example.org/pinochet-rettig#/hasFirstName
-<http://example.org/pinochet-rettig#/hasFirstName> rdf:type owl:DatatypeProperty .
 
 
 ###  http://xmlns.com/foaf/0.1/firstName
