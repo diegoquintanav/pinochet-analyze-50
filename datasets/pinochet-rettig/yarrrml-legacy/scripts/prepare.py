@@ -1,7 +1,8 @@
+from pathlib import Path
+
 import pandas as pd
 import sqlalchemy as sa
 from decouple import Config, RepositoryEnv
-from pathlib import Path
 
 ENV_PATH = Path(__file__).parents[3] / ".env"
 
