@@ -9,7 +9,7 @@ version = "1.0.0rc1"
 
 [tool.poetry.dependencies]
 dbt-duckdb = "^1.6.0"
-dbt-postgres = "^1.6.5"
+dbt-postgres = "^1.7.3"
 elementary-data = "^0.10.0"
 folium = "^0.14.0"
 geopandas = "^0.13.2"
