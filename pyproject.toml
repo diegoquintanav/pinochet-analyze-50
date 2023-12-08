@@ -9,7 +9,7 @@ version = "1.0.0rc1"
 
 [tool.poetry.dependencies]
 dbt-duckdb = "^1.6.0"
-dbt-postgres = "^1.6.5"
+dbt-postgres = "^1.7.3"
 elementary-data = "^0.10.0"
 folium = "^0.14.0"
 geopandas = "^0.13.2"
@@ -31,6 +31,7 @@ pytest = "^7.4.0"
 ruff = "^0.0.284"
 shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.21.0"}
 sqlfluff-templater-dbt = "^2.3.5"
+sparqlwrapper = "^2.0.0"
 
 [tool.poetry.group.streamlit.dependencies]
 geopandas = "^0.13.2"

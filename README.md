@@ -40,8 +40,7 @@ dbt_pinochet:
 you can now run dbt models with
 
 ```bash
-dbt seed
-dbt run
+dbt build
 ```
 
 Get the dbt documentation with
@@ -64,6 +63,8 @@ We use an external network to allow superset to connect to postgis. This network
 docker network create nw_pinochet
 ```
 
+or pass `-f docker-compose.nw_pinochet.yml` to `docker compose up -d`.
+
 See <https://stackoverflow.com/a/67811533/5819113> and <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose/#configuring-docker-compose> for more details.
 
 Quote from the superset docs:
@@ -78,3 +79,23 @@ A database with postgis extension enabled. The database is empty by default, and
 
 We use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
 
+### Virtual knowledge graph
+
+We use ontop to serve a virtual knowledge graph to query the database with SPARQL.
+
+```bash
+cp .env.example .env
+cp ./services/ontop/input/mapping.protege.properties.example ./services/ontop/input/mapping.protege.properties
+docker compose -f docker-compose.postgis.yml -f docker-compose.ontop.yml up -d
+```
+
+And go to <0.0.0.0:8083> to run an example query with the virtual knowledge graph.
+
+```sparql
+PREFIX : <http://example.org/pinochet-rettig#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?victim ?lastName {
+  ?victim a :Victim ; foaf:lastName ?lastName .
+}
+```

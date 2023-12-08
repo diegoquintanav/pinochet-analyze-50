@@ -6,3 +6,5 @@ packages:
     # <see https://github.com/calogica/dbt-expectations/releases/latest> for the latest version tag
   - package: elementary-data/elementary
     version: 0.10.2
+  - package: dbt-labs/codegen
+    version: 0.12.1

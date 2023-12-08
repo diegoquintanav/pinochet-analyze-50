@@ -1,0 +1,203 @@
+version: 2
+
+models:
+  - name: api_pinochet__event
+    description: ""
+    columns:
+      - name: pk
+        data_type: text
+        description: ""
+
+      - name: event_id
+        data_type: bigint
+        description: ""
+
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: group_id
+        data_type: integer
+        description: ""
+
+      - name: start_date_daily
+        data_type: date
+        description: ""
+
+      - name: end_date_daily
+        data_type: date
+        description: ""
+
+      - name: violence
+        data_type: text
+        description: ""
+
+      - name: method
+        data_type: text
+        description: ""
+
+      - name: interrogation
+        data_type: boolean
+        description: ""
+
+      - name: torture
+        data_type: boolean
+        description: ""
+
+      - name: mistreatment
+        data_type: boolean
+        description: ""
+
+      - name: targeted
+        data_type: text
+        description: ""
+
+      - name: press
+        data_type: boolean
+        description: ""
+
+      - name: war_tribunal
+        data_type: boolean
+        description: ""
+
+      - name: number_previous_arrests
+        data_type: numeric
+        description: ""
+
+      - name: perpetrator_affiliation
+        data_type: text
+        description: ""
+
+      - name: perpetrator_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: page
+        data_type: text
+        description: ""
+
+  - name: api_pinochet__location
+    description: ""
+    columns:
+      - name: location_id
+        data_type: bigint
+        description: ""
+
+      - name: location
+        data_type: text
+        description: ""
+
+      - name: latitude
+        data_type: real
+        description: ""
+
+      - name: longitude
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates
+        data_type: boolean
+        description: ""
+
+      - name: geometry
+        data_type: user-defined
+        description: ""
+
+      - name: srid
+        data_type: text
+        description: ""
+
+  - name: api_pinochet__location_and_events
+    description: ""
+    columns:
+      - name: pk
+        data_type: text
+        description: ""
+
+      - name: location_id
+        data_type: bigint
+        description: ""
+
+      - name: location_n
+        data_type: bigint
+        description: ""
+
+      - name: place
+        data_type: text
+        description: ""
+
+      - name: location
+        data_type: text
+        description: ""
+
+      - name: latitude
+        data_type: real
+        description: ""
+
+      - name: longitude
+        data_type: real
+        description: ""
+
+      - name: exact_coordinates
+        data_type: boolean
+        description: ""
+
+      - name: geometry
+        data_type: user-defined
+        description: ""
+
+      - name: srid
+        data_type: text
+        description: ""
+
+  - name: api_pinochet__victim
+    description: ""
+    columns:
+      - name: pk
+        data_type: text
+        description: ""
+
+      - name: individual_id
+        data_type: integer
+        description: ""
+
+      - name: first_name
+        data_type: text
+        description: ""
+
+      - name: last_name
+        data_type: text
+        description: ""
+
+      - name: minor
+        data_type: boolean
+        description: ""
+
+      - name: age
+        data_type: numeric
+        description: ""
+
+      - name: male
+        data_type: boolean
+        description: ""
+
+      - name: occupation
+        data_type: text
+        description: ""
+
+      - name: occupation_detail
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation
+        data_type: text
+        description: ""
+
+      - name: victim_affiliation_detail
+        data_type: text
+        description: ""
+
+      - name: nationality
+        data_type: text
+        description: ""
+

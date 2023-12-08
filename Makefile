@@ -19,7 +19,7 @@ help: ## Print this help
 	@grep -E '^[0-9a-zA-Z_\-\.]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 dbt_docs.devserver: ## Regenerate dbt docs
-	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt docs generate && dbt docs serve
+	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt docs generate && dbt docs serve --port 8089
 
 dbt_build.dev_target: ## Run dbt build on target dev
 	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target dev

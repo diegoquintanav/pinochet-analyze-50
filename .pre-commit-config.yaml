@@ -6,6 +6,7 @@ repos:
       - id: check-yaml
         args: ["--unsafe"]
       - id: trailing-whitespace
+        exclude: "^datasets/pinochet-rettig/semantics/mapping.protege.obda"
       - id: detect-private-key
       - id: name-tests-test
         args: ["--pytest-test-first"]
