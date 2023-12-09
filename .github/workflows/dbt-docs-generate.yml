@@ -2,7 +2,7 @@ name: docs
 
 on:
   push:
-    branches: ["main","feature/implements-ci-with-dbt-docs"]
+    branches: ["main"]
     paths:
         - 'dbt_pinochet/**'
         - 'poetry.lock'
@@ -49,8 +49,7 @@ jobs:
             DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
       - name: run dbt build
         run: |
-            echo "dbt build"
-            # DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
+            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
       - name: prepare artifacts folder
         run: |
             mkdir -p $GITHUB_WORKSPACE/artifacts
