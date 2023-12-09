@@ -58,7 +58,8 @@ jobs:
           dbt deps
       - name: run dbt build
         run: |
-          dbt build --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+          cp ${{ github.workspace }}/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
+          dbt build --target ${{ env.DBT_TARGET }}
       - name: build single html
         run: |
           dbt docs generate --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
