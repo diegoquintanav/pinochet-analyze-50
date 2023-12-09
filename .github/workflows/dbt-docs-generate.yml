@@ -24,8 +24,6 @@ concurrency:
     cancel-in-progress: true
 
 env:
-  DBT_PROFILES_DIR: ${{ github.workspace }}/dbt_pinochet/profiles
-  DBT_PROJECT_DIR: ${{ github.workspace }}/dbt_pinochet
   DBT_DB_PINOCHET_DBNAME: ${{ vars.DB_PINOCHET_DBNAME }}
   DBT_DB_PINOCHET_HOST: ${{ vars.DB_PINOCHET_HOST }}
   DBT_DB_PINOCHET_PORT: ${{ vars.DB_PINOCHET_PORT }}
@@ -53,20 +51,22 @@ jobs:
           echo "4#############"
           echo $GITHUB_WORKSPACE
           echo "5#############"
+      - name: prepare dbt profiles
+        run: |
+              cp $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
       - name: run dbt deps
         run: |
-          dbt deps
+            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
       - name: run dbt build
         run: |
-          cp ${{ github.workspace }}/dbt_pinochet/profiles.yml $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml
-          dbt build --target ${{ env.DBT_TARGET }}
-      - name: build single html
+            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
+      - name: build dbt docs
         run: |
-          dbt docs generate --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt docs generate --target ${{ env.DBT_TARGET }}
       - name: create build artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ${{ env.DBT_PROJECT_DIR }}/target/
+          path: $GITHUB_WORKSPACE/dbt_pinochet/target/
   deploy-pages:
     # https://github.com/actions/deploy-pages
     needs: dbt-docs-generate
