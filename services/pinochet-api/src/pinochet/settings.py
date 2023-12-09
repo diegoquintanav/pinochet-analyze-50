@@ -19,7 +19,7 @@ class ApiEnvironment(str, enum.Enum):
 class ApiSettings(BaseSettings, ABC):
     API_VERSION: str = "v1"
     API_ENV: str = ApiEnvironment.DEV
-    SECRET_KEY: str
+    SECRET_KEY: str = secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     POSTGRES_HOST: str
@@ -62,8 +62,6 @@ class ProdSettings(ApiSettings):
 
 
 class DevSettings(ProdSettings):
-    SECRET_KEY: str = secrets.token_urlsafe(32)
-
     # Backend
     # https://fastapi.tiangolo.com/tutorial/cors/?h=cors#cors-cross-origin-resource-sharing
     BACKEND_CORS_ORIGINS: list[str] = [
