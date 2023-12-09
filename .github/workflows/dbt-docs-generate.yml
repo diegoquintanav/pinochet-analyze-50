@@ -49,20 +49,15 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: debugging workdir
-        run: |
-          pwd
-          ls -la
-          ls /app/dbt_pinochet -la
       - name: run dbt deps
         run: |
-          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt deps
+          dbt deps
       - name: run dbt build
         run: |
-          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt build --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+          dbt build --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
       - name: build single html
         run: |
-          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt docs generate --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+          dbt docs generate --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
       - name: create build artifacts
         uses: actions/upload-pages-artifact@v1
         with:
