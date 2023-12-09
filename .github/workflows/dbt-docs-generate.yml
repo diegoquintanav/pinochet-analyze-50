@@ -40,17 +40,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: debugging workdir
-        run: |
-          echo "1#############"
-          ls -lrs $GITHUB_WORKSPACE
-          echo "2#############"
-          env
-          echo "3#############"
-          pwd
-          echo "4#############"
-          echo $GITHUB_WORKSPACE
-          echo "5#############"
       - name: prepare dbt profiles
         run: |
             mkdir -p ~/.dbt
@@ -60,26 +49,28 @@ jobs:
             DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
       - name: run dbt build
         run: |
-            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
+            echo "dbt build"
+            # DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
       - name: build dbt docs
         run: |
             DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt docs generate --target ${{ env.DBT_TARGET }}
       - name: create build artifacts
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
-          path: $GITHUB_WORKSPACE/dbt_pinochet/target/
+          path: ${{ github.workspace }}/dbt_pinochet/target/
+
+# https://github.com/actions/deploy-pages
   deploy-pages:
-    # https://github.com/actions/deploy-pages
     needs: dbt-docs-generate
+    runs-on: ubuntu-latest
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+      url: ${{ steps.deployment.outputs.page_url }}/pinochet/rettig/dbt_docs
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
