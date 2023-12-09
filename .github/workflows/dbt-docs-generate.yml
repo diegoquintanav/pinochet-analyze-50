@@ -53,7 +53,8 @@ jobs:
           echo "5#############"
       - name: prepare dbt profiles
         run: |
-              cp $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
+            mkdir -p ~/.dbt
+            cp $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
       - name: run dbt deps
         run: |
             DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
