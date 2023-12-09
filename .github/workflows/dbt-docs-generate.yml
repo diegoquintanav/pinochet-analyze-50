@@ -24,8 +24,8 @@ concurrency:
     cancel-in-progress: true
 
 env:
-  DBT_PROFILES_DIR: /app/dbt_pinochet/profiles
-  DBT_PROJECT_DIR: /app/dbt_pinochet
+  DBT_PROFILES_DIR: ${{ github.workspace }}/dbt_pinochet/profiles
+  DBT_PROJECT_DIR: ${{ github.workspace }}/dbt_pinochet
   DBT_DB_PINOCHET_DBNAME: ${{ vars.DB_PINOCHET_DBNAME }}
   DBT_DB_PINOCHET_HOST: ${{ vars.DB_PINOCHET_HOST }}
   DBT_DB_PINOCHET_PORT: ${{ vars.DB_PINOCHET_PORT }}
@@ -39,19 +39,20 @@ jobs:
     container:
       image: ghcr.io/diegoquintanav/pinochet-dbt:latest
       options: --user root # https://github.com/actions/checkout/issues/956
-      volumes:
-        - $GIHUB_WORKSPACE/dbt_pinochet:/app/dbt_pinochet
     steps:
       - name: checkout
         uses: actions/checkout@v3
       - name: debugging workdir
         run: |
-          ls /app/dbt_pinochet -lrs
-          echo "#############"
+          echo "1#############"
           ls -lrs $GITHUB_WORKSPACE
+          echo "2#############"
           env
-          echo "#############"
+          echo "3#############"
           pwd
+          echo "4#############"
+          echo $GITHUB_WORKSPACE
+          echo "5#############"
       - name: run dbt deps
         run: |
           dbt deps
