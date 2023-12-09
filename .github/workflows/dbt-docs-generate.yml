@@ -49,6 +49,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - name: change permissions
+        run: |
+          chown -R 1000:1000 /app/dbt_pinochet
       - name: debugging workdir
         run: |
           pwd
