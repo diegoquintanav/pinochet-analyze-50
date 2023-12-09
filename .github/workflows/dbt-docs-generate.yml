@@ -45,7 +45,7 @@ jobs:
       image: ghcr.io/diegoquintanav/pinochet-dbt:latest
       options: --user root # https://github.com/actions/checkout/issues/956
       volumes:
-        - ${{ github.workspace }}/dbt_pinochet:${{ env.DBT_PROJECT_DIR }}
+        - ${{ github.workspace }}/dbt_pinochet:/app/dbt_pinochet
     steps:
       - name: checkout
         uses: actions/checkout@v3
