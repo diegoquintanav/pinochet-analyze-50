@@ -47,9 +47,10 @@ jobs:
       - name: debugging workdir
         run: |
           ls /app/dbt_pinochet -lrs
-          echo ""
+          echo "#############"
+          ls -lrs $GITHUB_WORKSPACE
           env
-          echo ""
+          echo "#############"
           pwd
       - name: run dbt deps
         run: |
