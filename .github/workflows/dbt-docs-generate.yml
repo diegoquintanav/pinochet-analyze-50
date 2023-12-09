@@ -59,6 +59,8 @@ jobs:
           ls /app/dbt_pinochet -la
       - name: run dbt deps
         run: |
+          pwd
+          ls -lar
           dbt deps
       - name: run dbt build
         run: |
