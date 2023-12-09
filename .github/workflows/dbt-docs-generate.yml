@@ -1,0 +1,79 @@
+name: docs
+
+on:
+  push:
+    branches: ["main","feature/implements-ci-with-dbt-docs"]
+    paths:
+        - 'dbt_pinochet/**'
+        - 'poetry.lock'
+        - 'pyproject.toml'
+        - '.github/workflows/dbt-docs-generate.yml'
+        - 'services/dbt-deps-image/**'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+    group: "pages"
+    cancel-in-progress: true
+
+
+defaults:
+  run:
+    working-directory: /app
+
+env:
+  DBT_PROFILES_DIR: /app/dbt_pinochet/profiles
+  DBT_PROJECT_DIR: /app/dbt_pinochet
+  DBT_DB_PINOCHET_DBNAME: ${{ vars.DB_PINOCHET_DBNAME }}
+  DBT_DB_PINOCHET_HOST: ${{ vars.DB_PINOCHET_HOST }}
+  DBT_DB_PINOCHET_PORT: ${{ vars.DB_PINOCHET_PORT }}
+  DBT_DB_PINOCHET_USER: ${{ vars.DB_PINOCHET_USER }}
+  DBT_DB_PINOCHET_PASSWORD: ${{ secrets.DB_PINOCHET_PASSWORD }}
+  DBT_TARGET: prod
+
+jobs:
+  dbt-docs-generate:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/diegoquintanav/pinochet-dbt:latest
+      options: --user root # https://github.com/actions/checkout/issues/956
+      volumes:
+        - ${{ github.workspace }}/dbt_pinochet:${{ env.DBT_PROJECT_DIR }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: run dbt deps
+        run: |
+          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt deps
+      - name: run dbt build
+        run: |
+          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt build --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+      - name: build single html
+        run: |
+          DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt docs generate --target ${{ env.DBT_TARGET }} --profiles-dir ${{ env.DBT_PROFILES_DIR }}
+      - name: create build artifacts
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ${{ env.DBT_PROJECT_DIR }}/target/
+  deploy-pages:
+    # https://github.com/actions/deploy-pages
+    needs: build-html
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
