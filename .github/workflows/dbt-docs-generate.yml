@@ -23,11 +23,6 @@ concurrency:
     group: "pages"
     cancel-in-progress: true
 
-
-defaults:
-  run:
-    working-directory: /app
-
 env:
   DBT_PROFILES_DIR: /app/dbt_pinochet/profiles
   DBT_PROJECT_DIR: /app/dbt_pinochet
