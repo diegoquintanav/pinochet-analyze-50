@@ -5,15 +5,13 @@ from sqlalchemy import (
     Boolean,
     Column,
     Date,
-    DateTime,
     ForeignKey,
     Integer,
     Numeric,
     String,
     Table,
 )
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 event_location_association = Table(
     "event_location",
@@ -45,7 +43,6 @@ class Location(Base):
     __table_args__ = {"schema": "api"}
 
     location_id: Mapped[int] = mapped_column(primary_key=True)
-    place: Mapped[str] = mapped_column(String)
     location: Mapped[str] = mapped_column(String)
     latitude: Mapped[float] = mapped_column(Numeric)
     longitude: Mapped[float] = mapped_column(Numeric)
