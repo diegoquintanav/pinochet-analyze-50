@@ -58,7 +58,7 @@ jobs:
           dbt deps
       - name: run dbt build
         run: |
-          cp ${{ github.workspace }}/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
+          cp ${{ github.workspace }}/dbt_pinochet/profiles.yml $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml
           dbt build --target ${{ env.DBT_TARGET }}
       - name: build single html
         run: |
