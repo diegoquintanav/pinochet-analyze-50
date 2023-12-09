@@ -51,13 +51,23 @@ jobs:
         run: |
             echo "dbt build"
             # DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
-      - name: build dbt docs
+      - name: prepare artifacts folder
         run: |
+            mkdir -p $GITHUB_WORKSPACE/artifacts
+            cp $GITHUB_WORKSPACE/.github/404.html $GITHUB_WORKSPACE/artifacts/index.html
+      - name: build dbt docs and move to /artifacts
+        run: |
+            mkdir -p $GITHUB_WORKSPACE/artifacts/dbt_docs
             DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt docs generate --target ${{ env.DBT_TARGET }}
+            cp -r $GITHUB_WORKSPACE/dbt_pinochet/target/* $GITHUB_WORKSPACE/artifacts/dbt_docs
+      - name: create elementary report and move to /artifacts
+        run: |
+            mkdir -p $GITHUB_WORKSPACE/artifacts/elementary
+            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet edr report --env prod --project-profile-target ${{ env.DBT_TARGET }} --file-path $GITHUB_WORKSPACE/artifacts/elementary/index.html
       - name: create build artifacts
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ${{ github.workspace }}/dbt_pinochet/target/
+          path: ${{ github.workspace }}/artifacts
 
 # https://github.com/actions/deploy-pages
   deploy-pages:
