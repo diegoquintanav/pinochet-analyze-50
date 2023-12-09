@@ -55,12 +55,12 @@ jobs:
       - name: debugging workdir
         run: |
           pwd
-          ls -la
-          ls /app/dbt_pinochet -la
+          ls ${{ github.workspace }} -lrs
+          ls /app/dbt_pinochet -lrs
       - name: run dbt deps
         run: |
           pwd
-          ls -lar
+          ls -lrs /app/dbt_pinochet
           dbt deps
       - name: run dbt build
         run: |
