@@ -9,26 +9,39 @@ dbt_pinochet:
             user: postgres
             pass: postgres
             dbname: pinochet
-            schema: dbt_dev
+            schema: api
 
-        api:
+        pre:
             type: postgres
             threads: 1
-            host: 0.0.0.0
-            port: 5433
-            user: postgres
-            pass: postgres
-            dbname: pinochet
-            schema: api
+            host: "{{ env_var('DBT_DB_PINOCHET_PROD_HOST') }}"
+            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') | int }}"
+            user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
+            pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
+            dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
+            schema: pre
 
         prod:
             type: postgres
             threads: 1
             host: "{{ env_var('DBT_DB_PINOCHET_PROD_HOST') }}"
-            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') }}"
+            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') | int }}"
             user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
             pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
-            dbname: "{{ env_var('DBT_DB_PINOCHET_DBNAME') }}"
-            schema: "{{ env_var('DBT_DB_PINOCHET_PROD_SCHEMA') }}"
+            dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
+            schema: api
 
     target: dev
+
+
+elementary:
+  outputs:
+    default:
+      type: "postgres"
+      host: "{{ env_var('DBT_DB_PINOCHET_PROD_HOST') }}"
+      port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') | int }}"
+      user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
+      pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
+      dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
+      schema: "api_elementary"
+      threads: 1

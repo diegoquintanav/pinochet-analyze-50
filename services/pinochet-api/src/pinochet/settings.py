@@ -18,8 +18,8 @@ class ApiEnvironment(str, enum.Enum):
 
 class ApiSettings(BaseSettings, ABC):
     API_VERSION: str = "v1"
-    API_ENV: str
-    SECRET_KEY: str
+    API_ENV: str = ApiEnvironment.DEV
+    SECRET_KEY: str = secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     POSTGRES_HOST: str
@@ -27,7 +27,7 @@ class ApiSettings(BaseSettings, ABC):
     POSTGRES_PASSWORD: SecretStr
     POSTGRES_DB: str
     POSTGRES_PORT: int = 5432
-    BACKEND_CORS_ORIGINS: str
+    BACKEND_CORS_ORIGINS: list[str] = []
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
     TIMEZONE: str = "Chile/Santiago"
     PROJECT_ROOT_DIR: DirectoryPath = Path(__file__).parent.parent
@@ -62,8 +62,6 @@ class ProdSettings(ApiSettings):
 
 
 class DevSettings(ProdSettings):
-    SECRET_KEY: str = secrets.token_urlsafe(32)
-
     # Backend
     # https://fastapi.tiangolo.com/tutorial/cors/?h=cors#cors-cross-origin-resource-sharing
     BACKEND_CORS_ORIGINS: list[str] = [

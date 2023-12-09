@@ -33,15 +33,31 @@ models:
         # Config indicated by + and applies to all files under models/example/
         datasets:
             +materialized: view
+            raw:
+                +tags: ["raw"]
+                +docs:
+                  node_color: "blue"
+            intermediate:
+                +tags: ["intermediate"]
+                +docs:
+                  node_color: "orange"
+            staging:
+                +tags: ["staging"]
+                +docs:
+                  node_color: "gold"
             api:
                 +materialized: table
                 +tags: ["api"]
+                +docs:
+                  node_color: "red"
     ## see docs: https://docs.elementary-data.com/
     elementary:
         ## elementary models will be created in the schema '<your_schema>_elementary'
         +schema: "elementary"
         ## To disable elementary for dev, uncomment this:
         # enabled: "{{ target.name in ['prod','analytics'] }}"
+        +docs:
+            node_color: "purple"
 
 vars:
     "dbt_date:time_zone": "America/Santiago"

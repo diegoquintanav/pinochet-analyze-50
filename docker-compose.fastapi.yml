@@ -12,7 +12,7 @@ services:
     build:
       context: ./services/pinochet-api
     ports:
-      - 8888:8000
+      - 8888:8080
     volumes:
       - ./services/pinochet-api/src/:/src/
       - pinochet-api-venv:/home/daniellopez/src/.venv
