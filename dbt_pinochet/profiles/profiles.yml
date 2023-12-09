@@ -25,7 +25,7 @@ dbt_pinochet:
             type: postgres
             threads: 1
             host: "{{ env_var('DBT_DB_PINOCHET_PROD_HOST') }}"
-            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') }}"
+            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') | int }}"
             user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
             pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
             dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
@@ -35,7 +35,7 @@ dbt_pinochet:
             type: postgres
             threads: 1
             host: "{{ env_var('DBT_DB_PINOCHET_PROD_HOST') }}"
-            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') }}"
+            port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') | int }}"
             user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
             pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
             dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
