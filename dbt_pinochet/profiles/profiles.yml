@@ -28,7 +28,7 @@ dbt_pinochet:
             port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') }}"
             user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
             pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
-            dbname: "{{ env_var('DBT_DB_PINOCHET_DBNAME') }}"
+            dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
             schema: pre
 
         prod:
@@ -38,7 +38,7 @@ dbt_pinochet:
             port: "{{ env_var('DBT_DB_PINOCHET_PROD_PORT') }}"
             user: "{{ env_var('DBT_DB_PINOCHET_PROD_USERNAME') }}"
             pass: "{{ env_var('DBT_DB_PINOCHET_PROD_PASSWORD') }}"
-            dbname: "{{ env_var('DBT_DB_PINOCHET_DBNAME') }}"
+            dbname: "{{ env_var('DBT_DB_PINOCHET_PROD_DBNAME') }}"
             schema: api
 
     target: dev
