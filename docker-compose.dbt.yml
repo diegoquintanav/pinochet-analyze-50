@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  dbt_deps:
+    image: ghcr.io/diegoquintanav/pinochet-dbt:latest
+    environment:
+      DBT_DB_PINOCHET_PROD_HOST: ${DBT_DB_PINOCHET_PROD_HOST}
+      DBT_DB_PINOCHET_PROD_PORT: ${DBT_DB_PINOCHET_PROD_PORT-5432}
+      DBT_DB_PINOCHET_PROD_USERNAME: ${DBT_DB_PINOCHET_PROD_USERNAME}
+      DBT_DB_PINOCHET_PROD_PASSWORD: ${DBT_DB_PINOCHET_PROD_PASSWORD}
+      DBT_DB_PINOCHET_DBNAME: ${DBT_DB_PINOCHET_DBNAME}
+      DBT_DB_PINOCHET_PROD_SCHEMA: ${DBT_DB_PINOCHET_PROD_SCHEMA}
+      DBT_PROJECT_DIR: /app/dbt_pinochet
+    build:
+      context: ./services/dbt-deps-image
+    ports:
+      - 8889:8089
+    volumes:
+      - ./dbt_pinochet/:/app/dbt_pinochet
+      - pinochet-dbt-venv:/home/dbt_user/src/.venv
+
+volumes:
+  pinochet-dbt-venv:
+    driver: local
