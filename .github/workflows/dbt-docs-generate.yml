@@ -52,8 +52,8 @@ jobs:
       - name: debugging workdir
         run: |
           pwd
-          ls -la
-          ls /app/dbt_pinochet -la
+          && ls -la
+          && ls /app/dbt_pinochet -la
       - name: run dbt deps
         run: |
           DBT_PROJECT_DIR=${{ env.DBT_PROJECT_DIR }} dbt deps
