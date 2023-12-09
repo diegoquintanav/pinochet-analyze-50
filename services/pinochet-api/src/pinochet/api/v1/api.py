@@ -1,7 +1,12 @@
 from fastapi import APIRouter
-from pinochet.api.v1.endpoints import events, locations, victims
+from pinochet.api.v1.endpoints import events, locations, root, victims
 
 api_router = APIRouter()
+
+api_router.include_router(
+    root.router,
+    tags=["welcome"],
+)
 
 api_router.include_router(
     victims.router,
