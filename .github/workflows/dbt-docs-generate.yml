@@ -44,17 +44,15 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: change permissions
-        run: |
-          chown -R 1000:1000 /app/dbt_pinochet
       - name: debugging workdir
         run: |
-          pwd
           ls /app/dbt_pinochet -lrs
+          echo ""
+          env
+          echo ""
+          pwd
       - name: run dbt deps
         run: |
-          pwd
-          ls -lrs /app/dbt_pinochet
           dbt deps
       - name: run dbt build
         run: |
