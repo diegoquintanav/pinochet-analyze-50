@@ -93,4 +93,4 @@ USER ${USERNAME}
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD [ "/app/prestart.sh" ]
 
-EXPOSE 8000
+EXPOSE 8080
