@@ -54,7 +54,7 @@ jobs:
       - name: prepare artifacts folder
         run: |
             mkdir -p $GITHUB_WORKSPACE/artifacts
-            cp $GITHUB_WORKSPACE/.github/404.html $GITHUB_WORKSPACE/artifacts/index.html
+            cp $GITHUB_WORKSPACE/.github/assets/gh-root.html $GITHUB_WORKSPACE/artifacts/index.html
       - name: build dbt docs and move to /artifacts
         run: |
             mkdir -p $GITHUB_WORKSPACE/artifacts/dbt_docs

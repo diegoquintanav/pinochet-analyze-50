@@ -1,8 +1,17 @@
 # pinochet-analyze
 
+![dbt-badge](https://github.com/diegoquintanav/pinochet-analyze-50/actions/workflows/dbt-docs-generate.yml/badge.svg)
+
+## Main highlights
+
+- [dbt documentation](https://diegoquintanav.github.io/pinochet-analyze-50/dbt_docs)
+- [Elementary Report](https://diegoquintanav.github.io/pinochet-analyze-50/elementary) using [Elementary](https://www.elementary-data.com/)
+- [FastAPI Docs](https://pinochet-api.fly.dev/docs) hosted on [fly.io](https://fly.io)
+- [Graphql endpoint (in progress)](https://pinochet-api.fly.dev/graphql) using [strawberry-graphql](https://strawberry.rocks/)
+
 A repository for exploring the pinochet dataset [freire2019pinochet] and hopefully more data. Read more about this dataset in <https://github.com/danilofreire/pinochet>.
 
-## Setup
+## Development
 
 Install poetry with pipx and install the dependencies
 
@@ -32,7 +41,7 @@ dbt_pinochet:
       user: postgres
       pass: postgres
       dbname: pinochet
-      schema: dbt_dev
+      schema: api
 
   target: dev
 ```
@@ -55,29 +64,15 @@ Check other commands with `make help`.
 
 These services are deployed locally using docker compose. You can start them with `docker compose up -d`. You need to provide a valid `.env` file, see `example.env` for an example.
 
-### Networking between postgis and superset
-
-We use an external network to allow superset to connect to postgis. This network is managed by docker, and it needs to be created _before_ starting the services.
-
-```bash
-docker network create nw_pinochet
-```
-
-or pass `-f docker-compose.nw_pinochet.yml` to `docker compose up -d`.
-
-See <https://stackoverflow.com/a/67811533/5819113> and <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose/#configuring-docker-compose> for more details.
-
-Quote from the superset docs:
-
-> Note: Users often want to connect to other databases from Superset. Currently, the easiest way to do this is to modify the docker-compose-non-dev.yml file and add your database as a service that the other services depend on (via x-superset-depends-on). Others have attempted to set network_mode: host on the Superset services, but these generally break the installation, because the configuration requires use of the Docker Compose DNS resolver for the service names. If you have a good solution for this, let us know!
 
 ### Postgis
 
-A database with postgis extension enabled. The database is empty by default, and it is populated by dbt.
+A database with postgis extension enabled. The database is empty by default, and it is populated by dbt with
 
-### Superset
-
-We use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
+```bash
+docker compose -f docker-compose.postgis.yml up -d
+dbt build --target dev
+```
 
 ### Virtual knowledge graph
 
@@ -98,4 +93,65 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT DISTINCT ?victim ?lastName {
   ?victim a :Victim ; foaf:lastName ?lastName .
 }
+```
+
+### Superset
+
+> Note: superset deployment is experimental, expect a few bumps along the way.
+
+We use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
+
+#### Networking between postgis and superset
+
+We use an external network to allow superset to connect to postgis. This network is managed by docker, and it needs to be created _before_ starting the services.
+
+```bash
+docker network create nw_pinochet
+```
+
+or pass `-f docker-compose.nw_pinochet.yml` to `docker compose up -d`.
+
+See <https://stackoverflow.com/a/67811533/5819113> and <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose/#configuring-docker-compose> for more details.
+
+Quote from the superset docs:
+
+> Note: Users often want to connect to other databases from Superset. Currently, the easiest way to do this is to modify the docker-compose-non-dev.yml file and add your database as a service that the other services depend on (via x-superset-depends-on). Others have attempted to set network_mode: host on the Superset services, but these generally break the installation, because the configuration requires use of the Docker Compose DNS resolver for the service names. If you have a good solution for this, let us know!
+
+## Deployment
+
+I'm using fly.io to deploy the services. The configuration is in `fly.toml` files inside `./services/pinochet-api` and `./services/postgis`.
+
+You must install the flyctl cli tool to deploy the services. See <https://fly.io/docs/getting-started/installing-flyctl/> for details. After installing the cli tool, you can deploy the services with
+
+```bash
+flyctl deploy
+```
+
+You will need to set the `POSTGRES_PASSWORD` secret for the fastapi deployment, with `flyctl secrets set`. Note that other secrets were set by fly.io automatically, you can check them with `flyctl secrets list`:
+
+```bash
+$ cd services/pinochet-api
+$ flyctl secrets list
+NAME             	DIGEST          	CREATED AT
+DATABASE_URL     	xxxxxxxxxxxxxxxx	23h7m ago
+POSTGRES_PASSWORD	xxxxxxxxxxxxxxxx	22h49m ago
+SECRET_KEY       	xxxxxxxxxxxxxxxx	22h30m ago
+SENTRY_DSN       	xxxxxxxxxxxxxxxx	21h37m ago
+```
+
+Set the `POSTGRES_PASSWORD` secret with
+
+```bash
+flyctl secrets set POSTGRES_PASSWORD=password_from_flyio_db
+```
+
+You will also need to activate the postgis extension, by connecting to the database with `flyctl pg connect` and running `CREATE EXTENSION postgis;`:
+
+```bash
+❯ fly pg connect --app pinochet-api-prod --database pinochet_api
+Connecting to fdaa:3:d37e:a7b:1be:de4c:ba0b:2... complete
+psql (15.3 (Debian 15.3-1.pgdg120+1))
+Type "help" for help.
+
+pinochet_api=# CREATE EXTENSION postgis;
 ```
