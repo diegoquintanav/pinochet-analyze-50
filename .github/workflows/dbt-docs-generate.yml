@@ -55,7 +55,6 @@ jobs:
       - name: debugging workdir
         run: |
           pwd
-          ls ${{ github.workspace }} -lrs
           ls /app/dbt_pinochet -lrs
       - name: run dbt deps
         run: |
