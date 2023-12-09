@@ -64,7 +64,7 @@ jobs:
           path: ${{ env.DBT_PROJECT_DIR }}/target/
   deploy-pages:
     # https://github.com/actions/deploy-pages
-    needs: build-html
+    needs: dbt-docs-generate
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write # to deploy to Pages
