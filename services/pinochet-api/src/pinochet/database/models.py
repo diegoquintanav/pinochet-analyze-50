@@ -47,7 +47,6 @@ class Location(Base):
     latitude: Mapped[float] = mapped_column(Numeric)
     longitude: Mapped[float] = mapped_column(Numeric)
     exact_coordinates: Mapped[bool] = mapped_column(Boolean)
-    location_n: Mapped[str] = mapped_column(String)
     geometry: Mapped[str] = mapped_column(String)
     srid: Mapped[str] = "4326"
 
