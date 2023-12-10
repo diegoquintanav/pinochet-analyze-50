@@ -22,7 +22,7 @@ class Event(BaseModel):
     interrogation: Optional[bool] = None
     torture: Optional[bool] = None
     mistreatment: Optional[bool] = None
-    targeted: Optional[bool] = None
+    targeted: Optional[str] = None
     press: Optional[bool] = None
     war_tribunal: Optional[bool] = None
     number_previous_arrests: Optional[int] = None

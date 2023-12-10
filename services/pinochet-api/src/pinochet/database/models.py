@@ -65,7 +65,7 @@ class Event(Base):
     interrogation: Mapped[bool] = mapped_column(Boolean)
     torture: Mapped[bool] = mapped_column(Boolean)
     mistreatment: Mapped[bool] = mapped_column(Boolean)
-    targeted: Mapped[bool] = mapped_column(Boolean)
+    targeted: Mapped[str] = mapped_column(String)
     press: Mapped[bool] = mapped_column(Boolean)
     war_tribunal: Mapped[bool] = mapped_column(Boolean)
     number_previous_arrests: Mapped[int] = mapped_column(Integer)
