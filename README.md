@@ -49,7 +49,7 @@ dbt_pinochet:
 you can now run dbt models with
 
 ```bash
-dbt build
+dbt build --target dev
 ```
 
 Get the dbt documentation with
@@ -71,6 +71,15 @@ A database with postgis extension enabled. The database is empty by default, and
 
 ```bash
 docker compose -f docker-compose.postgis.yml up -d
+dbt build --target dev
+```
+
+### dbt
+
+We use dbt to transform the raw csv into actionable data. The models are in `./models`. You can run the models with
+
+```bash
+dbt deps
 dbt build --target dev
 ```
 
