@@ -8,14 +8,15 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
+      UVICORN_RELOAD: true
       API_ENV: dev
     build:
       context: ./services/pinochet-api
     ports:
       - 8888:8080
     volumes:
-      - ./services/pinochet-api/src/:/src/
-      - pinochet-api-venv:/home/daniellopez/src/.venv
+      - ./services/pinochet-api/src/:/app/src/
+      - pinochet-api-venv:/home/daniellopez/app/.venv
 
 volumes:
   pinochet-api-venv:
