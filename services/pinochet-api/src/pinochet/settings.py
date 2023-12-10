@@ -80,6 +80,7 @@ class DevSettings(ProdSettings):
 
 class TestSettings(DevSettings):
     POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: int = 5434
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: SecretStr = "password"
     POSTGRES_DB: str = "test"

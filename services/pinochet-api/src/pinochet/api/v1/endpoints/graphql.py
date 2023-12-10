@@ -38,7 +38,6 @@ class GraphqlEvent:
     event_id: typing.Optional[int] = None
     individual_id: typing.Optional[int] = None
     group_id: typing.Optional[int] = None
-    locations: typing.Optional[typing.List[GraphqlLocation]] = None
     start_date_daily: typing.Optional[dt.datetime] = None
     end_date_daily: typing.Optional[dt.datetime] = None
     violence: typing.Optional[str] = None
@@ -54,20 +53,15 @@ class GraphqlEvent:
     perpetrator_affiliation_detail: typing.Optional[str] = None
     page: typing.Optional[str] = None
 
+    # many to many relationship managed by SQLAlchemy
+    locations: typing.Optional[typing.List[GraphqlLocation]] = None
+
     @classmethod
     def marshal(cls, model: models.Event) -> "GraphqlEvent":
         return cls(
             event_id=strawberry.ID(str(model.event_id)),
             individual_id=strawberry.ID(str(model.individual_id)),
             group_id=strawberry.ID(str(model.group_id)),
-            locations=None,
-            # TODO: Uncomment this when we have a relationship
-            # between events and locations
-            # [
-            #     GraphqlLocation.marshal(location) for location in model.locations
-            # ]
-            # if model.locations
-            # else None,
             start_date_daily=model.start_date_daily,
             end_date_daily=model.end_date_daily,
             violence=model.violence,
@@ -82,6 +76,11 @@ class GraphqlEvent:
             perpetrator_affiliation=model.perpetrator_affiliation,
             perpetrator_affiliation_detail=model.perpetrator_affiliation_detail,
             page=model.page,
+            locations=[
+                GraphqlLocation.marshal(location) for location in model.locations
+            ]
+            if model.locations
+            else None,
         )
 
 
@@ -99,6 +98,9 @@ class GraphqlVictim:
     victim_affiliation_detail: typing.Optional[str] = None
     nationality: typing.Optional[str] = None
 
+    # one to many relationship managed by SQLAlchemy
+    events: typing.Optional[typing.List[GraphqlEvent]] = None
+
     @classmethod
     def marshal(cls, model: models.Victim) -> "GraphqlVictim":
         return cls(
@@ -113,6 +115,7 @@ class GraphqlVictim:
             victim_affiliation=model.victim_affiliation,
             victim_affiliation_detail=model.victim_affiliation_detail,
             nationality=model.nationality,
+            events=[GraphqlEvent.marshal(event) for event in model.events],
         )
 
 

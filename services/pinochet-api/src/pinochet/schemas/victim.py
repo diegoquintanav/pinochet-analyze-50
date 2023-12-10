@@ -1,8 +1,7 @@
-import uuid
-from random import choice
 from typing import Optional
 
 from pydantic import BaseModel
+
 
 class Victim(BaseModel):
     individual_id: Optional[int] = None
