@@ -1,10 +1,7 @@
 import datetime as dt
-import uuid
-from random import choice
-from typing import List, Optional, Union
-from uuid import uuid4
+from typing import List, Optional
 
-from pydantic import UUID3, UUID4, BaseModel, EmailStr, Field
+from pydantic import BaseModel
 
 
 class LocationIdentifier(BaseModel):
@@ -20,12 +17,12 @@ class Event(BaseModel):
     end_date_daily: Optional[dt.datetime] = None
     start_date_monthly: Optional[dt.datetime] = None
     end_date_monthly: Optional[dt.datetime] = None
-    violence: Optional[bool] = None
+    violence: Optional[str] = None
     method: Optional[str] = None
     interrogation: Optional[bool] = None
     torture: Optional[bool] = None
     mistreatment: Optional[bool] = None
-    targeted: Optional[bool] = None
+    targeted: Optional[str] = None
     press: Optional[bool] = None
     war_tribunal: Optional[bool] = None
     number_previous_arrests: Optional[int] = None

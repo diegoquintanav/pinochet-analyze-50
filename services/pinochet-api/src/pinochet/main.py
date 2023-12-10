@@ -5,10 +5,10 @@ from starlette.middleware.cors import CORSMiddleware
 
 
 def configure_graphql(app: FastAPI) -> FastAPI:
-    from pinochet.api.v1.endpoints.graphql import schema
+    from pinochet.api.v1.endpoints.graphql import get_context, schema
     from strawberry.fastapi import GraphQLRouter
 
-    graphql_app = GraphQLRouter(schema)
+    graphql_app = GraphQLRouter(schema, context_getter=get_context)
     app.include_router(graphql_app, prefix="/graphql")
     return app
 
