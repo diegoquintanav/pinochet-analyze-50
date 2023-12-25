@@ -25,7 +25,7 @@ SELECT DISTINCT
         )
     }} AS pk,
     {{ adapter.quote("event_id") }},
-    {{ adapter.quote("individual_id") }},
+    {{ adapter.quote("individual_id") }} AS "victim_id",
     {{ adapter.quote("group_id") }},
     {{ adapter.quote("start_date_daily") }},
     {{ adapter.quote("end_date_daily") }},

@@ -14,30 +14,30 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-# event_location_association = Table(
-#     "api_pinochet__event_location_association",
-#     Base.metadata,
-#     Column(
-#         "event_id",
-#         Integer,
-#         ForeignKey("api.api_pinochet__event.event_id"),
-#         primary_key=True,
-#     ),
-#     Column(
-#         "location_id",
-#         Integer,
-#         ForeignKey("api.api_pinochet__location.location_id"),
-#         primary_key=True,
-#     ),
-#     schema="api",
-# )
+event_location_association = Table(
+    "api_pinochet__event_location_association",
+    Base.metadata,
+    Column(
+        "event_id",
+        Integer,
+        ForeignKey("api.api_pinochet__event.event_id"),
+        primary_key=True,
+    ),
+    Column(
+        "location_id",
+        Integer,
+        ForeignKey("api.api_pinochet__location.location_id"),
+        primary_key=True,
+    ),
+    schema="api",
+)
 
 
 class Victim(Base):
     __tablename__ = "api_pinochet__victim"
     __table_args__ = {"schema": "api"}
 
-    individual_id: Mapped[int] = mapped_column(primary_key=True)
+    victim_id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String)
     last_name: Mapped[str] = mapped_column(String)
     minor: Mapped[bool] = mapped_column(Boolean)
@@ -62,21 +62,18 @@ class Location(Base):
     __table_args__ = {"schema": "api"}
 
     location_id: Mapped[int] = mapped_column(primary_key=True)
-    location: Mapped[str] = mapped_column(String)
+    location_name: Mapped[str] = mapped_column(String)
     latitude: Mapped[float] = mapped_column(Numeric)
     longitude: Mapped[float] = mapped_column(Numeric)
     exact_coordinates: Mapped[bool] = mapped_column(Boolean)
     geometry: Mapped[str] = mapped_column(String)
     srid: Mapped[str] = mapped_column(String)
 
-    # assumed many to many:
-    # a location can have multiple events, and
-    # an event can have multiple locations
-    # events: Mapped[typing.List["Event"]] = relationship(
-    #     secondary=event_location_association,
-    #     back_populates="locations",
-    #     lazy="joined",
-    # )
+    events: Mapped[typing.List["Event"]] = relationship(
+        secondary=event_location_association,
+        back_populates="locations",
+        lazy="joined",
+    )
 
 
 class Event(Base):
@@ -84,8 +81,8 @@ class Event(Base):
     __table_args__ = {"schema": "api"}
 
     event_id: Mapped[int] = mapped_column(primary_key=True)
-    individual_id: Mapped[int] = mapped_column(
-        ForeignKey("api.api_pinochet__victim.individual_id")
+    victim_id: Mapped[int] = mapped_column(
+        ForeignKey("api.api_pinochet__victim.victim_id")
     )
     group_id: Mapped[int] = mapped_column(Integer)
     start_date_daily: Mapped[dt.date] = mapped_column(Date)
@@ -110,12 +107,12 @@ class Event(Base):
     )
 
     # assumed that an event has only one victim,
-    # locations: Mapped["Location"] = relationship(
-    #     "Location",
-    #     secondary=event_location_association,
-    #     back_populates="events",
-    #     lazy="joined",
-    # )
+    locations: Mapped[typing.List["Location"]] = relationship(
+        "Location",
+        secondary=event_location_association,
+        back_populates="events",
+        lazy="joined",
+    )
 
 
 if __name__ == "__main__":
@@ -129,4 +126,6 @@ if __name__ == "__main__":
 
     print(e.event_id)
 
-    print(e.individual_id)
+    print(e.victim_id)
+
+    _location = sess.query(Location).first()

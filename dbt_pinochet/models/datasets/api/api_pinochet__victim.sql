@@ -18,7 +18,7 @@ SELECT DISTINCT
             ]
         )
     }} AS pk,
-    {{ adapter.quote("individual_id") }},
+    {{ adapter.quote("individual_id") }} AS "victim_id",
     {{ adapter.quote("first_name") }},
     {{ adapter.quote("last_name") }},
     {{ adapter.quote("minor") }},
