@@ -24,22 +24,22 @@ SELECT DISTINCT
             ]
         )
     }} AS pk,
-    b.{{ adapter.quote("event_id") }},
-    b.{{ adapter.quote("individual_id") }},
-    b.{{ adapter.quote("group_id") }},
-    b.{{ adapter.quote("start_date_daily") }},
-    b.{{ adapter.quote("end_date_daily") }},
-    b.{{ adapter.quote("violence") }},
-    b.{{ adapter.quote("method") }},
-    b.{{ adapter.quote("interrogation") }},
-    b.{{ adapter.quote("torture") }},
-    b.{{ adapter.quote("mistreatment") }},
-    b.{{ adapter.quote("targeted") }},
-    b.{{ adapter.quote("press") }},
-    b.{{ adapter.quote("war_tribunal") }},
-    b.{{ adapter.quote("number_previous_arrests") }},
-    b.{{ adapter.quote("perpetrator_affiliation") }},
-    b.{{ adapter.quote("perpetrator_affiliation_detail") }},
-    b.{{ adapter.quote("page") }}
-FROM {{ ref("stg_pinochet__base") }} AS b
-ORDER BY b.event_id
+    {{ adapter.quote("event_id") }},
+    {{ adapter.quote("individual_id") }},
+    {{ adapter.quote("group_id") }},
+    {{ adapter.quote("start_date_daily") }},
+    {{ adapter.quote("end_date_daily") }},
+    {{ adapter.quote("violence") }},
+    {{ adapter.quote("method") }},
+    {{ adapter.quote("interrogation") }},
+    {{ adapter.quote("torture") }},
+    {{ adapter.quote("mistreatment") }},
+    {{ adapter.quote("targeted") }},
+    {{ adapter.quote("press") }},
+    {{ adapter.quote("war_tribunal") }},
+    {{ adapter.quote("number_previous_arrests") }},
+    {{ adapter.quote("perpetrator_affiliation") }},
+    {{ adapter.quote("perpetrator_affiliation_detail") }},
+    {{ adapter.quote("page") }}
+FROM {{ ref("stg_pinochet__base") }}
+ORDER BY event_id
