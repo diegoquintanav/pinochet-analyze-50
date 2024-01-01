@@ -104,11 +104,23 @@ SELECT DISTINCT ?victim ?lastName {
 }
 ```
 
+### Metabase
+
+We can use metabase to explore the data visually. You can start metabase with
+
+```bash
+docker compose -f docker-compose.postgis.yml -f docker-compose.metabase.yml up -d
+```
+
+And go to <localhost:3010> to explore the data. Metabase will ask you to create an admin user and setup the database connection.
+
+![Example metabase chart](./img/01-example-metabase-chart.png)
+
 ### Superset
 
 > Note: superset deployment is experimental, expect a few bumps along the way.
 
-We use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
+Instead of metabase, we can use a modified version of `docker-compose-non-dev.yml` with paths modified to work with this project. See <https://superset.apache.org/docs/installation/installing-superset-using-docker-compose> for details.
 
 #### Networking between postgis and superset
 
