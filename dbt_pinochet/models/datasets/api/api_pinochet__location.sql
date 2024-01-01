@@ -2,7 +2,7 @@
 
 SELECT DISTINCT
     {{ adapter.quote("location_id") }},
-    {{ adapter.quote("location") }},
+    {{ adapter.quote("location") }} AS "location_name",
     {{ adapter.quote("latitude") }},
     {{ adapter.quote("longitude") }},
     {{ adapter.quote("exact_coordinates") }},

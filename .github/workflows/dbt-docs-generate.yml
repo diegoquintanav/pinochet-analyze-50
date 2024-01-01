@@ -1,27 +1,27 @@
-name: docs
+name: deploy
 
 on:
   push:
     branches: ["main"]
     paths:
-        - 'dbt_pinochet/**'
-        - 'poetry.lock'
-        - 'pyproject.toml'
-        - '.github/workflows/dbt-docs-generate.yml'
-        - 'services/dbt-deps-image/**'
+      - "dbt_pinochet/**"
+      - "poetry.lock"
+      - "pyproject.toml"
+      - ".github/workflows/dbt-docs-generate.yml"
+      - "services/dbt-deps-image/**"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 # Allow one concurrent deployment
 concurrency:
-    group: "pages"
-    cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: true
 
 env:
   DBT_DB_PINOCHET_PROD_DBNAME: ${{ vars.DB_PINOCHET_DBNAME }}
@@ -42,33 +42,33 @@ jobs:
         uses: actions/checkout@v3
       - name: prepare dbt profiles
         run: |
-            mkdir -p ~/.dbt
-            cp $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
+          mkdir -p ~/.dbt
+          cp $GITHUB_WORKSPACE/dbt_pinochet/profiles/profiles.yml ~/.dbt/profiles.yml
       - name: run dbt deps
         run: |
-            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
+          DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt deps
       - name: run dbt build
         run: |
-            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
+          DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt build --target ${{ env.DBT_TARGET }}
       - name: prepare artifacts folder
         run: |
-            mkdir -p $GITHUB_WORKSPACE/artifacts
-            cp $GITHUB_WORKSPACE/.github/assets/gh-root.html $GITHUB_WORKSPACE/artifacts/index.html
+          mkdir -p $GITHUB_WORKSPACE/artifacts
+          cp $GITHUB_WORKSPACE/.github/assets/gh-root.html $GITHUB_WORKSPACE/artifacts/index.html
       - name: build dbt docs and move to /artifacts
         run: |
-            mkdir -p $GITHUB_WORKSPACE/artifacts/dbt_docs
-            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt docs generate --target ${{ env.DBT_TARGET }}
-            cp -r $GITHUB_WORKSPACE/dbt_pinochet/target/* $GITHUB_WORKSPACE/artifacts/dbt_docs
+          mkdir -p $GITHUB_WORKSPACE/artifacts/dbt_docs
+          DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet dbt docs generate --target ${{ env.DBT_TARGET }}
+          cp -r $GITHUB_WORKSPACE/dbt_pinochet/target/* $GITHUB_WORKSPACE/artifacts/dbt_docs
       - name: create elementary report and move to /artifacts
         run: |
-            mkdir -p $GITHUB_WORKSPACE/artifacts/elementary
-            DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet edr report --env prod --project-profile-target ${{ env.DBT_TARGET }} --file-path $GITHUB_WORKSPACE/artifacts/elementary/index.html
+          mkdir -p $GITHUB_WORKSPACE/artifacts/elementary
+          DBT_PROJECT_DIR=$GITHUB_WORKSPACE/dbt_pinochet edr report --env prod --project-profile-target ${{ env.DBT_TARGET }} --file-path $GITHUB_WORKSPACE/artifacts/elementary/index.html
       - name: create build artifacts
         uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ github.workspace }}/artifacts
 
-# https://github.com/actions/deploy-pages
+  # https://github.com/actions/deploy-pages
   deploy-pages:
     needs: dbt-docs-generate
     runs-on: ubuntu-latest
@@ -83,3 +83,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
+
+  deploy-api-fly-io:
+    name: Deploy fastapi app to fly.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
+        working-directory: $GITHUB_WORKSPACE/services/pinochet-api
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
