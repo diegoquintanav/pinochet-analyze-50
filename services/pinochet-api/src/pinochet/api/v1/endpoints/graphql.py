@@ -11,32 +11,38 @@ from strawberry.types import Info
 
 
 @strawberry.type
-class GraphqlLocation:
+class Location:
     location_id: typing.Optional[int] = None
-    location: typing.Optional[str] = None
+    location_name: typing.Optional[str] = None
     latitude: typing.Optional[float] = None
     longitude: typing.Optional[float] = None
     exact_coordinates: typing.Optional[bool] = None
     geometry: typing.Optional[str] = None
     srid: typing.Optional[str] = None
 
+    # many to many relationship managed by SQLAlchemy
+    events_ids: typing.Optional[typing.List[int]] = None
+
     @classmethod
-    def marshal(cls, model: models.Location) -> "GraphqlLocation":
+    def marshal(cls, model: models.Location) -> "Location":
         return cls(
             location_id=strawberry.ID(str(model.location_id)),
-            location=model.location,
+            location_name=model.location_name,
             latitude=model.latitude,
             longitude=model.longitude,
             exact_coordinates=model.exact_coordinates,
             geometry=model.geometry,
             srid=model.srid,
+            events_ids=[event.event_id for event in model.events]
+            if model.events
+            else None,
         )
 
 
 @strawberry.type
-class GraphqlEvent:
+class Event:
     event_id: typing.Optional[int] = None
-    individual_id: typing.Optional[int] = None
+    victim_id: typing.Optional[int] = None
     group_id: typing.Optional[int] = None
     start_date_daily: typing.Optional[dt.datetime] = None
     end_date_daily: typing.Optional[dt.datetime] = None
@@ -54,13 +60,13 @@ class GraphqlEvent:
     page: typing.Optional[str] = None
 
     # many to many relationship managed by SQLAlchemy
-    locations: typing.Optional[typing.List[GraphqlLocation]] = None
+    locations_ids: typing.Optional[typing.List[int]] = None
 
     @classmethod
-    def marshal(cls, model: models.Event) -> "GraphqlEvent":
+    def marshal(cls, model: models.Event) -> "Event":
         return cls(
             event_id=strawberry.ID(str(model.event_id)),
-            individual_id=strawberry.ID(str(model.individual_id)),
+            victim_id=strawberry.ID(str(model.victim_id)),
             group_id=strawberry.ID(str(model.group_id)),
             start_date_daily=model.start_date_daily,
             end_date_daily=model.end_date_daily,
@@ -76,17 +82,15 @@ class GraphqlEvent:
             perpetrator_affiliation=model.perpetrator_affiliation,
             perpetrator_affiliation_detail=model.perpetrator_affiliation_detail,
             page=model.page,
-            locations=[
-                GraphqlLocation.marshal(location) for location in model.locations
-            ]
+            locations_ids=[location.location_id for location in model.locations]
             if model.locations
             else None,
         )
 
 
 @strawberry.type
-class GraphqlVictim:
-    individual_id: typing.Optional[int] = None
+class Victim:
+    victim_id: typing.Optional[int] = None
     first_name: typing.Optional[str] = None
     last_name: typing.Optional[str] = None
     minor: typing.Optional[bool] = None
@@ -99,12 +103,12 @@ class GraphqlVictim:
     nationality: typing.Optional[str] = None
 
     # one to many relationship managed by SQLAlchemy
-    events: typing.Optional[typing.List[GraphqlEvent]] = None
+    events_ids: typing.Optional[typing.List[int]] = None
 
     @classmethod
-    def marshal(cls, model: models.Victim) -> "GraphqlVictim":
+    def marshal(cls, model: models.Victim) -> "Victim":
         return cls(
-            individual_id=strawberry.ID(str(model.individual_id)),
+            victim_id=strawberry.ID(str(model.victim_id)),
             first_name=model.first_name,
             last_name=model.last_name,
             minor=model.minor,
@@ -115,59 +119,56 @@ class GraphqlVictim:
             victim_affiliation=model.victim_affiliation,
             victim_affiliation_detail=model.victim_affiliation_detail,
             nationality=model.nationality,
-            events=[GraphqlEvent.marshal(event) for event in model.events],
+            events_ids=[event.event_id for event in model.events]
+            if model.events
+            else None,
         )
-
-
-def custom_context_dependency() -> str:
-    return "John"
 
 
 async def get_context(db=Depends(get_db)):
     return {"db": db}
 
 
-def get_victims(session: Session) -> typing.List[GraphqlVictim]:
+def get_victims(session: Session) -> typing.List[Victim]:
     with session.begin():
-        victims = (
-            session.query(models.Victim).order_by(models.Victim.individual_id).all()
-        )
-    return [GraphqlVictim.marshal(victim) for victim in victims]
+        victims = session.query(models.Victim).order_by(models.Victim.victim_id).all()
+
+    return [Victim.marshal(victim) for victim in victims]
 
 
-def get_events(session: Session) -> typing.List[GraphqlEvent]:
+def get_events(session: Session) -> typing.List[Event]:
     with session.begin():
         events = session.query(models.Event).order_by(models.Event.event_id).all()
-    return [GraphqlEvent.marshal(event) for event in events]
+    return [Event.marshal(event) for event in events]
 
 
-def get_locations(session: Session) -> typing.List[GraphqlLocation]:
+def get_locations(session: Session) -> typing.List[Location]:
     with session.begin():
         locations = (
             session.query(models.Location).order_by(models.Location.location_id).all()
         )
-    return [GraphqlLocation.marshal(location) for location in locations]
+    return [Location.marshal(location) for location in locations]
 
 
 @strawberry.type
 class Query:
     @strawberry.field
-    def victims(self, info: Info) -> typing.List[GraphqlVictim]:
+    def victims(self, info: Info) -> typing.List[Victim]:
         db = info.context["db"]
         return get_victims(session=db)
 
     @strawberry.field
-    def events(self, info: Info) -> typing.List[GraphqlEvent]:
+    def events(self, info: Info) -> typing.List[Event]:
         db = info.context["db"]
         return get_events(session=db)
 
     @strawberry.field
-    def locations(self, info: Info) -> typing.List[GraphqlLocation]:
+    def locations(self, info: Info) -> typing.List[Location]:
         db = info.context["db"]
         return get_locations(session=db)
 
 
 schema = strawberry.Schema(
     query=Query,
-    extensions=[QueryDepthLimiter(max_depth=5)],
+    extensions=[QueryDepthLimiter(max_depth=3)],
 )
