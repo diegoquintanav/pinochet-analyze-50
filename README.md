@@ -118,7 +118,7 @@ And go to <localhost:3010> to explore the data. Metabase will ask you to create 
 
 ### Preset
 
-Login into [preset](https://manage.app.preset.io/app/) with `novafa9292@bitofee.com` and password `Rettig1234!` to access the pinochet dataset and the dashboard.
+~Login into [preset](https://manage.app.preset.io/app/) with `novafa9292@bitofee.com` and password `Rettig1234!` to access the pinochet dataset and the dashboard.~ A preset dashboard is available upon request.
 
 ![image](https://github.com/diegoquintanav/pinochet-analyze-50/assets/16281387/0b28df87-804c-40ad-bc5a-d6d8d8b29575)
 
