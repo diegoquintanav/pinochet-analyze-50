@@ -116,7 +116,14 @@ And go to <localhost:3010> to explore the data. Metabase will ask you to create 
 
 ![Example metabase chart](./img/01-example-metabase-chart.png)
 
-### Superset
+### Preset
+
+Login into [preset](https://manage.app.preset.io/app/) with `novafa9292@bitofee.com` and password `Rettig1234!` to access the pinochet dataset and the dashboard.
+
+![image](https://github.com/diegoquintanav/pinochet-analyze-50/assets/16281387/0b28df87-804c-40ad-bc5a-d6d8d8b29575)
+
+
+### Superset (local)
 
 > Note: superset deployment is experimental, expect a few bumps along the way.
 
