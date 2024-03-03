@@ -1,3 +1,6 @@
+from __future__ import with_statement
+
+import os
 from logging.config import fileConfig
 
 from alembic import context
@@ -9,14 +12,17 @@ config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+# target_metadata = None
+
+from pinochet.database.base import Base  # noqa
+
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -24,7 +30,25 @@ target_metadata = None
 # ... etc.
 
 
-def run_migrations_offline() -> None:
+def get_url():
+    user = os["POSTGRES_USER"]
+    password = os["POSTGRES_PASSWORD"]
+    host = os["POSTGRES_HOST"]
+    db = os["POSTGRES_DB"]
+    return f"postgresql://{user}:{password}@{host}/{db}"
+
+
+# https://gist.github.com/utek/6163250?permalink_comment_id=3548027#gistcomment-3548027
+exclude_tables = [
+    s.strip() for s in config.get_main_option("exclude_tables", "").split(",")
+]
+
+
+def include_object(object, name, type_, *args, **kwargs):
+    return not (type_ == "table" and name in exclude_tables)
+
+
+def run_migrations_offline():
     """Run migrations in 'offline' mode.
 
     This configures the context with just a URL
@@ -36,12 +60,13 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = get_url()
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
+        compare_type=True,
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -55,14 +80,21 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    configuration = config.get_section(config.config_ini_section)
+    configuration["sqlalchemy.url"] = get_url()
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            compare_type=True,
+            include_object=include_object,
+        )
 
         with context.begin_transaction():
             context.run_migrations()
