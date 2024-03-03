@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Victim(BaseModel):
-    individual_id: Optional[int] = None
+    victim_id: Optional[int] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     minor: Optional[bool] = None
