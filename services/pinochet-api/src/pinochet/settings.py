@@ -41,7 +41,7 @@ class ApiSettings(BaseSettings, ABC):
         return f"Pinochet - Rettig ({self.API_ENV})"
 
     @property
-    def db_uri(self) -> PostgresDsn:
+    def db_uri(self) -> str:
         return str(
             PostgresDsn.build(
                 scheme="postgresql",

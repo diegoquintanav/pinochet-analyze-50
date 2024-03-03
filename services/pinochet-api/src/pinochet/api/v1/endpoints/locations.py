@@ -14,7 +14,6 @@ router = APIRouter()
 def get_multi_locations(
     skip: int = 0,
     limit: int = 100,
-    # current models.User = Depends(deps.get_current_active_superuser),
     db: Session = Depends(get_db),
 ) -> Any:
     """
@@ -34,7 +33,6 @@ def get_location_by_id_or_name(
     id: Optional[int] = None,
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get all locations from the DB given a name or a location_id
