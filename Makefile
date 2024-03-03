@@ -37,6 +37,10 @@ api.upd: ## Run api server in detached mode
 	@docker compose "$(compose_api)" up -d
 	@echo "API server is running at http://localhost:8888/docs"
 
+api.down: ## Shut down api containers
+	@echo "Shutting down containers"
+	@docker compose "$(compose_api)" down
+
 api.ps: ## Get current api services in compose format
 	@docker compose "$(compose_api)" ps
 
