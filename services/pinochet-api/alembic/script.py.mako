@@ -9,6 +9,8 @@ Create Date: ${create_date}
 
 # revision identifiers, used by Alembic.
 # template obtained from https://alembic.sqlalchemy.org/en/latest/cookbook.html#conditional-migration-elements
+# ruff: noqa: E402
+# flake8: noqa: E402
 
 revision = ${repr(up_revision)}
 down_revision = ${repr(down_revision)}
