@@ -31,11 +31,12 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    user = os["POSTGRES_USER"]
-    password = os["POSTGRES_PASSWORD"]
-    host = os["POSTGRES_HOST"]
-    db = os["POSTGRES_DB"]
-    return f"postgresql://{user}:{password}@{host}/{db}"
+    user = os.environ["POSTGRES_USER"]
+    password = os.environ["POSTGRES_PASSWORD"]
+    host = os.environ["POSTGRES_HOST"]
+    db = os.environ["POSTGRES_DB"]
+    port = os.environ["POSTGRES_PORT"]
+    return f"postgresql://{user}:{password}@{host}:{port}/{db}"
 
 
 # https://gist.github.com/utek/6163250?permalink_comment_id=3548027#gistcomment-3548027
