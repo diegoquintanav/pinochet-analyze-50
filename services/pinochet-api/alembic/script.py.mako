@@ -81,12 +81,12 @@ def downgrade():
 
 
 def schema_upgrades(session: Session):
-    """schema upgrade migrations go here."""
+    """Schema upgrade migrations go here."""
     ${upgrades if upgrades else "pass"}
 
 
 def schema_downgrades(session: Session):
-    """schema downgrade migrations go here."""
+    """Schema downgrade migrations go here."""
     ${downgrades if downgrades else "pass"}
 
 

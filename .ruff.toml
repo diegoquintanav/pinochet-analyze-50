@@ -1,0 +1,9 @@
+# Generic, formatter-friendly config.
+select = ["B", "D3", "D4", "E", "F"]
+
+# Never enforce `E501` (line length violations). This should be handled by formatters.
+ignore = ["E501", "D401", "D400", "D415"]
+
+[flake8-bugbear]
+# Allow default arguments like, e.g., `data: List[str] = fastapi.Query(None)`.
+extend-immutable-calls = ["typer.Option"]
