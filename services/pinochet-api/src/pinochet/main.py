@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pinochet.api.v1.api import api_router
+from pinochet.api.v1.router import api_router
 from pinochet.settings import ApiEnvironment, settings
 from starlette.middleware.cors import CORSMiddleware
 
