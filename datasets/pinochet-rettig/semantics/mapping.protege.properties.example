@@ -1,5 +1,0 @@
-#Fri Dec 08 19:52:17 CET 2023
-jdbc.password=postgres
-jdbc.user=postgres
-jdbc.url=jdbc\:postgresql\://0.0.0.0\:5433/pinochet
-jdbc.driver=org.postgresql.Driver

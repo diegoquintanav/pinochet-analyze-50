@@ -10,7 +10,7 @@ rdfs:		http://www.w3.org/2000/01/rdf-schema#
 
 [MappingDeclaration] @collection [[
 mappingId	rettig-victim
-target		:/rettig/victim/{individual_id} a :Victim ; :hasAge {age}^^xsd:string ; :hasFirstName {first_name}^^xsd:string ; :hasLastName {last_name}^^xsd:string .
+target		:/rettig/victim/{victim_id} a :Victim ; :hasAge {age}^^xsd:string ; :hasFirstName {first_name}^^xsd:string ; :hasLastName {last_name}^^xsd:string .
 source		SELECT * FROM api.api_pinochet__victim
 
 mappingId	rettig-location
