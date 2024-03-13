@@ -18,6 +18,8 @@ services:
       - 8888:8080
     volumes:
       - ./services/pinochet-api/src/:/app/src/
+      - ./services/pinochet-api/alembic/:/app/alembic/
+      - ./services/pinochet-api/alembic.ini:/app/alembic.ini
       - pinochet-api-venv:/home/daniellopez/app/.venv
 
 volumes:

@@ -26,9 +26,6 @@ dbt_docs.devserver: ## Regenerate dbt docs
 dbt_build.dev_target: ## Run dbt build on target dev
 	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target dev
 
-dbt_build.api_target: ## Run dbt build on target api
-	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target api
-
 db.psql: ## Run psql on postgres container
 	@docker compose "$(compose_postgis)" exec postgis psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
@@ -40,6 +37,9 @@ api.upd: ## Run api server in detached mode
 api.down: ## Shut down api containers
 	@echo "Shutting down containers"
 	@docker compose "$(compose_api)" down
+
+api.bash: ## Run bash on fastapi container
+	@docker compose "$(compose_api)" exec -it fastapi bash
 
 api.ps: ## Get current api services in compose format
 	@docker compose "$(compose_api)" ps
