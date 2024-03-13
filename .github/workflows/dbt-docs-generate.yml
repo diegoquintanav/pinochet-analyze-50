@@ -8,7 +8,7 @@ on:
       - "poetry.lock"
       - "pyproject.toml"
       - ".github/workflows/dbt-docs-generate.yml"
-      - ".github/assets/**"
+      - ".github/**"
       - "services/dbt-deps-image/**"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
