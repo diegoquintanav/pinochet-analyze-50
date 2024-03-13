@@ -3,12 +3,14 @@ services:
   fastapi:
     image: ghcr.io/diegoquintanav/pinochet-api:latest
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?You must provide a password for the database connection.}
+      POSTGRES_DB: ${POSTGRES_DB:-pinochet}
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
       UVICORN_RELOAD: true
+      # don't use this key in production
+      SECRET_KEY: ${FASTAPI_SECRET_KEY:-QD6P65NhEd1h6kCnW7B02EXXgXSXMSptTZ0dyNRmSYI}
       API_ENV: dev
     build:
       context: ./services/pinochet-api
@@ -16,6 +18,8 @@ services:
       - 8888:8080
     volumes:
       - ./services/pinochet-api/src/:/app/src/
+      - ./services/pinochet-api/alembic/:/app/alembic/
+      - ./services/pinochet-api/alembic.ini:/app/alembic.ini
       - pinochet-api-venv:/home/daniellopez/app/.venv
 
 volumes:

@@ -13,7 +13,6 @@ router = APIRouter()
 def get_multi_events(
     skip: int = 0,
     limit: int = 100,
-    # current models.User = Depends(deps.get_current_active_superuser),
     db: Session = Depends(get_db),
 ) -> Any:
     """
@@ -23,15 +22,10 @@ def get_multi_events(
     return db.query(Event).offset(skip).limit(limit).all()
 
 
-@router.get(
-    "/",
-    response_model=EventOut,
-    status_code=201,
-)
+@router.get("/", response_model=EventOut, status_code=201)
 def get_victim_by_id_or_name(
     db: Session = Depends(get_db),
     id: Optional[int] = None,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get all events from the DB given a name or a event id

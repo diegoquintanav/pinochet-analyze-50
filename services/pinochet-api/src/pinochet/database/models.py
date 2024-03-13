@@ -1,11 +1,14 @@
 import datetime as dt
+import logging
 import typing
 
 from pinochet.database.base import Base
+from pinochet.database.time import utcnow
 from sqlalchemy import (
     Boolean,
     Column,
     Date,
+    DateTime,
     ForeignKey,
     Integer,
     Numeric,
@@ -13,6 +16,8 @@ from sqlalchemy import (
     Table,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+logger = logging.getLogger(__name__)
 
 event_location_association = Table(
     "api_pinochet__event_location_association",
@@ -113,6 +118,24 @@ class Event(Base):
         back_populates="events",
         lazy="joined",
     )
+
+
+class User(Base):
+    __tablename__ = "user"
+    __table_args__ = {"schema": "api"}
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    email: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)  # fmt: skip
+    hashed_password: Mapped[str] = mapped_column(String, nullable=False)
+    is_enabled: Mapped[bool] = mapped_column(Boolean(), default=True)
+    created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), server_default=utcnow())  # fmt: skip
+    updated_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), onupdate=utcnow())  # fmt: skip
+    last_seen_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), onupdate=utcnow())  # fmt: skip
+
+
+# class Token(Base):
+#     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
 
 if __name__ == "__main__":

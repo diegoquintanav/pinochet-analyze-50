@@ -33,9 +33,9 @@ class Location:
             exact_coordinates=model.exact_coordinates,
             geometry=model.geometry,
             srid=model.srid,
-            events_ids=[event.event_id for event in model.events]
-            if model.events
-            else None,
+            events_ids=(
+                [event.event_id for event in model.events] if model.events else None
+            ),
         )
 
 
@@ -82,9 +82,11 @@ class Event:
             perpetrator_affiliation=model.perpetrator_affiliation,
             perpetrator_affiliation_detail=model.perpetrator_affiliation_detail,
             page=model.page,
-            locations_ids=[location.location_id for location in model.locations]
-            if model.locations
-            else None,
+            locations_ids=(
+                [location.location_id for location in model.locations]
+                if model.locations
+                else None
+            ),
         )
 
 
@@ -119,9 +121,9 @@ class Victim:
             victim_affiliation=model.victim_affiliation,
             victim_affiliation_detail=model.victim_affiliation_detail,
             nationality=model.nationality,
-            events_ids=[event.event_id for event in model.events]
-            if model.events
-            else None,
+            events_ids=(
+                [event.event_id for event in model.events] if model.events else None
+            ),
         )
 
 

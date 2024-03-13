@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from pinochet.api.v1.api import api_router
+from pinochet.api.v1.router import api_router
 from pinochet.settings import ApiEnvironment, settings
 from starlette.middleware.cors import CORSMiddleware
 
 
 def configure_graphql(app: FastAPI) -> FastAPI:
-    from pinochet.api.v1.endpoints.graphql import get_context, schema
+    from pinochet.api.v1.graphql import get_context, schema
     from strawberry.fastapi import GraphQLRouter
 
     graphql_app = GraphQLRouter(schema, context_getter=get_context)

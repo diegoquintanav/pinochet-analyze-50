@@ -5,12 +5,12 @@ from pydantic import BaseModel
 
 class Location(BaseModel):
     location_id: Optional[int] = None
-    location: Optional[str]
-    latitude: Optional[float]
-    longitude: Optional[float]
-    exact_coordinates: Optional[bool]
+    location_name: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    exact_coordinates: Optional[bool] = None
     geometry: Optional[str] = None
-    srid: str = "4326"
+    srid: Optional[int] = None
 
 
 class LocationExtraPlace(Location):

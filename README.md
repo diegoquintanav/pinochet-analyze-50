@@ -104,6 +104,27 @@ SELECT DISTINCT ?victim ?lastName {
 }
 ```
 
+### FastAPI
+
+We use fastapi to serve the data as a REST API. You can start the service with
+
+```bash
+make api.upd
+```
+
+Check the necessary configuration parameters in the compose file.
+
+#### Authentication
+
+Authentication is done using JWT. You can get a token with the credentials for [a default user created as a migration script](./services/pinochet-api/alembic/versions/20240302_1709427186_4101c905126c_create_daniel_lopez_as_user.py)
+
+
+#### GraphQL
+
+We use strawberry-graphql to serve the data as a GraphQL API. It is located under `localhost:8000/graphql`.
+
+> Note: the graphql endpoint is still in progress. It accepts very few queries at the moment and it is not protected.
+
 ### Metabase
 
 We can use metabase to explore the data visually. You can start metabase with
