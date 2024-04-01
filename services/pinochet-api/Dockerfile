@@ -83,7 +83,8 @@ COPY --chown=${USER_UID}:${USER_GID} pyproject.toml poetry.lock prestart.sh READ
 RUN poetry install --no-root
 
 # Copy migrations
-COPY --chown=${USER_UID}:${USER_GID} alembic alembic.ini ${WORKDIR}/
+COPY --chown=${USER_UID}:${USER_GID} alembic.ini ${WORKDIR}/
+COPY --chown=${USER_UID}:${USER_GID} alembic ${WORKDIR}/alembic
 
 # Copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} src ${WORKDIR}/src
