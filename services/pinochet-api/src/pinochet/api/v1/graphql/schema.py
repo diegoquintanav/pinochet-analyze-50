@@ -2,7 +2,7 @@ import datetime as dt
 import typing
 
 import strawberry
-from pinochet.api.v1.graphql.auth import User
+from pinochet.api.v1.graphql.auth import IsAuthenticated, User
 from pinochet.api.v1.graphql.context import Context
 from pinochet.database import models
 from sqlalchemy.orm import Session
@@ -150,25 +150,25 @@ def get_locations(session: Session) -> typing.List[Location]:
 
 @strawberry.type
 class Query:
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def victims(self, info: Info) -> typing.List[Victim]:
         context: Context = info.context
         db = context.db
         return get_victims(session=db)
 
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def events(self, info: Info) -> typing.List[Event]:
         context: Context = info.context
         db = context.db
         return get_events(session=db)
 
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def locations(self, info: Info) -> typing.List[Location]:
         context: Context = info.context
         db = context.db
         return get_locations(session=db)
 
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def get_authenticated_user(self, info: Info) -> typing.Union[User, None]:
         context: Context = info.context
         return context.user
