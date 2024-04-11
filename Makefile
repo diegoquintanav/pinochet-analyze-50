@@ -57,5 +57,5 @@ api.upd.local: ## Start api locally
 	@echo "Running api server"
 	@docker compose "$(compose_api)" up -d postgis
 	@echo "Running prestart.sh"
-	@cd services/pinochet-api && ./prestart.sh
+	@cd services/pinochet-api && UVICORN_RELOAD=true ./prestart.sh
 	@echo "API server is running at http://localhost:8080/docs"
