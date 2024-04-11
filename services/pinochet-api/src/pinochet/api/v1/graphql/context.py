@@ -11,7 +11,7 @@ from strawberry.fastapi import BaseContext
 class Context(BaseContext):
     @cached_property
     def user(self) -> Union["User", None]:
-        db = get_db()
+        db = next(get_db())
 
         if not self.request:
             return None
@@ -31,7 +31,7 @@ class Context(BaseContext):
         if not self.request:
             return None
 
-        return get_db()
+        return next(get_db())
 
 
 async def get_context() -> Context:
