@@ -50,3 +50,12 @@ api.build: ## Build fastapi image
 api.logs: ## Get api logs
 	@docker compose "$(compose_api)" logs --follow --tail 100
 
+api.push: ## Push fastapi image to registry
+	@docker compose "$(compose_api)" push fastapi
+
+api.upd.local: ## Start api locally
+	@echo "Running api server"
+	@docker compose "$(compose_api)" up -d postgis
+	@echo "Running prestart.sh"
+	@cd services/pinochet-api && ./prestart.sh
+	@echo "API server is running at http://localhost:8080/docs"
