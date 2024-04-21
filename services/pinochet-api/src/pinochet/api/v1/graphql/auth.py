@@ -1,53 +1,15 @@
-from typing import Annotated, Any, Union
+from typing import Any, Union
 
-import strawberry
-from fastapi.exceptions import HTTPException
+from jose import jwt
 from loguru import logger
-from pinochet import crud
-from pinochet.api.deps import get_current_user, get_db
 from starlette.requests import Request
 from starlette.websockets import WebSocket
 from strawberry.permission import BasePermission
 from strawberry.types import Info
 
-
-@strawberry.type
-class User:
-    username: str
-    password: str
-
-
-@strawberry.type
-class LoginSuccess:
-    user: User
-
-
-@strawberry.type
-class LoginError:
-    message: str
-
-
-LoginResult = Annotated[
-    Union[LoginSuccess, LoginError], strawberry.union("LoginResult")
-]
-
-
-@strawberry.type
-class Mutation:
-    @strawberry.field
-    async def login(self, username: str, password: str) -> LoginResult:
-        db = get_db()
-
-        user = crud.user.authenticate(
-            db=db,
-            username=username,
-            password=password,
-        )
-
-        if not user:
-            return LoginError(message="Incorrect username or password")
-
-        return LoginSuccess(user=user)
+from pinochet import crud
+from pinochet.api.deps import get_db
+from pinochet.settings import settings
 
 
 class IsAuthenticated(BasePermission):
@@ -56,17 +18,31 @@ class IsAuthenticated(BasePermission):
     def has_permission(self, source: Any, info: Info, **kwargs) -> bool:
         request: Union[Request, WebSocket] = info.context.request
 
-        if "Authorization" in request.headers:
-            authorization = self.request.headers.get("Authorization", "")
-            logger.debug(f"{authorization=}")
-            token = authorization.replace("Bearer ", "")
-            logger.debug(f"{token=}")
+        if "Authorization" not in request.headers:
+            self.message = f"{self.message}: bad header"
+            return False
 
-            try:
-                db = next(get_db())
-                if get_current_user(db=db, token=token):
-                    return True
-            except HTTPException:
-                return False
+        authorization = request.headers.get("Authorization", "")
+        token = authorization.replace("Bearer ", "")
+
+        try:
+            payload = jwt.decode(
+                token,
+                settings.SECRET_KEY,
+                algorithms=[settings.ALGORITHM],
+            )
+        except (jwt.JWSError, jwt.JWTError) as e:
+            logger.warning(e)
+            self.message = "Invalid token"
+            return False
+
+        username: str = payload.get("sub")
+
+        db = next(get_db())
+
+        user = crud.user.get_by_username(db, username=username)
+
+        if user:
+            return True
 
         return False

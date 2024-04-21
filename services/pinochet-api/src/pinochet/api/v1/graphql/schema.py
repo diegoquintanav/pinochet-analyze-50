@@ -2,7 +2,7 @@ import datetime as dt
 import typing
 
 import strawberry
-from pinochet.api.v1.graphql.auth import IsAuthenticated, User
+from pinochet.api.v1.graphql.auth import IsAuthenticated
 from pinochet.api.v1.graphql.context import Context
 from pinochet.database import models
 from sqlalchemy.orm import Session
@@ -167,11 +167,6 @@ class Query:
         context: Context = info.context
         db = context.db
         return get_locations(session=db)
-
-    @strawberry.field(permission_classes=[IsAuthenticated])
-    def get_authenticated_user(self, info: Info) -> typing.Union[User, None]:
-        context: Context = info.context
-        return context.user
 
 
 schema = strawberry.Schema(
