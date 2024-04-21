@@ -1,5 +1,6 @@
 from typing import Any, Union
 
+import strawberry
 from jose import jwt
 from loguru import logger
 from starlette.requests import Request
@@ -10,6 +11,12 @@ from strawberry.types import Info
 from pinochet import crud
 from pinochet.api.deps import get_db
 from pinochet.settings import settings
+
+
+@strawberry.type
+class User:
+    username: str
+    password: str
 
 
 class IsAuthenticated(BasePermission):
