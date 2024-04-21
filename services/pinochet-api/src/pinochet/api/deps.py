@@ -1,12 +1,15 @@
 import logging
+from datetime import timedelta
 from typing import Generator
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pinochet import crud
+from pinochet.api.core import create_access_token
 from pinochet.database.models import User
 from pinochet.database.session import SessionLocal
+from pinochet.schemas import Token
 from pinochet.schemas.token import TokenPayload
 from pinochet.settings import settings
 from pydantic import ValidationError
@@ -86,3 +89,29 @@ def is_token_valid(
     if not token:
         raise HTTPException(status_code=404, detail="Token not found")
     return bool(token)
+
+
+async def login_helper(username: str, password: str, db: Session) -> Token:
+    user = crud.user.authenticate(
+        db=db,
+        username=username,
+        password=password,
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token_expires = timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
+    )
+
+    access_token = create_access_token(
+        data={"sub": user.username},
+        expires_delta=access_token_expires,
+    )
+
+    return Token(access_token=access_token, token_type="bearer")

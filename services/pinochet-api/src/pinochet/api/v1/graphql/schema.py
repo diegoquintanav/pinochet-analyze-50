@@ -2,8 +2,8 @@ import datetime as dt
 import typing
 
 import strawberry
-from fastapi import Depends
-from pinochet.api.deps import get_db
+from pinochet.api.v1.graphql.auth import IsAuthenticated
+from pinochet.api.v1.graphql.context import Context
 from pinochet.database import models
 from sqlalchemy.orm import Session
 from strawberry.extensions import QueryDepthLimiter
@@ -127,10 +127,6 @@ class Victim:
         )
 
 
-async def get_context(db=Depends(get_db)):
-    return {"db": db}
-
-
 def get_victims(session: Session) -> typing.List[Victim]:
     with session.begin():
         victims = session.query(models.Victim).order_by(models.Victim.victim_id).all()
@@ -154,19 +150,22 @@ def get_locations(session: Session) -> typing.List[Location]:
 
 @strawberry.type
 class Query:
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def victims(self, info: Info) -> typing.List[Victim]:
-        db = info.context["db"]
+        context: Context = info.context
+        db = context.db
         return get_victims(session=db)
 
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def events(self, info: Info) -> typing.List[Event]:
-        db = info.context["db"]
+        context: Context = info.context
+        db = context.db
         return get_events(session=db)
 
-    @strawberry.field
+    @strawberry.field(permission_classes=[IsAuthenticated])
     def locations(self, info: Info) -> typing.List[Location]:
-        db = info.context["db"]
+        context: Context = info.context
+        db = context.db
         return get_locations(session=db)
 
 
