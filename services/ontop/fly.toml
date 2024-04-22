@@ -1,0 +1,28 @@
+# fly.toml app configuration file generated for pinochet-sparql on 2024-02-05T12:28:51+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'pinochet-sparql'
+primary_region = 'mad'
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 512
+
+[env]
+ONTOP_DEV_MODE="false"
+ONTOP_DB_USER="pinochet_api"
+ONTOP_DB_URL="jdbc:postgresql://pinochet-api-prod.flycast:5432/pinochet"
+ONTOP_DB_DRIVER="org.postgresql.Driver"
