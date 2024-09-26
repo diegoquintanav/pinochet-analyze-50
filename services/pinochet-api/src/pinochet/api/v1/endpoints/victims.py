@@ -34,7 +34,6 @@ def get_victim_by_id_or_name(
     id: Optional[int] = None,
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get all victims from the DB given a name or a victim_id
