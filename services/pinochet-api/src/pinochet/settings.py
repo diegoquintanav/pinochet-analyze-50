@@ -1,6 +1,5 @@
 import enum
 import os
-import secrets
 from abc import ABC
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -19,7 +18,7 @@ class ApiEnvironment(str, enum.Enum):
 class ApiSettings(BaseSettings, ABC):
     API_VERSION: str = "v1"
     API_ENV: str = ApiEnvironment.DEV
-    SECRET_KEY: str = secrets.token_urlsafe(32)
+    SECRET_KEY: str  # secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     POSTGRES_HOST: str
