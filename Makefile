@@ -26,6 +26,9 @@ dbt_docs.devserver: ## Regenerate dbt docs
 dbt_build.dev_target: ## Run dbt build on target dev
 	@DBT_PROJECT_DIR=$(dbt_project_dir) dbt build --profiles-dir $(dbt_profiles_dir) --target dev
 
+db.upd: ## Start db container in detached mode
+	@docker compose "$(compose_postgis)" up -d postgis
+
 db.psql: ## Run psql on postgres container
 	@docker compose "$(compose_postgis)" exec postgis psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
