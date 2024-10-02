@@ -2,7 +2,7 @@ from typing import Any, Optional, Union
 
 from fastapi import APIRouter, Depends
 from pinochet.api.deps import get_db
-from pinochet.database.models import Victim
+from pinochet.models import Victim
 from pinochet.schemas.common import NoResultFound
 from pinochet.schemas.victim import VictimOut
 from sqlalchemy.orm import Session

@@ -1,38 +1,33 @@
 import logging
 from datetime import timedelta
-from typing import Generator
+from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
-from pinochet import crud
-from pinochet.api.core import create_access_token
-from pinochet.database.models import User
-from pinochet.database.session import SessionLocal
-from pinochet.schemas import Token
-from pinochet.schemas.token import TokenPayload
-from pinochet.settings import settings
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-reusable_oauth2 = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.api_v1_str}/auth/token",
+from pinochet import crud
+from pinochet.api.core import create_access_token
+from pinochet.models import User
+from pinochet.db import get_db
+from pinochet.schemas import Token
+from pinochet.schemas.token import TokenPayload
+from pinochet.settings import (
+    ApiSettings,
+    get_settings,
 )
 
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
+
 logger = logging.getLogger(__name__)
-
-
-def get_db() -> Generator:
-    try:
-        db = SessionLocal()
-        yield db
-    finally:
-        db.close()
 
 
 def get_current_user(
     db: Session = Depends(get_db),
     token: str = Depends(reusable_oauth2),
+    settings: ApiSettings = Depends(get_settings),
 ) -> User:
     """Get the current user from the token."""
     try:
@@ -70,6 +65,7 @@ def get_current_active_user(
 def is_token_valid(
     db: Session = Depends(get_db),
     token: str = Depends(reusable_oauth2),
+    settings: ApiSettings = Depends(get_settings),
 ) -> bool:
     try:
         payload = jwt.decode(
@@ -91,7 +87,12 @@ def is_token_valid(
     return bool(token)
 
 
-async def login_helper(username: str, password: str, db: Session) -> Token:
+async def login_helper(
+    username: str,
+    password: str,
+    db: Session,
+    settings: Annotated[ApiSettings, Depends(get_settings)],
+) -> Token:
     user = crud.user.authenticate(
         db=db,
         username=username,
@@ -112,6 +113,7 @@ async def login_helper(username: str, password: str, db: Session) -> Token:
     access_token = create_access_token(
         data={"sub": user.username},
         expires_delta=access_token_expires,
+        settings=settings,
     )
 
     return Token(access_token=access_token, token_type="bearer")

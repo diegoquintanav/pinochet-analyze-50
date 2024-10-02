@@ -1,7 +1,7 @@
 import logging
 
 from loguru import logger
-from pinochet.database.session import SessionLocal
+from pinochet.db import get_db
 from sqlalchemy import text
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
@@ -17,7 +17,7 @@ wait_seconds = 1
 )
 def init() -> None:
     try:
-        db = SessionLocal()
+        db = get_db()
         # Try to create session to check if DB is awake
         db.execute(text("SELECT 1"))
     except Exception as e:

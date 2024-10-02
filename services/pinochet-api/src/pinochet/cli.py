@@ -2,17 +2,23 @@ import typer
 
 from loguru import logger
 
+from typing import Annotated
+from fastapi import Depends
 
-from pinochet.database.session import SessionLocal
 
-from pinochet.settings import settings, ApiEnvironment
+from pinochet.settings import get_settings, ApiSettings, ApiEnvironment
 
 from sqlalchemy.orm import Session, DeclarativeBase
+
 
 app = typer.Typer()
 
 
-def recreate_db_cmd(base: DeclarativeBase, session: Session) -> None:
+def recreate_db_cmd(
+    base: DeclarativeBase,
+    session: Session,
+    settings: Annotated[ApiSettings, Depends(get_settings)],
+) -> None:
     assert (
         not settings.API_ENV == ApiEnvironment.DEV
     ), "Refresh DB is only allowed in development mode"
@@ -27,9 +33,11 @@ def recreate_db_cmd(base: DeclarativeBase, session: Session) -> None:
 def recreate_db() -> None:
     """Initialize the database."""
 
+    from pinochet.db import SessionLocal
+
     session = SessionLocal()
 
-    from pinochet.database import Base
+    from pinochet import Base
 
     recreate_db_cmd(Base, session)
 

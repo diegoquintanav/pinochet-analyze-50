@@ -1,10 +1,10 @@
 import enum
-import os
 from abc import ABC
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from loguru import logger
+
 from pydantic import DirectoryPath, PostgresDsn, SecretStr
 from pydantic_settings import BaseSettings
 
@@ -16,7 +16,6 @@ class ApiEnvironment(str, enum.Enum):
 
 
 class ApiSettings(BaseSettings, ABC):
-    API_VERSION: str = "v1"
     API_ENV: str = ApiEnvironment.DEV
     SECRET_KEY: str  # secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
@@ -30,10 +29,6 @@ class ApiSettings(BaseSettings, ABC):
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
     TIMEZONE: str = "Chile/Santiago"
     PROJECT_ROOT_DIR: DirectoryPath = Path(__file__).parent.parent
-
-    @property
-    def api_v1_str(self) -> str:
-        return f"/api/{self.API_VERSION}"
 
     @property
     def project_name(self) -> str:
@@ -80,32 +75,24 @@ class DevSettings(ProdSettings):
 class TestSettings(DevSettings):
     POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: int = 5434
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: SecretStr = "password"
-    POSTGRES_DB: str = "test"
+    POSTGRES_USER: str = "postgres_test"
+    POSTGRES_PASSWORD: SecretStr = "postgres_password_test"
+    POSTGRES_DB: str = "pinochet_test"
 
 
-def dispatch_settings() -> ApiSettings:
+@lru_cache
+def get_settings(env: ApiEnvironment = ApiEnvironment.DEV) -> ApiSettings:
     """Dispatch settings based on environment variable API_ENV.
 
     Defaults to "dev" with a warning if API_ENV is not set.
     """
-    _environment_dispatch: Dict[str, Any] = {
-        ApiEnvironment.DEV: DevSettings,
-        ApiEnvironment.PROD: ProdSettings,
-    }
 
-    env = os.environ.get("API_ENV", None)
-
-    if env is None:
-        env = ApiEnvironment.DEV
-        logger.warning(
-            f"Environment variable API_ENV not set. Defaulting to {env}",
-        )
-
-    if env not in _environment_dispatch:
-        raise ValueError(f"Environment '{env}' not found")
-    return _environment_dispatch[env]()
+    # Settings are cached
+    return _environment_dispatch[env]
 
 
-settings = dispatch_settings()
+_environment_dispatch: Dict[str, Any] = {
+    ApiEnvironment.TEST: TestSettings(),
+    ApiEnvironment.DEV: DevSettings(),
+    ApiEnvironment.PROD: ProdSettings(),
+}

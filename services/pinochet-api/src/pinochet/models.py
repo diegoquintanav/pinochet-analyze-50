@@ -2,8 +2,8 @@ import datetime as dt
 import logging
 import typing
 
-from pinochet.database.base import Base
-from pinochet.database.time import utcnow
+from pinochet.base import Base
+from pinochet.time import utcnow
 from sqlalchemy import (
     Boolean,
     Column,
@@ -16,6 +16,7 @@ from sqlalchemy import (
     Table,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.sql import text
 
 logger = logging.getLogger(__name__)
 
@@ -119,6 +120,40 @@ class Event(Base):
         lazy="joined",
     )
 
+    def get_events_around_self(
+        self,
+        session,
+        *,
+        radius: int,
+    ) -> typing.List["Event"]:
+        """
+        Get all events around a given event id within a certain radius.
+        """
+        # http://postgis.net/docs/manual-1.3/ch03.html#id434832
+
+        schema = self.__table_args__["schema"]
+        table = self.__tablename__
+
+        subquery = f"""
+        SELECT geometry
+        FROM {schema}.{table}
+        WHERE event_id = :event_id
+        """
+
+        query = f"""
+        SELECT *
+        FROM {schema}.{table}
+        WHERE ST_DWithin(
+            geometry,
+            ({subquery}), :radius)
+        """
+
+        logger.debug(f"Query: {query}")
+
+        return session.execute(
+            text(query), {"event_id": self.event_id, "radius": radius}
+        ).fetchall()
+
 
 class User(Base):
     __tablename__ = "user"
@@ -130,8 +165,8 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String, nullable=False)
     is_enabled: Mapped[bool] = mapped_column(Boolean(), default=True)
     created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), server_default=utcnow())  # fmt: skip
-    updated_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), onupdate=utcnow())  # fmt: skip
-    last_seen_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), onupdate=utcnow())  # fmt: skip
+    updated_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), nullable=True, onupdate=utcnow())  # fmt: skip
+    last_seen_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), onupdate=utcnow(), nullable=True)  # fmt: skip
 
 
 # class Token(Base):
@@ -139,7 +174,7 @@ class User(Base):
 
 
 if __name__ == "__main__":
-    from pinochet.database.session import SessionLocal
+    from pinochet.db import SessionLocal
 
     sess = SessionLocal()
 

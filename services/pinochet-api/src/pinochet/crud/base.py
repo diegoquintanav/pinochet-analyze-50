@@ -1,6 +1,6 @@
 from typing import Any, Generic, List, Optional, Type, TypeVar
 
-from pinochet.database.base import Base
+from pinochet.base import Base
 from sqlalchemy.orm import Session
 
 # base type for sqlalchemy models

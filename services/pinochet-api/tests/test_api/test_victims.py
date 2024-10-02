@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from pinochet.database import models
+from pinochet import models
 from pinochet import schemas
 
 

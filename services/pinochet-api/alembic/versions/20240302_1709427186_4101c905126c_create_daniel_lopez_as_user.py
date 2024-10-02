@@ -19,7 +19,7 @@ import datetime as dt
 import logging
 
 from alembic import op
-from pinochet.database.time import utcnow
+from pinochet.time import utcnow
 from sqlalchemy import Boolean, DateTime, Integer, String
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.declarative import declarative_base
