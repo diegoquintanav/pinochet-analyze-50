@@ -25,6 +25,7 @@ tenacity = "^8.2.3"
 strawberry-graphql = {extras = ["debug-server", "fastapi"], version = "^0.216.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 loguru = "^0.7.2"
+fastapi-healthz = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

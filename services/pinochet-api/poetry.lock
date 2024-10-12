@@ -460,6 +460,29 @@ all = ["email-validator (>=2.0.0)", "fastapi-cli[standard] (>=0.0.5)", "httpx (>
 standard = ["email-validator (>=2.0.0)", "fastapi-cli[standard] (>=0.0.5)", "httpx (>=0.23.0)", "jinja2 (>=2.11.2)", "python-multipart (>=0.0.7)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
+name = "fastapi-healthz"
+version = "1.0.0"
+description = "A module to have a FastAPI HealthCheck for database, RabbitMQ server, Redis, MongoDB or external URI to validate their healths."
+optional = false
+python-versions = "<4.0,>=3.10"
+files = [
+    {file = "fastapi_healthz-1.0.0-py3-none-any.whl", hash = "sha256:ed3a9e5c64743ae1a89329872ad0548e67f225e23f7a35612592e161ba05ed03"},
+    {file = "fastapi_healthz-1.0.0.tar.gz", hash = "sha256:61531cbea5c9ce9f2bd5cb4e2389de399c9727eab47b7583cbaba26719e4df70"},
+]
+
+[package.dependencies]
+fastapi = ">=0.115.0,<0.116.0"
+pydantic = ">=2.8.2,<3.0.0"
+
+[package.extras]
+all = ["aioredis (>=2.0.1,<3.0.0)", "pika (>=1.3.2,<2.0.0)", "pymongo (>=4.7.3,<5.0.0)", "requests (>=2.31.0,<3.0.0)", "sqlalchemy (>=2.0.22,<3.0.0)"]
+database = ["sqlalchemy (>=2.0.22,<3.0.0)"]
+mongodb = ["pymongo (>=4.7.3,<5.0.0)"]
+rabbitmq = ["pika (>=1.3.2,<2.0.0)"]
+redis = ["aioredis (>=2.0.1,<3.0.0)"]
+uri = ["requests (>=2.31.0,<3.0.0)"]
+
+[[package]]
 name = "graphql-core"
 version = "3.2.4"
 description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
@@ -2566,4 +2589,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "0d306bd5a242b2548273e7cca2bc75d45e7c9a4d488be39bae94ed75db15fccb"
+content-hash = "7e0b6bd6f80757b534a8eeefade5841229113d8928588869352dd4d905062baf"

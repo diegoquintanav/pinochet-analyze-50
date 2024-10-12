@@ -17,7 +17,7 @@ wait_seconds = 1
 )
 def init() -> None:
     try:
-        db = get_db()
+        db = next(get_db())
         # Try to create session to check if DB is awake
         db.execute(text("SELECT 1"))
     except Exception as e:

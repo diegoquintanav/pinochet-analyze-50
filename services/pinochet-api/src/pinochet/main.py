@@ -15,12 +15,29 @@ def configure_graphql(app: FastAPI) -> FastAPI:
     return app
 
 
+def configure_healthcheck(app: FastAPI, settings: ApiSettings) -> FastAPI:
+    from fastapi_healthz import (
+        HealthCheckRegistry,
+        HealthCheckDatabase,
+        health_check_route,
+    )
+
+    # Add Health Checks
+    _healthChecks = HealthCheckRegistry()
+    _healthChecks.add(HealthCheckDatabase(uri=settings.db_uri))
+    app.add_api_route("/health", endpoint=health_check_route(registry=_healthChecks))
+    return app
+
+
 def configure_sentry(app: FastAPI) -> FastAPI:
-    ...
+    # TODO: implement sentry
+    return app
 
 
-def configure_extensions(app: FastAPI) -> FastAPI:
-    configure_sentry(app)
+def configure_extensions(app: FastAPI, settings: ApiSettings) -> FastAPI:
+    app = configure_sentry(app)
+    app = configure_healthcheck(app, settings)
+    return app
 
 
 def include_routers(app: FastAPI) -> FastAPI:
@@ -43,7 +60,7 @@ def configure_middleware(
         )
 
 
-def create_app() -> FastAPI:
+def create_app(env: ApiEnvironment = ApiEnvironment.DEV) -> FastAPI:
     """A wrapper around FastAPI to create the application.
 
     Returns
@@ -51,7 +68,7 @@ def create_app() -> FastAPI:
     FastAPI
         A FastAPI application instance.
     """
-    settings = get_settings()
+    settings = get_settings(env=env)
 
     title: str = f"Pinochet - Rettig ({settings.API_ENV})"
     openapi_url: str = "/api/v1/openapi.json"
@@ -67,7 +84,7 @@ def create_app() -> FastAPI:
     include_routers(app)
     configure_graphql(app)
     configure_middleware(app, settings=settings)
-    configure_extensions(app)
+    configure_extensions(app, settings=settings)
 
     return app
 
