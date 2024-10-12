@@ -1,4 +1,5 @@
 import logging  # Add this line to import the missing module
+import os
 import typing
 from typing import Any, Generator
 
@@ -9,7 +10,7 @@ from pinochet import models
 from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
-
+os.environ.setdefault("API_ENV", "test")
 
 # ---------------------------------------------------------------------------- #
 #                             utilities for testing                            #
@@ -36,17 +37,14 @@ def setup_db(session: Session) -> None:
 _Session = typing.TypeVar("_Session", bound="Session")
 
 
-def get_settings_override():
-    from pinochet.settings import TestSettings
+# def get_settings_override():
+#     from pinochet.settings import TestSettings
 
-    return TestSettings()
+#     return TestSettings()
 
-
-def get_db_override():
-    from pinochet.db import SessionLocal
-
-    db = SessionLocal()
-    return db
+# def get_db_override():
+#     from pinochet.db import get_db
+#     return get_db()
 
 
 @pytest.fixture()
@@ -56,17 +54,8 @@ def app() -> Generator[FastAPI, Any, None]:
     """
 
     from pinochet.main import create_app
-    from pinochet.settings import get_settings
-    from pinochet.api.deps import get_db
 
     app = create_app()
-
-    # override the get_settings dependency with a test settings object
-    # https://fastapi.tiangolo.com/advanced/settings/#settings-and-testing
-    app.dependency_overrides[get_settings] = get_settings_override
-
-    # replace the get_db dependency with our own during testing
-    app.dependency_overrides[get_db] = get_db_override
 
     return app
 

@@ -174,9 +174,9 @@ class User(Base):
 
 
 if __name__ == "__main__":
-    from pinochet.db import SessionLocal
+    from pinochet.db import get_db
 
-    sess = SessionLocal()
+    sess = next(get_db())
 
     sess.query(Event).all()
 

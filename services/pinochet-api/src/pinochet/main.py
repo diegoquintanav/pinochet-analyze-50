@@ -2,7 +2,10 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from pinochet.api.v1.router import api_router
-from pinochet.settings import ApiEnvironment, ApiSettings, get_settings
+from pinochet.settings import ApiEnvironment, get_settings
+
+# Get the settings from the environment
+settings = get_settings()
 
 
 def configure_graphql(app: FastAPI) -> FastAPI:
@@ -15,7 +18,7 @@ def configure_graphql(app: FastAPI) -> FastAPI:
     return app
 
 
-def configure_healthcheck(app: FastAPI, settings: ApiSettings) -> FastAPI:
+def configure_healthcheck(app: FastAPI) -> FastAPI:
     from fastapi_healthz import (
         HealthCheckRegistry,
         HealthCheckDatabase,
@@ -34,9 +37,9 @@ def configure_sentry(app: FastAPI) -> FastAPI:
     return app
 
 
-def configure_extensions(app: FastAPI, settings: ApiSettings) -> FastAPI:
+def configure_extensions(app: FastAPI) -> FastAPI:
     app = configure_sentry(app)
-    app = configure_healthcheck(app, settings)
+    app = configure_healthcheck(app)
     return app
 
 
@@ -46,7 +49,6 @@ def include_routers(app: FastAPI) -> FastAPI:
 
 def configure_middleware(
     app: FastAPI,
-    settings: ApiSettings,
 ) -> FastAPI:
     # https://fastapi.tiangolo.com/tutorial/cors/?h=cors#cors-cross-origin-resource-sharing
     if settings.BACKEND_CORS_ORIGINS:
@@ -60,7 +62,7 @@ def configure_middleware(
         )
 
 
-def create_app(env: ApiEnvironment = ApiEnvironment.DEV) -> FastAPI:
+def create_app() -> FastAPI:
     """A wrapper around FastAPI to create the application.
 
     Returns
@@ -68,7 +70,6 @@ def create_app(env: ApiEnvironment = ApiEnvironment.DEV) -> FastAPI:
     FastAPI
         A FastAPI application instance.
     """
-    settings = get_settings(env=env)
 
     title: str = f"Pinochet - Rettig ({settings.API_ENV})"
     openapi_url: str = "/api/v1/openapi.json"
@@ -83,8 +84,8 @@ def create_app(env: ApiEnvironment = ApiEnvironment.DEV) -> FastAPI:
 
     include_routers(app)
     configure_graphql(app)
-    configure_middleware(app, settings=settings)
-    configure_extensions(app, settings=settings)
+    configure_middleware(app)
+    configure_extensions(app)
 
     return app
 

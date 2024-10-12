@@ -2,22 +2,20 @@ import typer
 
 from loguru import logger
 
-from typing import Annotated
-from fastapi import Depends
 
-
-from pinochet.settings import get_settings, ApiSettings, ApiEnvironment
+from pinochet.settings import get_settings, ApiEnvironment
 
 from sqlalchemy.orm import Session, DeclarativeBase
 
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
+
+settings = get_settings()
 
 
 def recreate_db_cmd(
     base: DeclarativeBase,
     session: Session,
-    settings: Annotated[ApiSettings, Depends(get_settings)],
 ) -> None:
     assert (
         not settings.API_ENV == ApiEnvironment.DEV
@@ -29,15 +27,22 @@ def recreate_db_cmd(
     base.metadata.create_all(bind=session.bind)
 
 
-@app.command()
+@app.callback()
+def callback():
+    # to display a command even if ii is only one
+    # https://typer.tiangolo.com/tutorial/commands/one-or-multiple/#one-command-and-one-callback
+    pass
+
+
+@app.command(help="Drops and recreates the database. Only allowed in development mode.")
 def recreate_db() -> None:
     """Initialize the database."""
 
-    from pinochet.db import SessionLocal
+    from pinochet.db import get_db
 
-    session = SessionLocal()
+    session = next(get_db())
 
-    from pinochet import Base
+    from pinochet.base import Base
 
     recreate_db_cmd(Base, session)
 
