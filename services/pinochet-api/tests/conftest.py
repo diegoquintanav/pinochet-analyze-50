@@ -11,8 +11,10 @@ from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
-
-os.environ.setdefault("API_ENV", "test")
+if os.environ.get("REMOTE_CONTAINERS", False) == "true":
+    os.environ["API_ENV"] = "container_test"
+else:
+    os.environ["API_ENV"] = "test"
 
 # ---------------------------------------------------------------------------- #
 #                             utilities for testing                            #
@@ -55,7 +57,10 @@ def app() -> Generator[FastAPI, Any, None]:
     Create a fresh database on each test case.
     """
 
-    assert os.environ.get("API_ENV") == "test"
+    if os.environ.get("REMOTE_CONTAINERS", False) == "true":
+        assert os.environ.get("API_ENV") == "container_test"
+    else:
+        assert os.environ.get("API_ENV") == "test"
 
     from pinochet.main import create_app
 

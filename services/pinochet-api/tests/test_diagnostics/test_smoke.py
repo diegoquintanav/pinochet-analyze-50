@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
+import os
 
 
 def test_health(client: TestClient) -> None:
@@ -9,7 +10,10 @@ def test_health(client: TestClient) -> None:
 
 
 def test_env_is_testing(app) -> None:
-    assert app.title == "Pinochet - Rettig (test)"
+    if os.environ.get("REMOTE_CONTAINERS", False) == "true":
+        assert app.title == "Pinochet - Rettig (container_test)"
+    else:
+        assert app.title == "Pinochet - Rettig (test)"
 
 
 def test_db_is_testing(session: Session) -> None:

@@ -46,6 +46,8 @@ dbt_pinochet:
   target: dev
 ```
 
+See the credentials being used in the [settings.py file](https://github.com/diegoquintanav/pinochet-analyze-50/blob/main/services/pinochet-api/src/pinochet/settings.py) and those set in the postgis instance set in [docker-compose.postgis.yml](https://github.com/diegoquintanav/pinochet-analyze-50/blob/main/docker-compose.postgis.yml)
+
 you can now run dbt models with
 
 ```bash
@@ -113,6 +115,21 @@ make api.upd
 ```
 
 Check the necessary configuration parameters in the compose file.
+
+#### Using devcontainers (experimental)
+
+Install the devcontainer CLI with
+
+```bash
+npm install -g devcontainer-cli
+```
+
+and run `devcontainer open` to start the a visualstudio code instance from the fastapi service at `/app/`.
+
+> [!NOTE]
+> The whole repository is mounted inside in `/workspaces/` but the application is being run from `/app/`.
+> I need to figure out yet a clean workflow, but so far it is working.
+
 
 #### Authentication
 

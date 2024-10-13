@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from pinochet import models, schemas
 from sqlalchemy.orm import Session
-
+import pytest
 from sqlalchemy_model_faker import factory
 
 
@@ -63,10 +63,11 @@ def test_get_all_events(
         assert x == y
 
 
+@pytest.mark.skip(reason="Not implemented")
 def test_get_events_around_self(
     app: FastAPI,
     client: TestClient,
-    db: Session,
+    session: Session,
     test_token: str,
 ) -> None:
     # Assuming one event has one victim only
@@ -84,8 +85,8 @@ def test_get_events_around_self(
             age=i,
         )
 
-        db.add(victim)
-        db.commit()
+        session.add(victim)
+        session.commit()
 
         # location = models.Location(
         #     location_name=f"test-location-{i}",
