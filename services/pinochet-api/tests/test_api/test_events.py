@@ -3,26 +3,48 @@ from fastapi.testclient import TestClient
 from pinochet import models, schemas
 from sqlalchemy.orm import Session
 
+from sqlalchemy_model_faker import factory
+
 
 def test_get_all_events(
     app: FastAPI,
     client: TestClient,
-    db: Session,
+    session: Session,
     test_token: str,
 ) -> None:
-    events = db.query(models.Event).all()
+    N_EVENTS = 5
 
-    # convert biomass_fuel to schemas
-    events_in = [schemas.EventOut.model_validate(c) for c in events]
+    # create fake events
+    fake_events = [
+        factory(models.Event).make(
+            ignored_columns=["locations"],
+        )
+        for _ in range(N_EVENTS)
+    ]
+
+    # for each event, create 1 fake victim
+    for event in fake_events:
+        event.victim = factory(models.Victim).make(
+            ignored_columns=["events"],
+        )
+
+    session.add_all(fake_events)
+    session.commit()
+
+    # get events from session back
+    events_in_db = session.query(models.Event).all()
+
+    # convert instances to schemas
+    events_in = [schemas.EventOut.model_validate(c) for c in fake_events]
 
     # construct headers
     headers = {"Authorization": f"Bearer {test_token}"}
 
     # construct params
-    params = {"limit": len(events)}
-    assert len(events) > 0
+    params = {"limit": len(events_in_db)}
+    assert len(events_in_db) == N_EVENTS
 
-    # check that the api returns all of the biomass_fuel in the database
+    # check that the api returns all of the instances in the database
     r = client.get(
         app.url_path_for("get_multi_events"),
         params=params,

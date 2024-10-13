@@ -440,6 +440,21 @@ files = [
 tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipython", "littleutils", "pytest", "rich"]
 
 [[package]]
+name = "faker"
+version = "30.3.0"
+description = "Faker is a Python package that generates fake data for you."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "Faker-30.3.0-py3-none-any.whl", hash = "sha256:e8a15fd1b0f72992b008f5ea94c70d3baa0cb51b0d5a0e899c17b1d1b23d2771"},
+    {file = "faker-30.3.0.tar.gz", hash = "sha256:8760fbb34564fbb2f394345eef24aec5b8f6506b6cfcefe8195ed66dd1032bdb"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+typing-extensions = "*"
+
+[[package]]
 name = "fastapi"
 version = "0.115.2"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -2111,6 +2126,21 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
+name = "sqlalchemy-model-faker"
+version = "0.0.5"
+description = "Generate SQLAlchemy models with fake data"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sqlalchemy_model_faker-0.0.5-py3-none-any.whl", hash = "sha256:f72a4d71af54aefa3b4320cfc19efd73b4662645777750c018bb0a8720a8602c"},
+    {file = "sqlalchemy_model_faker-0.0.5.tar.gz", hash = "sha256:1bb4a6a41a7cd37373094fdeb080d791586625a493a7b9ee52f30bed11bb931a"},
+]
+
+[package.dependencies]
+Faker = ">=13.3.4"
+sqlalchemy = ">=1.4.32"
+
+[[package]]
 name = "stack-data"
 version = "0.6.3"
 description = "Extract data from python stack frames and tracebacks for informative displays"
@@ -2580,4 +2610,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3b618438e4c1dc30875fac7407423f1cc3e445c7912d69533929cd555dc1c5b1"
+content-hash = "e8e20f497e36d9ed706ab0600ca0247c56e63707811bef81b7c6b6f4b838a19c"
