@@ -11,7 +11,7 @@ services:
       UVICORN_RELOAD: true
       # don't use this key in production
       SECRET_KEY: ${FASTAPI_SECRET_KEY:-QD6P65NhEd1h6kCnW7B02EXXgXSXMSptTZ0dyNRmSYI}
-      API_ENV: dev
+      API_ENV: container_dev
     build:
       context: ./services/pinochet-api
     ports:
