@@ -2,7 +2,7 @@ from typing import Any, Optional, Union
 
 from fastapi import APIRouter, Depends
 from pinochet.api.deps import get_db
-from pinochet.database.models import Victim
+from pinochet.models import Victim
 from pinochet.schemas.common import NoResultFound
 from pinochet.schemas.victim import VictimOut
 from sqlalchemy.orm import Session
@@ -34,7 +34,6 @@ def get_victim_by_id_or_name(
     id: Optional[int] = None,
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
-    # current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get all victims from the DB given a name or a victim_id

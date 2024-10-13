@@ -4,7 +4,7 @@ import typing
 import strawberry
 from pinochet.api.v1.graphql.auth import IsAuthenticated
 from pinochet.api.v1.graphql.context import Context
-from pinochet.database import models
+from pinochet import models
 from sqlalchemy.orm import Session
 from strawberry.extensions import QueryDepthLimiter
 from strawberry.types import Info

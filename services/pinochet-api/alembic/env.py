@@ -20,7 +20,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
 
-from pinochet.database.base import Base  # noqa
+from pinochet.base import Base  # noqa
 
 target_metadata = Base.metadata
 

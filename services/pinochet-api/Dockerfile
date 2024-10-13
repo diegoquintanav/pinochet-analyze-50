@@ -48,6 +48,12 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
     # make poetry create a .venv folder in the project
     POETRY_VIRTUALENVS_IN_PROJECT=true
 
+# install basic packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	curl iputils-ping netcat \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
+
 # ------------------------------ add user ----------------------------- #
 
 RUN groupadd --gid $USER_GID "${USERNAME}" \

@@ -1,15 +1,18 @@
 from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Annotated, Any, Dict
 
+from fastapi import Depends
 from jose import jwt
 from passlib.context import CryptContext
-from pinochet.settings import settings
+
+from pinochet.settings import ApiSettings, get_settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def create_access_token(
     data: Dict[str, Any],
+    settings: Annotated[ApiSettings, Depends(get_settings)],
     expires_delta: timedelta = None,
 ) -> str:
     """Create an access token with a subject and optional expiration date."""

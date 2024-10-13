@@ -1,15 +1,17 @@
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import APIRouter, Depends
-from pinochet.api.deps import get_db
-from pinochet.database.models import Event
-from pinochet.schemas.event import EventOut
+from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
+
+from pinochet.api.deps import get_db
+from pinochet.models import Event
+from pinochet.schemas.event import EventOut
 
 router = APIRouter()
 
 
-@router.get("/all", response_model=list[EventOut], status_code=201)
+@router.get("/", response_model=list[EventOut], status_code=201)
 def get_multi_events(
     skip: int = 0,
     limit: int = 100,
@@ -22,18 +24,47 @@ def get_multi_events(
     return db.query(Event).offset(skip).limit(limit).all()
 
 
-@router.get("/", response_model=EventOut, status_code=201)
-def get_victim_by_id_or_name(
-    db: Session = Depends(get_db),
-    id: Optional[int] = None,
-) -> Any:
+@router.get(
+    "/{event_id}",
+    response_model=EventOut,
+    status_code=201,
+)
+def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
     """
-    Get all events from the DB given a name or a event id
+    Get all events from the DB given an event id.
     """
 
     q = db.query(Event)
 
-    if id:
-        return q.where(Event.individual_id == id).all()
+    event = q.where(Event.event_id == event_id).one_or_none()
 
-    return None
+    if not event:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return event
+
+
+@router.get(
+    "/{event_id}/get_events_around/{radius}",
+    response_model=EventOut,
+    status_code=201,
+)
+def get_events_by_event_id_and_radius(
+    event_id: int,
+    db: Session = Depends(get_db),
+    radius: int = 10,
+) -> Any:
+    """
+    Get all events from the DB given an event id.
+    """
+
+    q = db.query(Event)
+
+    event = q.where(Event.event_id == event_id).one_or_none()
+
+    if not event:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    events = event.get_events_around(db, radius=radius)
+
+    return events

@@ -19,7 +19,7 @@ import datetime as dt
 import logging
 
 from alembic import op
-from pinochet.database.time import utcnow
+from pinochet.time import utcnow
 from sqlalchemy import Boolean, DateTime, Integer, String
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.declarative import declarative_base
@@ -102,17 +102,21 @@ def data_upgrades(session: Session):
     from pinochet.api.core.security import get_password_hash
 
     daniel_lopez = User(
-        email="dlopez@rettig.cl",
-        username="dlopez73",
-        hashed_password=get_password_hash(
-            "No es cierto y si fue cierto, no me acuerdo."
-        ),
+        email="daniel.lopez@rettig.cl",
+        username="daniel.lopez",
+        hashed_password=get_password_hash("rettig"),
     )
 
+    logger.info(f"Adding user {daniel_lopez.username} ({daniel_lopez.email})")
     session.add(daniel_lopez)
     session.commit()
 
 
 def data_downgrades(session: Session):
     """Add any optional data downgrade migrations here!"""
-    pass
+
+    daniel_lopez = session.query(User).filter_by(email="daniel.lopez@rettig.cl").first()
+    if daniel_lopez:
+        logger.info(f"Deleting user {daniel_lopez.username} ({daniel_lopez.email})")
+        session.delete(daniel_lopez)
+        session.commit()

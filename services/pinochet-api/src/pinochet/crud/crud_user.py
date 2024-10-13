@@ -2,7 +2,7 @@ from typing import Optional
 
 from pinochet.api.core.security import verify_password
 from pinochet.crud.base import CRUDBase
-from pinochet.database.models import User
+from pinochet.models import User
 from sqlalchemy.orm import Session
 
 

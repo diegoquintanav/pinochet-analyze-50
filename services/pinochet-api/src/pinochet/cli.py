@@ -3,16 +3,20 @@ import typer
 from loguru import logger
 
 
-from pinochet.database.session import SessionLocal
-
-from pinochet.settings import settings, ApiEnvironment
+from pinochet.settings import get_settings, ApiEnvironment
 
 from sqlalchemy.orm import Session, DeclarativeBase
 
-app = typer.Typer()
+
+app = typer.Typer(no_args_is_help=True)
+
+settings = get_settings()
 
 
-def recreate_db_cmd(base: DeclarativeBase, session: Session) -> None:
+def recreate_db_cmd(
+    base: DeclarativeBase,
+    session: Session,
+) -> None:
     assert (
         not settings.API_ENV == ApiEnvironment.DEV
     ), "Refresh DB is only allowed in development mode"
@@ -23,13 +27,22 @@ def recreate_db_cmd(base: DeclarativeBase, session: Session) -> None:
     base.metadata.create_all(bind=session.bind)
 
 
-@app.command()
+@app.callback()
+def callback():
+    # to display a command even if ii is only one
+    # https://typer.tiangolo.com/tutorial/commands/one-or-multiple/#one-command-and-one-callback
+    pass
+
+
+@app.command(help="Drops and recreates the database. Only allowed in development mode.")
 def recreate_db() -> None:
     """Initialize the database."""
 
-    session = SessionLocal()
+    from pinochet.db import get_db
 
-    from pinochet.database import Base
+    session = next(get_db())
+
+    from pinochet.base import Base
 
     recreate_db_cmd(Base, session)
 
