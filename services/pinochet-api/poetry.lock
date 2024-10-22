@@ -498,6 +498,24 @@ redis = ["aioredis (>=2.0.1,<3.0.0)"]
 uri = ["requests (>=2.31.0,<3.0.0)"]
 
 [[package]]
+name = "geoalchemy2"
+version = "0.15.2"
+description = "Using SQLAlchemy with Spatial Databases"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "GeoAlchemy2-0.15.2-py3-none-any.whl", hash = "sha256:546455dc39f5bcdfc5b871e57d3f7546c8a6f798eb364c474200f488ace6fd32"},
+    {file = "geoalchemy2-0.15.2.tar.gz", hash = "sha256:3af0272db927373e74ee3b064cdc9464ba08defdb945c51745db1b841482f5dc"},
+]
+
+[package.dependencies]
+packaging = "*"
+SQLAlchemy = ">=1.4"
+
+[package.extras]
+shapely = ["Shapely (>=1.7)"]
+
+[[package]]
 name = "graphql-core"
 version = "3.2.4"
 description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
@@ -2610,4 +2628,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e8e20f497e36d9ed706ab0600ca0247c56e63707811bef81b7c6b6f4b838a19c"
+content-hash = "02ae907c264748cd60a3c8f145c80925134fd9c0dfcfe4a196eec74cb6aabccb"
