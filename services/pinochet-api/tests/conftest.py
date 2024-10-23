@@ -76,15 +76,18 @@ def client(app: FastAPI) -> Generator[TestClient, Any, None]:
 
 
 @pytest.fixture()
-def session(app: FastAPI) -> Generator[_Session, Any, None]:
+def session(app: FastAPI, request: Any) -> Generator[_Session, Any, None]:
     from pinochet.db import get_db
 
     session = next(get_db())
-
     setup_db(session)
+
+    def finalize_session():
+        session.close()
+        teardown_db(session)
+
+    request.addfinalizer(finalize_session)
     yield session
-    session.close()
-    teardown_db(session)
 
 
 @pytest.fixture()

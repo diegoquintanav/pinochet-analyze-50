@@ -2,8 +2,7 @@ import datetime as dt
 import logging
 import typing
 
-from pinochet.base import Base
-from pinochet.time import utcnow
+from geoalchemy2 import Geometry, WKBElement
 from sqlalchemy import (
     Boolean,
     Column,
@@ -16,7 +15,11 @@ from sqlalchemy import (
     Table,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm.session import Session
 from sqlalchemy.sql import text
+
+from pinochet.base import Base
+from pinochet.time import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +75,13 @@ class Location(Base):
     latitude: Mapped[float] = mapped_column(Numeric)
     longitude: Mapped[float] = mapped_column(Numeric)
     exact_coordinates: Mapped[bool] = mapped_column(Boolean)
-    geometry: Mapped[str] = mapped_column(String)
+    geometry: Mapped[WKBElement] = mapped_column(
+        Geometry(
+            geometry_type="POINT",
+            srid=4326,
+            spatial_index=True,
+        )
+    )
     srid: Mapped[str] = mapped_column(String)
 
     events: Mapped[typing.List["Event"]] = relationship(
@@ -122,9 +131,10 @@ class Event(Base):
 
     def get_events_around_self(
         self,
-        session,
+        session: Session,
         *,
         radius: int,
+        limit: int = 10,
     ) -> typing.List["Event"]:
         """
         Get all events around a given event id within a certain radius.
@@ -132,26 +142,88 @@ class Event(Base):
         # http://postgis.net/docs/manual-1.3/ch03.html#id434832
 
         schema = self.__table_args__["schema"]
-        table = self.__tablename__
+        table = self.__tablename__  # noqa
 
-        subquery = f"""
-        SELECT geometry
-        FROM {schema}.{table}
-        WHERE event_id = :event_id
-        """
+        session.execute(text(f"SET search_path TO {schema}"))
 
-        query = f"""
-        SELECT *
-        FROM {schema}.{table}
-        WHERE ST_DWithin(
-            geometry,
-            ({subquery}), :radius)
+        # https://medium.com/@notarious2/working-with-spatial-data-using-fastapi-and-geoalchemy-797d414d2fe7
+        # https://docs.sqlalchemy.org/en/20/_modules/examples/postgis/postgis.html
+
+        raise NotImplementedError("This method is not implemented yet.")
+
+        query = text(
+            """
+        WITH denormalized_location_events AS (
+          SELECT
+            ape.event_id,
+            apela.location_id,
+            apl.geometry,
+            apl.location_name
+          FROM
+            api_pinochet__event AS ape
+          LEFT JOIN api_pinochet__event_location_association AS apela ON
+            ape.event_id = apela.event_id
+          LEFT JOIN api_pinochet__location AS apl ON
+            apela.location_id = apl.location_id
+        ),
+
+        observed_event AS (
+          SELECT
+            *
+          FROM
+            denormalized_location_events
+          WHERE
+            event_id = :event_id
+        ),
+
+        other_events AS (
+          SELECT
+            *
+          FROM
+            denormalized_location_events
+          WHERE
+            event_id != :event_id
+        )
+
+        -- final query
+        SELECT
+          -- ST_Distance(d1.geometry::geography, d2.geometry::geography) AS d1d2_dist,
+          d1.event_id as d1_event_id,
+          d1.location_id as d1_location_id,
+          d1.geometry as d1_geometry,
+          d1.location_name as d1_location_name,
+          d2.event_id as d2_event_id,
+          d2.location_id as d2_location_id,
+          d2.geometry as d2_geometry,
+          d2.location_name as d2_location_name
+        FROM
+          observed_event AS d1,
+          other_events AS d2
+        WHERE
+          ST_DWithin(
+            d2.geometry,
+            (
+              SELECT
+                geometry
+              FROM
+                observed_event
+            ),
+            :radius -- in meters
+          )
+        ORDER BY d1d2_dist ASC -- closest first
+        LIMIT :limit -- limit the number of results
         """
+        )
 
         logger.debug(f"Query: {query}")
 
         return session.execute(
-            text(query), {"event_id": self.event_id, "radius": radius}
+            query,
+            {
+                "event_id": self.event_id,
+                "radius": radius,
+                "limit": limit,
+            },
         ).fetchall()
 
 

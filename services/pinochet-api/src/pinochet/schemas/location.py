@@ -10,7 +10,7 @@ class Location(BaseModel):
     longitude: Optional[float] = None
     exact_coordinates: Optional[bool] = None
     geometry: Optional[str] = None
-    srid: Optional[int] = None
+    srid: Optional[str] = None
 
 
 class LocationExtraPlace(Location):
