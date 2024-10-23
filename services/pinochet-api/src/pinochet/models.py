@@ -142,12 +142,14 @@ class Event(Base):
         # http://postgis.net/docs/manual-1.3/ch03.html#id434832
 
         schema = self.__table_args__["schema"]
-        table = self.__tablename__
+        table = self.__tablename__  # noqa
 
         session.execute(text(f"SET search_path TO {schema}"))
 
         # https://medium.com/@notarious2/working-with-spatial-data-using-fastapi-and-geoalchemy-797d414d2fe7
         # https://docs.sqlalchemy.org/en/20/_modules/examples/postgis/postgis.html
+
+        raise NotImplementedError("This method is not implemented yet.")
 
         query = text(
             """

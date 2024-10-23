@@ -44,27 +44,28 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
     return event
 
 
-@router.get(
-    "/{event_id}/get_events_around",
-    response_model=EventOut,
-    status_code=201,
-)
-def get_events_by_event_id_and_radius(
-    event_id: int,
-    db: Session = Depends(get_db),
-    radius_km: int = 10,
-) -> Any:
-    """
-    Get all events from the DB given an event id.
-    """
+# @router.get(
+#     "/{event_id}/get_events_around",
+#     response_model=EventOut,
+#     status_code=201,
+# )
+# def get_events_by_event_id_and_radius(
+#     event_id: int,
+#     db: Session = Depends(get_db),
+#     radius_km: int = 10,
+#     limit: int = 10,
+# ) -> Any:
+#     """
+#     Get all events from the DB given an event id.
+#     """
 
-    q = db.query(Event)
+#     q = db.query(Event)
 
-    event: Event = q.where(Event.event_id == event_id).one_or_none()
+#     event: Event = q.where(Event.event_id == event_id).one_or_none()
 
-    if not event:
-        raise HTTPException(status_code=404, detail="Item not found")
+#     if not event:
+#         raise HTTPException(status_code=404, detail="Item not found")
 
-    events = event.get_events_around_self(db, radius=radius_km)
+#     events = event.get_events_around_self(db, radius=radius_km)
 
-    return events
+#     return events

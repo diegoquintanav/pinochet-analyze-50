@@ -6,6 +6,7 @@ import pytest
 from sqlalchemy_model_faker import factory
 
 
+@pytest.mark.skip("Not implemented")
 def test_get_events_around_self(
     app: FastAPI,
     client: TestClient,
@@ -69,9 +70,11 @@ def test_get_events_around_self(
     assert len(victims_in_db) == N_EVENTS
 
     # convert instances to schemas
-    events_in = [schemas.EventOut.model_validate(c) for c in events_in_db]
-    locations_in = [schemas.LocationOut.model_validate(c) for c in locations_in_db]
-    victims_in = [schemas.VictimOut.model_validate(c) for c in victims_in_db]
+    events_in = [schemas.EventOut.model_validate(c) for c in events_in_db]  # noqa
+    locations_in = [  # noqa
+        schemas.LocationOut.model_validate(c) for c in locations_in_db
+    ]
+    victims_in = [schemas.VictimOut.model_validate(c) for c in victims_in_db]  # noqa
 
     # construct headers
     headers = {"Authorization": f"Bearer {test_token}"}
