@@ -29,6 +29,11 @@ def download_tables() -> Dict[str, pd.DataFrame]:
     tables = [
         "api.stg_pinochet__base",
         "api.stg_pinochet__paths",
+        "api.api_pinochet__event_location_association",
+        "api.api_pinochet__event",
+        "api.api_pinochet__location_and_events",
+        "api.api_pinochet__location",
+        "api.api_pinochet__victim",
     ]
 
     for t in tables:

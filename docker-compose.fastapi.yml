@@ -13,13 +13,13 @@ services:
       SECRET_KEY: ${FASTAPI_SECRET_KEY:-QD6P65NhEd1h6kCnW7B02EXXgXSXMSptTZ0dyNRmSYI}
       API_ENV: container_dev
     build:
-      context: ./services/pinochet-api
+      context: ./pinochet-rettig-fastapi
     ports:
       - 8888:8080
     volumes:
-      - ./services/pinochet-api/src/:/app/src/
-      - ./services/pinochet-api/alembic/:/app/alembic/
-      - ./services/pinochet-api/alembic.ini:/app/alembic.ini
+      - ./pinochet-rettig-fastapi/src/:/app/src/
+      - ./pinochet-rettig-fastapi/alembic/:/app/alembic/
+      - ./pinochet-rettig-fastapi/alembic.ini:/app/alembic.ini
       - pinochet-api-venv:/home/daniellopez/app/.venv
 
 volumes:

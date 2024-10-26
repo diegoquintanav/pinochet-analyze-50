@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   streamlit:
-    image: ghcr.io/diegoquintanav/pinochet-streamlit:latest
+    image: ghcr.io/diegoquintanav/pinochet-rettig-streamlit:latest
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -9,12 +9,12 @@ services:
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
     build:
-      context: ./services/streamlit
+      context: ./pinochet-rettig-streamlit
     ports:
       - 8501:8501
     volumes:
       - streamlit-cachedata:/root/.cache
-      - ./services/streamlit/src/:/src/
+      - ./pinochet-rettig-streamlit/src/:/src/
       - streamlit-venv:/home/daniellopez/.venv
 
 volumes:

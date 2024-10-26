@@ -11,11 +11,11 @@ services:
       DBT_DB_PINOCHET_PROD_SCHEMA: ${DBT_DB_PINOCHET_PROD_SCHEMA}
       DBT_PROJECT_DIR: /app/dbt_pinochet
     build:
-      context: ./services/dbt-deps-image
+      context: ./pinochet-rettig-dbt/
     ports:
       - 8889:8089
     volumes:
-      - ./dbt_pinochet/:/app/dbt_pinochet
+      - ./pinochet-rettig-dbt/dbt_pinochet/:/app/dbt_pinochet
       - pinochet-dbt-venv:/home/dbt_user/src/.venv
 
 volumes:
