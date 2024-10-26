@@ -13,6 +13,7 @@ elementary-data = "^0.13.2"
 [tool.poetry.group.dev.dependencies]
 shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.21.0"}
 sqlfluff-templater-dbt = "^2.3.5"
+pre-commit = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core"]
