@@ -73,3 +73,14 @@ ontop.logs: ## Get ontop logs
 
 ontop.down: ## Shut down ontop containers
 	@docker compose "$(compose_ontop)" down
+
+streamlit.upd: ## Run streamlit server in detached mode
+	@echo "Running streamlit server"
+	@docker compose "$(compose_streamlit)" up -d
+	@echo "Streamlit server is running at http://localhost:8501"
+
+streamlit.logs: ## Get streamlit logs
+	@docker compose "$(compose_streamlit)" logs --follow --tail 100
+
+streamlit.down: ## Shut down streamlit containers
+	@docker compose "$(compose_streamlit)" down

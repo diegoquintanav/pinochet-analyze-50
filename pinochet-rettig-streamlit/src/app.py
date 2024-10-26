@@ -19,7 +19,12 @@ POSTGRES_PORT = config("POSTGRES_PORT", default="5433")
 db_url = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 engine = create_engine(db_url)
 
-st.header("Hello World!")
+st.header("Pinochet-Rettig Report Analysis")
+st.subheader("Data Exploration")
+
+st.markdown(
+    """See more about the project [here](https://github.com/diegoquintanav/pinochet-analyze-50)"""
+)
 
 
 @st.cache_data
