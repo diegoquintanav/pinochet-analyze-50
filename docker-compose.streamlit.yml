@@ -14,7 +14,9 @@ services:
       - 8501:8501
     volumes:
       - streamlit-cachedata:/root/.cache
-      - ./pinochet-rettig-streamlit/src/:/src/
+      - ./pinochet-rettig-streamlit/streamlit_app.py:/src/streamlit_app.py
+      - ./pinochet-rettig-streamlit/requirements.txt:/src/requirements.txt
+      - ./pinochet-rettig-streamlit/.streamlit/config.toml:/src/.streamlit/config.toml
       - streamlit-venv:/home/daniellopez/.venv
 
 volumes:

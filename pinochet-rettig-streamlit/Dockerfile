@@ -64,10 +64,10 @@ RUN pip install --upgrade pip \
 	&& pip install --no-cache-dir -r requirements.txt
 
 # copy the rest of the files
-COPY --chown=${USER_UID}:${USER_GID} src/* ${WORKDIR}/
+COPY --chown=${USER_UID}:${USER_GID} streamlit_app.py .streamlit ${WORKDIR}/
 
 # finalization
 USER ${USERNAME}
 ENTRYPOINT ["streamlit"]
-CMD [ "run", "/src/app.py" ]
+CMD [ "run", "/src/streamlit_app.py" ]
 EXPOSE 80

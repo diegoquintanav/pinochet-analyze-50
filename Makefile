@@ -74,6 +74,9 @@ ontop.logs: ## Get ontop logs
 ontop.down: ## Shut down ontop containers
 	@docker compose "$(compose_ontop)" down
 
+streamlit.build: ## Build streamlit image
+	@docker compose "$(compose_streamlit)" build streamlit
+
 streamlit.upd: ## Run streamlit server in detached mode
 	@echo "Running streamlit server"
 	@docker compose "$(compose_streamlit)" up -d
