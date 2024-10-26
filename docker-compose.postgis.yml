@@ -6,7 +6,7 @@ services:
     image: postgis/postgis:15-3.4
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./services/postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
+      - ./postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
     environment:
       POSTGRES_USER: ${POSTGRES_USER-postgres_dev}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dontusemeinprod}
@@ -21,7 +21,7 @@ services:
     image: postgis/postgis:15-3.4
     volumes:
       - pgdata-test:/var/lib/postgresql/data
-      - ./services/postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
+      - ./postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
     environment:
       POSTGRES_USER: postgres_test
       POSTGRES_PASSWORD: postgres_password_test

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pinochet-rettig-dbt"
+version = "0.1.0"
+description = ""
+authors = ["Diego Quintana <daquintanav@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+dbt-postgres = "^1.8.2"
+elementary-data = "^0.13.2"
+
+[tool.poetry.group.dev.dependencies]
+shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.21.0"}
+sqlfluff-templater-dbt = "^2.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,35 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: trailing-whitespace
+        exclude: "^pinochet-rettig-linked-data/ontop/datasets/pinochet-rettig/semantics/mapping.protege.obda"
+      - id: detect-private-key
+      - id: name-tests-test
+        args: ["--pytest-test-first"]
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        args: ["--line-length", "88"]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: "v0.0.283"
+    hooks:
+      - id: ruff
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 2.3.5
+    include: "^pinochet-rettig-dbt/dbt_pinochet/.*"
+    hooks:
+      - id: sqlfluff-fix
+        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+      - id: sqlfluff-lint
+        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+fail_fast: false
+files: ".*"
+exclude: "desktop.ini" # Windows
+default_language_version:
+  python: python3.10

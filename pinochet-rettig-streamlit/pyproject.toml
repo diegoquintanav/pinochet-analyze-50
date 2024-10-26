@@ -1,0 +1,41 @@
+[tool.poetry]
+authors = ["Diego Quintana <daquintanav@gmail.com>"]
+description = "Small streamlit application to analyze the pinochet dataset"
+license = "MIT"
+name = "pinochet-rettig-streamlit"
+readme = "README.md"
+version = "1.0.0rc1"
+
+[tool.poetry.dependencies]
+geopandas = "^0.13.2"
+numpy = "^1.25.2"
+psycopg2-binary = "^2.9.7"
+python-decouple = "^3.8"
+sqlalchemy = "^2.0.20"
+streamlit = "^1.26.0"
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+coverage = "^7.3.0"
+git-changelog = "^2.1.0"
+ipykernel = "^6.25.1"
+pre-commit = "^3.3.3"
+pytest = "^7.4.0"
+ruff = "^0.0.284"
+sparqlwrapper = "^2.0.0"
+
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["src/app.py"]
+replace = '__version__ = "{new_version}"'
+search = '__version__ = "{current_version}"'
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["VERSION"]
+replace = '{new_version}'
+search = '{current_version}'
