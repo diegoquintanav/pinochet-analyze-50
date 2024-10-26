@@ -34,4 +34,4 @@ capitalisation_policy = lower
 extended_capitalisation_policy = upper
 
 [sqlfluff:templater:dbt]
-project_dir = ./pinochet-rettig-dbt/dbt_pinochet
+project_dir = ./dbt_pinochet
