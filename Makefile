@@ -7,10 +7,12 @@ include .env
 postgis_compose_file := docker-compose.postgis.yml
 fastapi_compose_file := docker-compose.fastapi.yml
 streamlit_compose_file := docker-compose.streamlit.yml
+ontop_compose_file := docker-compose.ontop.yml
 
 compose_postgis := "-f $(postgis_compose_file)"
 compose_streamlit := "-f $(postgis_compose_file) -f $(streamlit_compose_file)"
 compose_api := "-f $(postgis_compose_file) -f $(fastapi_compose_file)"
+compose_ontop := "-f $(postgis_compose_file) -f $(ontop_compose_file)"
 
 dbt_project_dir := $(shell pwd)/pionchet-rettig-dbt/dbt_pinochet
 dbt_profiles_dir := $(dbt_project_dir)/profiles
@@ -60,3 +62,14 @@ api.upd.local: ## Start api locally
 	@echo "Running prestart.sh"
 	@cd pinochet-rettig-fastapi && UVICORN_RELOAD=true ./prestart.sh
 	@echo "API server is running at http://localhost:8080/docs"
+
+ontop.upd: ## Run ontop server in detached mode
+	@echo "Running ontop server"
+	@docker compose "$(compose_ontop)" up -d
+	@echo "Ontop server is running at http://localhost:8083"
+
+ontop.logs: ## Get ontop logs
+	@docker compose "$(compose_ontop)" logs --follow --tail 100
+
+ontop.down: ## Shut down ontop containers
+	@docker compose "$(compose_ontop)" down
