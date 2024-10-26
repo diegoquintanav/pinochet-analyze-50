@@ -78,7 +78,7 @@ Check other commands with `make help`.
 
 ## Services
 
-These services are deployed locally using docker compose. You can start them with `docker compose -f <docker-compose-file>.yml up -d`. 
+These services are deployed locally using docker compose. You can start them with `docker compose -f <docker-compose-file>.yml up -d`.
 
 You need to provide a valid `.env` file, see `example.env` for an example.
 

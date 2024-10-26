@@ -29,10 +29,10 @@ SELECT
     ours.group_id,
     theirs.location_id,
     ours.location_n,
-    ours.group_id as event_id, -- assume one event is linked to only one victim
+    ours.group_id AS event_id, -- assume one event is linked to only one victim
     {{ dbt_utils.star(
-        from=ref("int_pinochet__drop_nulls"), 
-        except=["individual_id", "group_id", "location_n"], 
+        from=ref("int_pinochet__drop_nulls"),
+        except=["individual_id", "group_id", "location_n"],
         relation_alias="ours") }}
 FROM {{ ref("int_pinochet__drop_nulls") }} AS ours
 LEFT JOIN
@@ -46,5 +46,4 @@ ORDER BY
     ours.group_id,
     theirs.location_id,
     event_id,
-    ours.location_n,
-    location_id
+    ours.location_n
