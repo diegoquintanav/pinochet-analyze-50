@@ -8,6 +8,7 @@ models:
             - group_id
             - event_id
             - location_id
+            - location_n
     description: ""
     columns:
       - name: individual_id
