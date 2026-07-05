@@ -1,11 +1,12 @@
 [sqlfluff]
-templater = dbt
+templater = jinja
 sql_file_exts = .sql,.sql.j2,.dml,.ddl
 max_line_length = 80
 fix_even_unparsable = False
 ignore_templated_areas = True
 dialect = postgres
 exclude_rules = LT05
+large_file_skip_byte_limit = 20000
 
 [sqlfluff:indentation]
 indented_joins = false
@@ -32,6 +33,3 @@ capitalisation_policy = lower
 
 [sqlfluff:rules:capitalisation.types]
 extended_capitalisation_policy = upper
-
-[sqlfluff:templater:dbt]
-project_dir = ./pinochet-rettig-dbt/dbt_pinochet
