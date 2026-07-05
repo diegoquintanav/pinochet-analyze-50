@@ -57,14 +57,16 @@ WORKDIR ${WORKDIR}
 # make sure the user owns /app
 RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
-# Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:${PATH}"
+# Install uv system-wide
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    cp /root/.local/bin/uv /usr/local/bin/uv && \
+    chmod +x /usr/local/bin/uv
 
 # Copy only the files needed for installing dependencies
 COPY --chown=${USER_UID}:${USER_GID} pyproject.toml uv.lock prestart.sh README.md ${WORKDIR}/
 
-# Install dependencies
+# Install dependencies as the app user
+USER ${USERNAME}
 RUN uv sync --no-dev
 
 # Copy migrations
@@ -76,8 +78,6 @@ COPY --chown=${USER_UID}:${USER_GID} src ${WORKDIR}/src
 
 # Finalization
 RUN uv pip install -e .
-
-USER ${USERNAME}
 
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD [ "/app/prestart.sh" ]

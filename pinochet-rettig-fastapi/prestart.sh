@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
 # Let the DB start
-python ./src/pinochet/backend_pre_start.py
+uv run python ./src/pinochet/backend_pre_start.py
 
 # Run migrations
-alembic upgrade head
+uv run alembic upgrade head
 
 # Create initial data in DB
-python ./src/pinochet/initial_data.py
+uv run python ./src/pinochet/initial_data.py
 
 # launch uvicorn
-uvicorn pinochet.main:app --host "0.0.0.0" --port 8080
+uv run uvicorn pinochet.main:app --host "0.0.0.0" --port 8080

@@ -51,21 +51,22 @@ WORKDIR ${WORKDIR}
 # make sure the user owns /src
 RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
-# Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:${PATH}"
+# Install uv system-wide
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    cp /root/.local/bin/uv /usr/local/bin/uv && \
+    chmod +x /usr/local/bin/uv
 
 # Copy only the files needed for installing dependencies
 COPY --chown=${USER_UID}:${USER_GID} pyproject.toml uv.lock ${WORKDIR}/
 
-# Install dependencies
+# Install dependencies as the app user
+USER ${USERNAME}
 RUN uv sync --no-dev
 
 # copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} streamlit_app.py .streamlit ${WORKDIR}/
 
 # finalization
-USER ${USERNAME}
 ENTRYPOINT ["uv", "run", "streamlit"]
 CMD [ "run", "/src/streamlit_app.py" ]
 EXPOSE 80
