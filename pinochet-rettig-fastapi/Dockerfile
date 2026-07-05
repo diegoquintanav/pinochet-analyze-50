@@ -102,9 +102,6 @@ COPY --chown=${USER_UID}:${USER_GID} alembic ${WORKDIR}/alembic
 # Copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} src ${WORKDIR}/src
 
-# Finalization
-RUN uv pip install -e .
-
 LABEL org.opencontainers.image.title="pinochet-rettig-fastapi" \
       org.opencontainers.image.description="FastAPI service for the Pinochet-Rettig dataset" \
       org.opencontainers.image.source="https://github.com/diegoquintanav/pinochet-analyze-50" \

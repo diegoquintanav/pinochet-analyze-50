@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "pinochet-rettig-dbt/dbt_pinochet/**"
-      - "pinochet-rettig-fastapi/poetry.lock"
+      - "pinochet-rettig-fastapi/uv.lock"
       - "pinochet-rettig-fastapi/pyproject.toml"
       - ".github/workflows/dbt-docs-generate.yml"
       - ".github/**"
