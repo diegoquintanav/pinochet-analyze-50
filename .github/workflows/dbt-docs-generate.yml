@@ -38,7 +38,7 @@ jobs:
       options: --user root # https://github.com/actions/checkout/issues/956
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: prepare dbt profiles
         run: |
           mkdir -p ~/.dbt
@@ -84,7 +84,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: "3.13"
@@ -125,7 +125,7 @@ jobs:
     name: Deploy fastapi app to fly.io
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         working-directory: ./pinochet-rettig-fastapi/
