@@ -67,9 +67,46 @@ jobs:
         with:
           path: ${{ github.workspace }}/artifacts
 
+  pytest:
+    runs-on: ubuntu-latest
+    services:
+      postgis-test:
+        image: postgis/postgis:15-3.4
+        env:
+          POSTGRES_USER: postgres_test
+          POSTGRES_PASSWORD: postgres_password_test
+          POSTGRES_DB: pinochet_test
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: pip install poetry
+      - name: Install dependencies
+        run: |
+          cd pinochet-rettig-fastapi
+          poetry install
+      - name: Create PostGIS extension
+        run: |
+          PGPASSWORD=postgres_password_test psql -h localhost -p 5434 -U postgres_test -d pinochet_test -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+      - name: Run pytest
+        run: |
+          cd pinochet-rettig-fastapi
+          poetry run pytest
+        env:
+          API_ENV: test
+
   # https://github.com/actions/deploy-pages
   deploy-pages:
-    needs: dbt-docs-generate
+    needs: [dbt-docs-generate, pytest]
     runs-on: ubuntu-latest
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
@@ -84,7 +121,7 @@ jobs:
         uses: actions/deploy-pages@v3
 
   deploy-api-fly-io:
-    needs: dbt-docs-generate
+    needs: [dbt-docs-generate, pytest]
     name: Deploy fastapi app to fly.io
     runs-on: ubuntu-latest
     steps:

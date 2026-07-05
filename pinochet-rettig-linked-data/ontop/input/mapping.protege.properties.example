@@ -1,5 +1,5 @@
 #Fri Dec 08 17:40:28 CET 2023
-jdbc.password=dontusemeinprod
-jdbc.user=postgres_dev
-jdbc.url=jdbc\:postgresql\://postgis\:5432/pinochet_dev
+jdbc.password=dev_password
+jdbc.user=dev_user
+jdbc.url=jdbc\:postgresql\://postgis\:5432/pinochet
 jdbc.driver=org.postgresql.Driver

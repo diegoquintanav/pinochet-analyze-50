@@ -6,9 +6,9 @@ from decouple import config
 from sqlalchemy import URL, create_engine
 
 POSTGRES_HOST: str = config("POSTGRES_HOST", default="localhost")
-POSTGRES_USER: str = config("POSTGRES_USER", default="postgres_dev")
-POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", default="dontusemeinprod")
-POSTGRES_DB: str = config("POSTGRES_DB", default="pinochet_dev")
+POSTGRES_USER: str = config("POSTGRES_USER", default="dev_user")
+POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", default="dev_password")
+POSTGRES_DB: str = config("POSTGRES_DB", default="pinochet")
 POSTGRES_PORT: int = 5433
 
 PROJECT_ROOT_DIR: Path = Path(__file__).parent.parent

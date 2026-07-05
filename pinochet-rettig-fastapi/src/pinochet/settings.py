@@ -1,5 +1,4 @@
 import enum
-from abc import ABC
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -22,7 +21,7 @@ MISSING_VALUE = ">>> Missing Value <<<"
 ENVIRONMENT = os.getenv("API_ENV", MISSING_ENV)
 
 
-class ApiSettings(ABC):
+class ApiSettings:
     API_ENV: str = config("API_ENV", default=ENVIRONMENT)
     SECRET_KEY: str = config("SECRET_KEY", default=MISSING_VALUE)
     ALGORITHM: str = "HS256"
@@ -73,12 +72,12 @@ class DevSettings(ProdSettings):
         "http://localhost:8080",
     ]
 
-    POSTGRES_HOST: str = "0.0.0.0."
-    POSTGRES_USER: str = "postgres_dev"
-    POSTGRES_PASSWORD: str = "dontusemeinprod"
-    POSTGRES_DB: str = "pinochet_dev"
+    POSTGRES_HOST: str = "0.0.0.0"
+    POSTGRES_USER: str = "dev_user"
+    POSTGRES_PASSWORD: str = "dev_password"
+    POSTGRES_DB: str = "pinochet"
     POSTGRES_PORT: int = 5433
-    SECRET_KEY: str = "dev_secret_key"
+    SECRET_KEY: str = "dontusemeinprod"
 
 
 class ContainerDevSettings(DevSettings):
@@ -89,9 +88,9 @@ class ContainerDevSettings(DevSettings):
 class TestSettings(DevSettings):
     POSTGRES_HOST: str = "0.0.0.0"
     POSTGRES_PORT: int = 5434
-    POSTGRES_USER: str = "postgres_test"
-    POSTGRES_PASSWORD: str = "postgres_password_test"
-    POSTGRES_DB: str = "pinochet_test"
+    POSTGRES_USER: str = "test_user"
+    POSTGRES_PASSWORD: str = "test_password"
+    POSTGRES_DB: str = "pinochet"
     SECRET_KEY: str = "test_secret_key"
 
 

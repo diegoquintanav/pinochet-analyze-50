@@ -31,7 +31,7 @@ Do not commit secrets (passwords, API keys, etc.) to the repo. Use `.env` files 
 1. Copy `example.env` to `.env` in the repo root. The `Makefile` sources this file; FastAPI and Streamlit also read it via `python-decouple`.
 2. Install dependencies **per project**:
    * **Root**: `uv sync` (dbt, elementary, linting tools). Root `pyproject.toml` is `uv`-based and `package-mode = false`.
-   * **FastAPI**: `cd pinochet-rettig-fastapi && poetry install`.
+   * **FastAPI**: `cd pinochet-rettig-fastapi && uv sync`.
    * **Streamlit**: `cd pinochet-rettig-streamlit && poetry install`.
 
 ## Running Services (Makefile)
@@ -48,20 +48,23 @@ Key commands:
 
 ## Database
 
-* **Dev DB**: `pinochet` on `localhost:5433`.
-* **Test DB**: `pinochet_test` on `localhost:5434`.
-* The `.env` credentials must match the dbt profile (see below) and `pinochet-rettig-fastapi/src/pinochet/settings.py`.
+* **Dev DB**: `pinochet` on `localhost:5433` (user: `dev_user`, password: `dev_password`).
+* **Test DB**: `pinochet` on `localhost:5434` (user: `test_user`, password: `test_password`).
+* Dev credentials are hardcoded across docker-compose, dbt profiles, and FastAPI `DevSettings`. If you change them, update all three sources.
 
 ## dbt (data build tool)
 
 * Project directory: `pinochet-rettig-dbt/dbt_pinochet/`.
 * Profile name: `dbt_pinochet`.
-* The repo provides `pinochet-rettig-dbt/dbt_pinochet/profiles/profiles.yml`. For local dbt CLI runs, copy or symlink it to `~/.dbt/profiles.yml`.
+* The repo provides `pinochet-rettig-dbt/dbt_pinochet/profiles/profiles.yml`.
+* `.env` sets `DBT_PROFILES_DIR` so dbt finds the profile automatically. The `Makefile` also uses this variable.
 * Uses `elementary-data`. Generate reports with `edr report`.
 
 ## FastAPI
 
 * **Entrypoint**: `pinochet.main:app` (under `src/`).
+* **Dependency management**: Uses `uv` with a `uv.lock` file. Dependencies are pinned with version constraints in `pyproject.toml`.
+* **Documentation**: See `pinochet-rettig-fastapi/README.md` for endpoint reference, auth details, and architecture overview.
 * **Environments**: Controlled by `API_ENV` env var.
   * `dev` (default): connects to `0.0.0.0:5433`.
   * `container_dev`: connects to `postgis:5432` (use inside Docker).
@@ -107,6 +110,7 @@ Key commands:
 * Work on **ONE PR at a time**. Do not create multiple open PRs simultaneously unless they are part of the same Linear issue and user explicitly approves.
 * Do not merge PRs without explicit user approval.
 * **Approval is scoped to the current PR only** — approval for one PR does not carry over.
+* Before creating a PR, check for `.github/pull_request_template.md` and use it to fill in the description. Include a summary of changes and the Linear issue reference under the `## References` header.
 * Before merging any PR:
   1. Check for any open reviews (human or AI) on the PR.
   2. Verify CI is green (all checks passing).
@@ -163,7 +167,7 @@ To avoid CI failures, run checks locally before pushing.
 Current repo does not yet have a unified pre-push hook or check script. For now, run manually per service:
 
 * **Root / dbt**: `dbt build --target dev`, `sqlfluff lint` (after `dbt deps`)
-* **FastAPI**: `pytest` (requires test DB on `localhost:5434`), `ruff check .`, `black --check .`
+* **FastAPI**: `uv run pytest` (requires test DB on `localhost:5434`), `uv run ruff check .`, `uv run black --check .`
 * **Streamlit**: `ruff check .`, `black --check .`
 
 If you are unsure, ask the user for guidance on which checks to run.

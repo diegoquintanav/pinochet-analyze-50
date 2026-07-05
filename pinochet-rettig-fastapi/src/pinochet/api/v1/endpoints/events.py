@@ -11,14 +11,14 @@ from pinochet.schemas.event import EventOut
 router = APIRouter()
 
 
-@router.get("/", response_model=list[EventOut], status_code=201)
+@router.get("/", response_model=list[EventOut], status_code=200)
 def get_multi_events(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
 ) -> Any:
     """
-    Get all events from the DB
+    Get all events from the DB.
     """
 
     return db.query(Event).offset(skip).limit(limit).all()
@@ -27,7 +27,7 @@ def get_multi_events(
 @router.get(
     "/{event_id}",
     response_model=EventOut,
-    status_code=201,
+    status_code=200,
 )
 def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
     """
@@ -46,8 +46,8 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
 
 @router.get(
     "/{event_id}/get_events_around/{radius}",
-    response_model=EventOut,
-    status_code=201,
+    response_model=list[EventOut],
+    status_code=200,
 )
 def get_events_by_event_id_and_radius(
     event_id: int,
@@ -55,7 +55,7 @@ def get_events_by_event_id_and_radius(
     radius: int = 10,
 ) -> Any:
     """
-    Get all events from the DB given an event id.
+    Get all events around a given event within a certain radius.
     """
 
     q = db.query(Event)
@@ -65,6 +65,6 @@ def get_events_by_event_id_and_radius(
     if not event:
         raise HTTPException(status_code=404, detail="Item not found")
 
-    events = event.get_events_around(db, radius=radius)
+    events = event.get_events_around_self(session=db, radius=radius)
 
     return events
