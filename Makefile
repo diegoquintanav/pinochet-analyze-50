@@ -89,3 +89,50 @@ streamlit.logs: ## Get streamlit logs
 
 streamlit.down: ## Shut down streamlit containers
 	@docker compose "$(compose_streamlit)" down
+
+# ---------------------------------------------------------------------------- #
+#                           unified stack commands                             #
+# ---------------------------------------------------------------------------- #
+
+install: ## Install dependencies for all services via uv
+	@echo "Installing root dependencies..."
+	@uv sync
+	@echo "Installing FastAPI dependencies..."
+	@cd pinochet-rettig-fastapi && uv sync
+	@echo "Installing Streamlit dependencies..."
+	@cd pinochet-rettig-streamlit && uv sync
+	@echo "Installing dbt dependencies..."
+	@cd pinochet-rettig-dbt && uv sync
+	@echo "Done. Run 'pre-commit install' to set up git hooks."
+
+up: ## Start full stack (PostGIS + FastAPI + Streamlit + Ontop) via docker compose
+	@docker compose -f docker-compose.yml up -d
+	@echo "Full stack is starting..."
+	@echo "  FastAPI:    http://localhost:8888/docs"
+	@echo "  Streamlit:  http://localhost:8501"
+	@echo "  Ontop:      http://localhost:8083"
+
+down: ## Stop all services
+	@docker compose -f docker-compose.yml down
+
+up.local: ## Start PostGIS in Docker, then FastAPI and Streamlit locally
+	@echo "Starting PostGIS..."
+	@docker compose -f docker-compose.postgis.yml up -d postgis
+	@echo "Waiting for PostGIS to be ready..."
+	@sleep 5
+	@echo "Running dbt build..."
+	@DBT_PROJECT_DIR=$(dbt_project_dir) DBT_PROFILES_DIR=$(dbt_profiles_dir) uv run dbt build --target dev || true
+	@echo "Starting FastAPI locally..."
+	@cd pinochet-rettig-fastapi && API_ENV=dev ./prestart.sh &
+	@echo "Starting Streamlit locally..."
+	@cd pinochet-rettig-streamlit && make run.dev &
+	@echo "Local services started:"
+	@echo "  FastAPI:   http://localhost:8080/docs"
+	@echo "  Streamlit: http://localhost:8501"
+
+test: ## Run all tests (dbt tests + FastAPI pytest + smoke checks)
+	@echo "Running dbt tests..."
+	@DBT_PROJECT_DIR=$(dbt_project_dir) DBT_PROFILES_DIR=$(dbt_profiles_dir) uv run dbt test --target dev
+	@echo "Running FastAPI tests..."
+	@cd pinochet-rettig-fastapi && API_ENV=test uv run pytest
+	@echo "All tests passed."
