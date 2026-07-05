@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 
-@router.get("/all", response_model=list[LocationOut], status_code=201)
+@router.get("/all", response_model=list[LocationOut], status_code=200)
 def get_multi_locations(
     skip: int = 0,
     limit: int = 100,
@@ -26,7 +26,7 @@ def get_multi_locations(
 @router.get(
     "/",
     response_model=Union[list[LocationOut], NoResultFound],
-    status_code=201,
+    status_code=200,
 )
 def get_location_by_id_or_name(
     db: Session = Depends(get_db),
@@ -39,7 +39,7 @@ def get_location_by_id_or_name(
 
     q = db.query(Location)
 
-    if id:
+    if id is not None:
         return q.where(Location.location_id == id).all()
     elif location_name:
         q = q.where(Location.location_name == location_name)

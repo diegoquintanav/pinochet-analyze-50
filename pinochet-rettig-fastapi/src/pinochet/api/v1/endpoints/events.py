@@ -11,7 +11,7 @@ from pinochet.schemas.event import EventOut
 router = APIRouter()
 
 
-@router.get("/", response_model=list[EventOut], status_code=201)
+@router.get("/", response_model=list[EventOut], status_code=200)
 def get_multi_events(
     skip: int = 0,
     limit: int = 100,
@@ -27,7 +27,7 @@ def get_multi_events(
 @router.get(
     "/{event_id}",
     response_model=EventOut,
-    status_code=201,
+    status_code=200,
 )
 def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
     """
@@ -47,7 +47,7 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)) -> Any:
 @router.get(
     "/{event_id}/get_events_around/{radius}",
     response_model=list[EventOut],
-    status_code=201,
+    status_code=200,
 )
 def get_events_by_event_id_and_radius(
     event_id: int,
