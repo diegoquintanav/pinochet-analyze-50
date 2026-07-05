@@ -15,8 +15,8 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "geopandas>=0.13.2,<0.14",
-    "numpy>=1.25.2,<2",
+    "geopandas>=0.13.2",
+    "numpy>=1.25.2,<3",
     "pandas>=2.0.3,<3",
     "psycopg2-binary>=2.9.7,<3",
     "pydeck>=0.8.0,<0.9",
