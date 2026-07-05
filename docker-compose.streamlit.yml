@@ -3,9 +3,9 @@ services:
   streamlit:
     image: ghcr.io/diegoquintanav/pinochet-rettig-streamlit:latest
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-dev_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-pinochet}
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
     build:
@@ -15,12 +15,8 @@ services:
     volumes:
       - streamlit-cachedata:/root/.cache
       - ./pinochet-rettig-streamlit/streamlit_app.py:/src/streamlit_app.py
-      - ./pinochet-rettig-streamlit/requirements.txt:/src/requirements.txt
       - ./pinochet-rettig-streamlit/.streamlit/config.toml:/src/.streamlit/config.toml
-      - streamlit-venv:/home/daniellopez/.venv
 
 volumes:
   streamlit-cachedata:
-    driver: local
-  streamlit-venv:
     driver: local

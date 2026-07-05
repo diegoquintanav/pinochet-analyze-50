@@ -16,8 +16,3 @@ services:
       - 8889:8089
     volumes:
       - ./pinochet-rettig-dbt/dbt_pinochet/:/app/dbt_pinochet
-      - pinochet-dbt-venv:/home/dbt_user/src/.venv
-
-volumes:
-  pinochet-dbt-venv:
-    driver: local
