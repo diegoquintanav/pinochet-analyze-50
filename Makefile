@@ -123,9 +123,9 @@ up.local: ## Start PostGIS in Docker, then FastAPI and Streamlit locally
 	@echo "Running dbt build..."
 	@DBT_PROJECT_DIR=$(dbt_project_dir) DBT_PROFILES_DIR=$(dbt_profiles_dir) uv run dbt build --target dev || true
 	@echo "Starting FastAPI locally..."
-	@cd pinochet-rettig-fastapi && API_ENV=dev ./prestart.sh &
+	@export POSTGRES_USER=dev_user POSTGRES_PASSWORD=dev_password POSTGRES_DB=pinochet POSTGRES_HOST=localhost POSTGRES_PORT=5433 && cd pinochet-rettig-fastapi && API_ENV=dev ./prestart.sh &
 	@echo "Starting Streamlit locally..."
-	@cd pinochet-rettig-streamlit && make run.dev &
+	@cd pinochet-rettig-streamlit && POSTGRES_USER=dev_user POSTGRES_PASSWORD=dev_password POSTGRES_DB=pinochet POSTGRES_HOST=localhost POSTGRES_PORT=5433 uv run streamlit run streamlit_app.py &
 	@echo "Local services started:"
 	@echo "  FastAPI:   http://localhost:8080/docs"
 	@echo "  Streamlit: http://localhost:8501"
