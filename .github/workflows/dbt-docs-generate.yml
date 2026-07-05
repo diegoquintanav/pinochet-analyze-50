@@ -63,7 +63,7 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/artifacts/elementary
           DBT_PROJECT_DIR=$GITHUB_WORKSPACE/pinochet-rettig-dbt/dbt_pinochet edr report --env prod --project-profile-target ${{ env.DBT_TARGET }} --file-path $GITHUB_WORKSPACE/artifacts/elementary/index.html
       - name: create build artifacts
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ github.workspace }}/artifacts
 
