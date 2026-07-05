@@ -29,16 +29,23 @@ Do not commit secrets (passwords, API keys, etc.) to the repo. Use `.env` files 
 ## Environment Setup
 
 1. Copy `example.env` to `.env` in the repo root. The `Makefile` sources this file; FastAPI and Streamlit also read it via `python-decouple`.
-2. Install dependencies **per project**:
-   * **Root**: `uv sync` (dbt, elementary, linting tools). Root `pyproject.toml` is `uv`-based and `package-mode = false`.
-   * **FastAPI**: `cd pinochet-rettig-fastapi && uv sync`.
-   * **Streamlit**: `cd pinochet-rettig-streamlit && uv sync`.
+2. Install all dependencies at once:
+   * **All services**: `make install` — runs `uv sync` in root, fastapi, streamlit, and dbt.
+3. Install git hooks: `pre-commit install`.
 
 ## Running Services (Makefile)
 
 Run `make help` to see all targets.
 
-Key commands:
+### Unified commands (recommended)
+
+* `make install` — Install dependencies for all services via `uv`.
+* `make up` — Start full stack (PostGIS + FastAPI + Streamlit + Ontop) via Docker.
+* `make up.local` — Start PostGIS in Docker, run dbt build, then start FastAPI and Streamlit locally.
+* `make down` — Stop all services.
+* `make test` — Run dbt tests + FastAPI pytest.
+
+### Individual service commands
 
 * `make db.upd` — Start PostGIS dev container on `localhost:5433`.
 * `make api.upd` — Start PostGIS + FastAPI (Docker) on `http://localhost:8888/docs`.
@@ -59,6 +66,7 @@ Key commands:
 * The repo provides `pinochet-rettig-dbt/dbt_pinochet/profiles/profiles.yml`.
 * `.env` sets `DBT_PROFILES_DIR` so dbt finds the profile automatically. The `Makefile` also uses this variable.
 * Uses `elementary-data`. Generate reports with `edr report`.
+* Dependency management: Uses `uv` (migrated from Poetry).
 
 ## FastAPI
 
@@ -166,7 +174,11 @@ When an AI (such as Copilot) completes a review on a PR, follow this workflow:
 
 To avoid CI failures, run checks locally before pushing.
 
-Current repo does not yet have a unified pre-push hook or check script. For now, run manually per service:
+### Quick check
+
+* `make test` — Runs dbt tests + FastAPI pytest in one command.
+
+### Per-service checks
 
 * **Root / dbt**: `dbt build --target dev`, `sqlfluff lint` (after `dbt deps`)
 * **FastAPI**: `uv run pytest` (requires test DB on `localhost:5434`), `uv run ruff check .`, `uv run black --check .`
