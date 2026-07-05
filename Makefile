@@ -14,7 +14,7 @@ compose_streamlit := "-f $(postgis_compose_file) -f $(streamlit_compose_file)"
 compose_api := "-f $(postgis_compose_file) -f $(fastapi_compose_file)"
 compose_ontop := "-f $(postgis_compose_file) -f $(ontop_compose_file)"
 
-dbt_project_dir := $(shell pwd)/pionchet-rettig-dbt/dbt_pinochet
+dbt_project_dir := $(shell pwd)/pinochet-rettig-dbt/dbt_pinochet
 dbt_profiles_dir := $(dbt_project_dir)/profiles
 
 help: ## Print this help
