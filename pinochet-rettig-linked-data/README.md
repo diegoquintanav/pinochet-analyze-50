@@ -8,15 +8,15 @@ Ontop maps the relational PostgreSQL/PostGIS database to an RDF graph using an O
 
 ## Files
 
-- `datasets/pinochet-rettig/semantics/mapping.protege.ttl` — OWL ontology (Event, Location, Victim, Person, Perpetrator classes)
-- `datasets/pinochet-rettig/semantics/mapping.protege.obda` — OBDA mappings from SQL tables to RDF triples
-- `input/mapping.protege.properties` — JDBC connection properties (created from `.example`)
-- `jdbc/postgresql-42.7.1.jar` — PostgreSQL JDBC driver
+- `datasets/pinochet-rettig/semantics/mapping.protege.ttl` - OWL ontology (Event, Location, Victim, Person, Perpetrator classes)
+- `datasets/pinochet-rettig/semantics/mapping.protege.obda` - OBDA mappings from SQL tables to RDF triples
+- `input/mapping.protege.properties` - JDBC connection properties (created from `.example`)
+- `jdbc/postgresql-42.7.1.jar` - PostgreSQL JDBC driver
 
 ## Prerequisites
 
 1. **PostGIS container** must be running
-2. **dbt API models must be built** — Ontop queries `api.api_pinochet__victim`, `api.api_pinochet__event`, `api.api_pinochet__location`. These are created by `dbt build`.
+2. **dbt API models must be built** - Ontop queries `api.api_pinochet__victim`, `api.api_pinochet__event`, `api.api_pinochet__location`. These are created by `dbt build`.
 
 ## Setup
 
@@ -63,6 +63,7 @@ SELECT DISTINCT ?victim ?lastName {
 **Error: "Cannot find relation api.api_pinochet__victim"**
 
 The dbt API models haven't been built. Run:
+
 ```bash
 uv run dbt build --target dev --select models/datasets/api
 ```

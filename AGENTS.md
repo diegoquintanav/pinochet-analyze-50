@@ -20,17 +20,17 @@ Root `pyproject.toml` is **not** a package (`package-mode = false`); it only pin
 
 Do not commit secrets (passwords, API keys, etc.) to the repo. Use `.env` files and `.gitignore` them. Use the `example.env` file as a template for `.env`. The `.env` file is sourced by the `Makefile` and read by FastAPI and Streamlit via `python-decouple`. Favor usage of environment variables when dealing with secrets.
 
-* `pinochet-rettig-dbt/dbt_pinochet/` — dbt project (raw → intermediate → staging → `api` tables).
-* `pinochet-rettig-fastapi/` — FastAPI + Strawberry GraphQL + Alembic.
-* `pinochet-rettig-streamlit/` — Streamlit exploration app.
-* `pinochet-rettig-linked-data/` — Ontop SPARQL virtual knowledge graph.
-* `postgis/` — PostGIS container definitions.
+* `pinochet-rettig-dbt/dbt_pinochet/` - dbt project (raw → intermediate → staging → `api` tables).
+* `pinochet-rettig-fastapi/` - FastAPI + Strawberry GraphQL + Alembic.
+* `pinochet-rettig-streamlit/` - Streamlit exploration app.
+* `pinochet-rettig-linked-data/` - Ontop SPARQL virtual knowledge graph.
+* `postgis/` - PostGIS container definitions.
 
 ## Environment Setup
 
 1. Copy `example.env` to `.env` in the repo root. The `Makefile` sources this file; FastAPI and Streamlit also read it via `python-decouple`.
 2. Install all dependencies at once:
-   * **All services**: `make install` — runs `uv sync` in root, fastapi, streamlit, and dbt.
+   * **All services**: `make install` - runs `uv sync` in root, fastapi, streamlit, and dbt.
 3. Install git hooks: `pre-commit install`.
 
 ## Running Services (Makefile)
@@ -39,19 +39,19 @@ Run `make help` to see all targets.
 
 ### Unified commands (recommended)
 
-* `make install` — Install dependencies for all services via `uv`.
-* `make up` — Start full stack (PostGIS + FastAPI + Streamlit + Ontop) via Docker.
-* `make up.local` — Start PostGIS in Docker, run dbt build, then start FastAPI and Streamlit locally.
-* `make down` — Stop all services.
-* `make test` — Run dbt tests + FastAPI pytest.
+* `make install` - Install dependencies for all services via `uv`.
+* `make up` - Start full stack (PostGIS + FastAPI + Streamlit + Ontop) via Docker.
+* `make up.local` - Start PostGIS in Docker, run dbt build, then start FastAPI and Streamlit locally.
+* `make down` - Stop all services.
+* `make test` - Run dbt tests + FastAPI pytest.
 
 ### Individual service commands
 
-* `make db.upd` — Start PostGIS dev container on `localhost:5433`.
-* `make api.upd` — Start PostGIS + FastAPI (Docker) on `http://localhost:8888/docs`.
-* `make api.upd.local` — Start PostGIS in Docker, then run FastAPI **locally** via `prestart.sh` on `http://localhost:8080/docs` (with `UVICORN_RELOAD=true`).
-* `make ontop.upd` — Start PostGIS + Ontop on `http://localhost:8083`.
-* `make streamlit.upd` — Start PostGIS + Streamlit on `http://localhost:8501`.
+* `make db.upd` - Start PostGIS dev container on `localhost:5433`.
+* `make api.upd` - Start PostGIS + FastAPI (Docker) on `http://localhost:8888/docs`.
+* `make api.upd.local` - Start PostGIS in Docker, then run FastAPI **locally** via `prestart.sh` on `http://localhost:8080/docs` (with `UVICORN_RELOAD=true`).
+* `make ontop.upd` - Start PostGIS + Ontop on `http://localhost:8083`.
+* `make streamlit.upd` - Start PostGIS + Streamlit on `http://localhost:8501`.
 
 ## Database
 
@@ -87,7 +87,7 @@ Run `make help` to see all targets.
 
 * Entrypoint is `streamlit_app.py`.
 * Dependency management: Uses `uv` with `pyproject.toml` (PEP 621). Run `make install` to sync deps.
-* **Local dev**: `make run.dev` — starts Streamlit with hardcoded dev credentials on `http://localhost:8501`.
+* **Local dev**: `make run.dev` - starts Streamlit with hardcoded dev credentials on `http://localhost:8501`.
 * Version is bumped via `poetry-bumpversion` (legacy tool still referenced in `pyproject.toml`).
 
 ## Code Quality
@@ -119,7 +119,7 @@ Run `make help` to see all targets.
 * A PR must always have a Linear issue assigned to the "Pinochet Showcase Portfolio" initiative, with the Linear ID in the PR description.
 * Work on **ONE PR at a time**. Do not create multiple open PRs simultaneously unless they are part of the same Linear issue and user explicitly approves.
 * Do not merge PRs without explicit user approval.
-* **Approval is scoped to the current PR only** — approval for one PR does not carry over.
+* **Approval is scoped to the current PR only** - approval for one PR does not carry over.
 * Before creating a PR, check for `.github/pull_request_template.md` and use it to fill in the description. Include a summary of changes and the Linear issue reference under the `## References` header.
 * Before merging any PR:
   1. Check for any open reviews (human or AI) on the PR.
@@ -167,7 +167,7 @@ When an AI (such as Copilot) completes a review on a PR, follow this workflow:
 * Be transparent about tradeoffs.
 * If rejecting a comment, explain why (e.g., "This is a false positive because...").
 * Group related comments and fix them together.
-* Don't blindly accept all AI suggestions — evaluate each one.
+* Don't blindly accept all AI suggestions - evaluate each one.
 * When in doubt, ask the user for their preference.
 
 ## Pre-Push Checks
@@ -176,7 +176,7 @@ To avoid CI failures, run checks locally before pushing.
 
 ### Quick check
 
-* `make test` — Runs dbt tests + FastAPI pytest in one command.
+* `make test` - Runs dbt tests + FastAPI pytest in one command.
 
 ### Per-service checks
 
