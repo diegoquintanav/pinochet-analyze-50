@@ -31,7 +31,7 @@ Do not commit secrets (passwords, API keys, etc.) to the repo. Use `.env` files 
 1. Copy `example.env` to `.env` in the repo root. The `Makefile` sources this file; FastAPI and Streamlit also read it via `python-decouple`.
 2. Install dependencies **per project**:
    * **Root**: `uv sync` (dbt, elementary, linting tools). Root `pyproject.toml` is `uv`-based and `package-mode = false`.
-   * **FastAPI**: `cd pinochet-rettig-fastapi && poetry install`.
+   * **FastAPI**: `cd pinochet-rettig-fastapi && uv sync`.
    * **Streamlit**: `cd pinochet-rettig-streamlit && poetry install`.
 
 ## Running Services (Makefile)
@@ -63,6 +63,8 @@ Key commands:
 ## FastAPI
 
 * **Entrypoint**: `pinochet.main:app` (under `src/`).
+* **Dependency management**: Uses `uv` with a `uv.lock` file. Dependencies are pinned with version constraints in `pyproject.toml`.
+* **Documentation**: See `pinochet-rettig-fastapi/README.md` for endpoint reference, auth details, and architecture overview.
 * **Environments**: Controlled by `API_ENV` env var.
   * `dev` (default): connects to `0.0.0.0:5433`.
   * `container_dev`: connects to `postgis:5432` (use inside Docker).
@@ -164,7 +166,7 @@ To avoid CI failures, run checks locally before pushing.
 Current repo does not yet have a unified pre-push hook or check script. For now, run manually per service:
 
 * **Root / dbt**: `dbt build --target dev`, `sqlfluff lint` (after `dbt deps`)
-* **FastAPI**: `pytest` (requires test DB on `localhost:5434`), `ruff check .`, `black --check .`
+* **FastAPI**: `uv run pytest` (requires test DB on `localhost:5434`), `uv run ruff check .`, `uv run black --check .`
 * **Streamlit**: `ruff check .`, `black --check .`
 
 If you are unsure, ask the user for guidance on which checks to run.
