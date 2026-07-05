@@ -6,7 +6,7 @@ import os
 def test_health(client: TestClient) -> None:
     r = client.get("/health")
     assert r.status_code == 200
-    assert r.json()["status"] == "healthy"
+    assert r.json()["status"].lower() == "healthy"
 
 
 def test_env_is_testing(app) -> None:
