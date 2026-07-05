@@ -48,15 +48,16 @@ Key commands:
 
 ## Database
 
-* **Dev DB**: `pinochet` on `localhost:5433`.
-* **Test DB**: `pinochet_test` on `localhost:5434`.
-* The `.env` credentials must match the dbt profile (see below) and `pinochet-rettig-fastapi/src/pinochet/settings.py`.
+* **Dev DB**: `pinochet` on `localhost:5433` (user: `dev_user`, password: `dev_password`).
+* **Test DB**: `pinochet` on `localhost:5434` (user: `test_user`, password: `test_password`).
+* Dev credentials are hardcoded across docker-compose, dbt profiles, and FastAPI `DevSettings`. If you change them, update all three sources.
 
 ## dbt (data build tool)
 
 * Project directory: `pinochet-rettig-dbt/dbt_pinochet/`.
 * Profile name: `dbt_pinochet`.
-* The repo provides `pinochet-rettig-dbt/dbt_pinochet/profiles/profiles.yml`. For local dbt CLI runs, copy or symlink it to `~/.dbt/profiles.yml`.
+* The repo provides `pinochet-rettig-dbt/dbt_pinochet/profiles/profiles.yml`.
+* `.env` sets `DBT_PROFILES_DIR` so dbt finds the profile automatically. The `Makefile` also uses this variable.
 * Uses `elementary-data`. Generate reports with `edr report`.
 
 ## FastAPI

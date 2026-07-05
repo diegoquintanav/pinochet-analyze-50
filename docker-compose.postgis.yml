@@ -8,10 +8,10 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
     environment:
-      POSTGRES_USER: ${POSTGRES_USER-postgres_dev}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dontusemeinprod}
-      POSTGRES_DB: ${POSTGRES_DB-pinochet_dev}
-      PGRST_AUTHENTICATOR_PASSWORD: ${PGRST_AUTHENTICATOR_PASSWORD:-dontusemeinprod}
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: pinochet
+      PGRST_AUTHENTICATOR_PASSWORD: dontusemeinprod
     ports:
       - 5433:5432
     networks:
@@ -23,9 +23,9 @@ services:
       - pgdata-test:/var/lib/postgresql/data
       - ./postgis/docker-entrypoint-initdb.d/create_postgrest_roles.sh:/docker-entrypoint-initdb.d/create_postgrest_roles.sh
     environment:
-      POSTGRES_USER: postgres_test
-      POSTGRES_PASSWORD: postgres_password_test
-      POSTGRES_DB: pinochet_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: pinochet
       PGRST_AUTHENTICATOR_PASSWORD: dontusemeinprod
     ports:
       - 5434:5432

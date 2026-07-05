@@ -6,8 +6,8 @@ dbt_pinochet:
             threads: 1
             host: 0.0.0.0
             port: 5433
-            user: postgres
-            pass: postgres
+            user: dev_user
+            pass: dev_password
             dbname: pinochet
             schema: api
 

@@ -14,8 +14,10 @@ compose_streamlit := "-f $(postgis_compose_file) -f $(streamlit_compose_file)"
 compose_api := "-f $(postgis_compose_file) -f $(fastapi_compose_file)"
 compose_ontop := "-f $(postgis_compose_file) -f $(ontop_compose_file)"
 
-dbt_project_dir := $(shell pwd)/pinochet-rettig-dbt/dbt_pinochet
-dbt_profiles_dir := $(dbt_project_dir)/profiles
+dbt_project_dir ?= $(DBT_PROJECT_DIR)
+dbt_project_dir ?= $(shell pwd)/pinochet-rettig-dbt/dbt_pinochet
+dbt_profiles_dir ?= $(DBT_PROFILES_DIR)
+dbt_profiles_dir ?= $(dbt_project_dir)/profiles
 
 help: ## Print this help
 	@grep -E '^[0-9a-zA-Z_\-\.]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
