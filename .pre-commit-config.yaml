@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
         args: ["--unsafe"]
@@ -10,25 +10,20 @@ repos:
       - id: detect-private-key
       - id: name-tests-test
         args: ["--pytest-test-first"]
-  - repo: https://github.com/psf/black
-    rev: 23.7.0
-    hooks:
-      - id: black
-        args: ["--line-length", "88"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     # Ruff version.
-    rev: "v0.0.283"
+    rev: "v0.15.20"
     hooks:
       - id: ruff
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 2.3.5
+    rev: 4.2.2
     hooks:
       - id: sqlfluff-fix
-        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+        additional_dependencies: ["dbt-postgres<2", "sqlfluff-templater-dbt", "dbt-core<2"]
       - id: sqlfluff-lint
-        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+        additional_dependencies: ["dbt-postgres<2", "sqlfluff-templater-dbt", "dbt-core<2"]
 fail_fast: false
 files: ".*"
 exclude: "desktop.ini" # Windows
 default_language_version:
-  python: python3.10
+  python: python3.13
