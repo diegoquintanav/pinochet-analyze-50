@@ -28,11 +28,9 @@ ARG USER_GID
 ARG USER_HOME
 
 # prepare the $PATH
-ENV PATH=${USER_HOME}/.venv/bin:$PATH \
+ENV PATH=${WORKDIR}/.venv/bin:$PATH \
 	PYTHONPATH=${WORKDIR} \
-	# Don't buffer `stdout`
 	PYTHONUNBUFFERED=1 \
-	# Don't create `.pyc` files:
 	PYTHONDONTWRITEBYTECODE=1
 
 # ------------------------------ add user ----------------------------- #
@@ -48,26 +46,26 @@ RUN mkdir -p ${WORKDIR} \
 
 # ---------------------------- add code specifics ---------------------------- #
 
-# Copy everything to the container, we filter out what we don't need using .dockerignore
 WORKDIR ${WORKDIR}
 
 # make sure the user owns /src
 RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
-RUN python -m venv ${USER_HOME}/.venv
+# Install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
 
 # Copy only the files needed for installing dependencies
-COPY --chown=${USER_UID}:${USER_GID} requirements.txt ${WORKDIR}/
+COPY --chown=${USER_UID}:${USER_GID} pyproject.toml uv.lock ${WORKDIR}/
 
 # Install dependencies
-RUN pip install --upgrade pip \
-	&& pip install --no-cache-dir -r requirements.txt
+RUN uv sync --no-dev
 
 # copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} streamlit_app.py .streamlit ${WORKDIR}/
 
 # finalization
 USER ${USERNAME}
-ENTRYPOINT ["streamlit"]
+ENTRYPOINT ["uv", "run", "streamlit"]
 CMD [ "run", "/src/streamlit_app.py" ]
 EXPOSE 80
