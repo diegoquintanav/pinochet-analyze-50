@@ -28,11 +28,9 @@ ARG USER_GID
 ARG USER_HOME
 
 # prepare the $PATH
-ENV PATH=${USER_HOME}/.venv/bin:$PATH \
+ENV PATH=${WORKDIR}/.venv/bin:$PATH \
 	PYTHONPATH=${WORKDIR} \
-	# Don't buffer `stdout`
 	PYTHONUNBUFFERED=1 \
-	# Don't create `.pyc` files:
 	PYTHONDONTWRITEBYTECODE=1
 
 # ------------------------------ add user ----------------------------- #
@@ -46,28 +44,35 @@ RUN mkdir -p ${USER_HOME} \
 RUN mkdir -p ${WORKDIR} \
 	&& chown ${USER_UID}:${USER_GID} ${WORKDIR}
 
+# install basic packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	curl \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
+
 # ---------------------------- add code specifics ---------------------------- #
 
-# Copy everything to the container, we filter out what we don't need using .dockerignore
 WORKDIR ${WORKDIR}
 
 # make sure the user owns /src
 RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
-RUN python -m venv ${USER_HOME}/.venv
+# Install uv system-wide
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    cp /root/.local/bin/uv /usr/local/bin/uv && \
+    chmod +x /usr/local/bin/uv
 
 # Copy only the files needed for installing dependencies
-COPY --chown=${USER_UID}:${USER_GID} requirements.txt ${WORKDIR}/
+COPY --chown=${USER_UID}:${USER_GID} pyproject.toml uv.lock ${WORKDIR}/
 
-# Install dependencies
-RUN pip install --upgrade pip \
-	&& pip install --no-cache-dir -r requirements.txt
+# Install dependencies as the app user
+USER ${USERNAME}
+RUN uv sync --no-dev
 
 # copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} streamlit_app.py .streamlit ${WORKDIR}/
 
 # finalization
-USER ${USERNAME}
-ENTRYPOINT ["streamlit"]
+ENTRYPOINT ["uv", "run", "streamlit"]
 CMD [ "run", "/src/streamlit_app.py" ]
 EXPOSE 80

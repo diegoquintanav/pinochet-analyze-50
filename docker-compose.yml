@@ -1,0 +1,31 @@
+name: pinochet
+
+include:
+  - docker-compose.postgis.yml
+  - docker-compose.fastapi.yml
+  - docker-compose.streamlit.yml
+  - docker-compose.ontop.yml
+
+services:
+  postgis:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dev_user} -d ${POSTGRES_DB:-pinochet}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  fastapi:
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+  streamlit:
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+  ontop:
+    depends_on:
+      postgis:
+        condition: service_healthy

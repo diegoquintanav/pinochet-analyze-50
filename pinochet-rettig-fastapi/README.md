@@ -70,12 +70,12 @@ curl -X POST http://localhost:8080/api/v1/auth/token \
 
 ## Architecture
 
-- `src/pinochet/main.py` — App factory with CORS, health checks, GraphQL router
-- `src/pinochet/api/v1/router.py` — V1 API router wiring
-- `src/pinochet/models.py` — SQLAlchemy ORM models (Victim, Event, Location, User)
-- `src/pinochet/settings.py` — Environment-based settings dispatch
-- `alembic/` — Database migrations
-- `prestart.sh` — Startup script: wait for DB, run migrations, seed data, start uvicorn
+- `src/pinochet/main.py` - App factory with CORS, health checks, GraphQL router
+- `src/pinochet/api/v1/router.py` - V1 API router wiring
+- `src/pinochet/models.py` - SQLAlchemy ORM models (Victim, Event, Location, User)
+- `src/pinochet/settings.py` - Environment-based settings dispatch
+- `alembic/` - Database migrations
+- `prestart.sh` - Startup script: wait for DB, run migrations, seed data, start uvicorn
 
 ## Testing
 
