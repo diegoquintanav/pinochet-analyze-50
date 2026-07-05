@@ -19,8 +19,10 @@ repos:
     rev: 4.2.2
     hooks:
       - id: sqlfluff-fix
+        args: ["--config", ".sqlfluff.fast"]
         additional_dependencies: ["dbt-postgres<2", "sqlfluff-templater-dbt", "dbt-core<2"]
       - id: sqlfluff-lint
+        args: ["--config", ".sqlfluff.fast"]
         additional_dependencies: ["dbt-postgres<2", "sqlfluff-templater-dbt", "dbt-core<2"]
 fail_fast: false
 files: ".*"
