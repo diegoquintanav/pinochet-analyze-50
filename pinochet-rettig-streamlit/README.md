@@ -37,8 +37,6 @@ The app will be available at `http://localhost:8501`.
 
 Currently reads directly from the DB table `api.stg_pinochet__base`. This requires dbt to have built the staging model first.
 
-> **Note**: Phase 3 of the showcase roadmap will refactor this to read from the FastAPI REST endpoint instead, demonstrating an API-first architecture.
-
 ## Stack
 
 - Streamlit
