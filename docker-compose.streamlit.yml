@@ -15,7 +15,6 @@ services:
     volumes:
       - streamlit-cachedata:/root/.cache
       - ./pinochet-rettig-streamlit/streamlit_app.py:/src/streamlit_app.py
-      - ./pinochet-rettig-streamlit/requirements.txt:/src/requirements.txt
       - ./pinochet-rettig-streamlit/.streamlit/config.toml:/src/.streamlit/config.toml
 
 volumes:

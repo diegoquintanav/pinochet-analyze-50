@@ -97,4 +97,4 @@ LABEL org.opencontainers.image.title="pinochet-rettig-streamlit" \
 ENTRYPOINT ["uv", "run", "streamlit"]
 CMD ["run", "/src/streamlit_app.py"]
 
-EXPOSE 80
+EXPOSE 8501

@@ -3,8 +3,8 @@ services:
   fastapi:
     image: ghcr.io/diegoquintanav/pinochet-api:latest
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?You must provide a password for the database connection.}
+      POSTGRES_USER: ${POSTGRES_USER:-dev_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev_password}
       POSTGRES_DB: ${POSTGRES_DB:-pinochet}
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
@@ -20,8 +20,5 @@ services:
       - ./pinochet-rettig-fastapi/src/:/app/src/
       - ./pinochet-rettig-fastapi/alembic/:/app/alembic/
       - ./pinochet-rettig-fastapi/alembic.ini:/app/alembic.ini
-      - pinochet-api-venv:/home/daniellopez/app/.venv
 
-volumes:
-  pinochet-api-venv:
-    driver: local
+

@@ -77,7 +77,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY --chown=${USER_UID}:${USER_GID} pyproject.toml uv.lock prestart.sh README.md ${WORKDIR}/
 
 # Install dependencies
-RUN uv sync --locked --no-dev
+RUN uv sync --locked --no-dev --no-install-project
 
 # Copy migrations
 COPY --chown=${USER_UID}:${USER_GID} alembic.ini ${WORKDIR}/
@@ -86,8 +86,8 @@ COPY --chown=${USER_UID}:${USER_GID} alembic ${WORKDIR}/alembic
 # Copy the rest of the files
 COPY --chown=${USER_UID}:${USER_GID} src ${WORKDIR}/src
 
-# Finalization
-RUN uv pip install -e .
+# Install project
+RUN uv sync --locked --no-dev
 
 # Make sure app user owns the venv
 RUN chown -R ${USER_UID}:${USER_GID} /opt/venv
