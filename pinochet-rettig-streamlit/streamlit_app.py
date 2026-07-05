@@ -57,7 +57,7 @@ with st.sidebar:
     min_start_date = df["start_date_daily"].dropna().min()
     max_end_date = df["end_date_daily"].dropna().max()
 
-    st.slider(
+    date_range = st.slider(
         "start_date_daily",
         min_value=min_start_date,
         max_value=max_end_date,
@@ -68,6 +68,9 @@ with st.sidebar:
     nationalities = build_multiselect(df=df, column="nationality")
 
 df = df.query("nationality in @nationalities")
+df = df[
+    (df["start_date_daily"] >= date_range[0]) & (df["start_date_daily"] <= date_range[1])
+]
 
 with tab_a:
     st.map(df)

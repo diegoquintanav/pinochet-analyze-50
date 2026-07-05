@@ -17,7 +17,7 @@ def get_multi_locations(
     db: Session = Depends(get_db),
 ) -> Any:
     """
-    Get all locations from the DB
+    Get all locations from the DB.
     """
 
     return db.query(Location).offset(skip).limit(limit).all()
@@ -31,23 +31,19 @@ def get_multi_locations(
 def get_location_by_id_or_name(
     db: Session = Depends(get_db),
     id: Optional[int] = None,
-    first_name: Optional[str] = None,
-    last_name: Optional[str] = None,
+    location_name: Optional[str] = None,
 ) -> Any:
     """
-    Get all locations from the DB given a name or a location_id
+    Get all locations from the DB given a name or a location_id.
     """
 
     q = db.query(Location)
 
     if id:
-        return q.where(Location.individual_id == id).all()
-    elif first_name or last_name:
-        if first_name and not last_name:
-            q = q.where(Location.first_name == first_name)
-        if last_name and not first_name:
-            q = q.where(Location.last_name == last_name)
+        return q.where(Location.location_id == id).all()
+    elif location_name:
+        q = q.where(Location.location_name == location_name)
         return q.all()
     else:
-        query = dict(id=id, first_name=first_name, last_name=last_name)
+        query = dict(id=id, location_name=location_name)
         return NoResultFound(message="No location found", query=query)

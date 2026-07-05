@@ -1,5 +1,4 @@
 import enum
-from abc import ABC
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -22,7 +21,7 @@ MISSING_VALUE = ">>> Missing Value <<<"
 ENVIRONMENT = os.getenv("API_ENV", MISSING_ENV)
 
 
-class ApiSettings(ABC):
+class ApiSettings:
     API_ENV: str = config("API_ENV", default=ENVIRONMENT)
     SECRET_KEY: str = config("SECRET_KEY", default=MISSING_VALUE)
     ALGORITHM: str = "HS256"
@@ -73,7 +72,7 @@ class DevSettings(ProdSettings):
         "http://localhost:8080",
     ]
 
-    POSTGRES_HOST: str = "0.0.0.0."
+    POSTGRES_HOST: str = "0.0.0.0"
     POSTGRES_USER: str = "postgres_dev"
     POSTGRES_PASSWORD: str = "dontusemeinprod"
     POSTGRES_DB: str = "pinochet_dev"
