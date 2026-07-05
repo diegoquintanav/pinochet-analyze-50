@@ -27,11 +27,11 @@ The app will be available at `http://localhost:8501`.
 
 ## What it shows
 
-- **Interactive map** — Events plotted by location (via `st.map`)
-- **PyDeck scatterplot** — 3D-style visualization with tooltips
-- **Date range filter** — Slider to narrow events by `start_date_daily`
-- **Nationality filter** — Multi-select to filter victims by nationality
-- **Data table** — Raw data view below the map
+- **Interactive map**: Events plotted by location (via `st.map`)
+- **PyDeck scatterplot**: 3D-style visualization with tooltips
+- **Date range filter**: Slider to narrow events by `start_date_daily`
+- **Nationality filter**: Multi-select to filter victims by nationality
+- **Data table**: Raw data view below the map
 
 ## Data source
 

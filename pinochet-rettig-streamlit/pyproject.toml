@@ -17,8 +17,11 @@ classifiers = [
 dependencies = [
     "geopandas>=0.13.2,<0.14",
     "numpy>=1.25.2,<2",
+    "pandas>=2.0.3,<3",
     "psycopg2-binary>=2.9.7,<3",
+    "pydeck>=0.8.0,<0.9",
     "python-decouple>=3.8,<4",
+    "shapely>=2.0.1,<3",
     "sqlalchemy>=2.0.20,<3",
     "streamlit>=1.26.0,<2",
 ]
@@ -46,7 +49,7 @@ requires = ["uv_build>=0.11.7,<0.12.0"]
 build-backend = "uv_build"
 
 [[tool.poetry_bumpversion.replacements]]
-files = ["src/app.py"]
+files = ["streamlit_app.py"]
 replace = '__version__ = "{new_version}"'
 search = '__version__ = "{current_version}"'
 
