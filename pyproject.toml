@@ -1,29 +1,42 @@
-[tool.poetry]
-authors = ["Diego Quintana <daquintanav@gmail.com>"]
-description = "Utilities for analyzing the pinochet dataset"
-license = "MIT"
+[project]
 name = "pinochet-rettig-main"
-readme = "README.md"
 version = "1.0.0"
-package-mode = false
+description = "Utilities for analyzing the pinochet dataset"
+authors = [{ name = "Diego Quintana", email = "daquintanav@gmail.com" }]
+requires-python = ">=3.10,<4"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "dbt-postgres>=1.8.2,<2",
+    "dbt-core>=1.8.2,<2",
+    "elementary-data>=0.13.2,<0.14",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-dbt-postgres = "^1.8.2"
-elementary-data = "^0.13.2"
+[dependency-groups]
+dev = [
+    "sqlfluff>=3.2.5,<4",
+    "sqlfluff-templater-dbt>=3.2.5,<4",
+    "black>=23.9.1,<24",
+    "coverage>=7.3.0,<8",
+    "git-changelog>=2.1.0,<3",
+    "ipykernel>=6.25.1,<7",
+    "pre-commit>=3.3.3,<4",
+    "pytest>=7.4.0,<8",
+    "ruff>=0.0.284,<0.0.285",
+]
 
-[tool.poetry.group.dev.dependencies]
-sqlfluff = "^3.2.5"
-sqlfluff-templater-dbt = "^3.2.5"
-black = "^23.9.1"
-coverage = "^7.3.0"
-git-changelog = "^2.1.0"
-ipykernel = "^6.25.1"
-pre-commit = "^3.3.3"
-pytest = "^7.4.0"
-ruff = "^0.0.284"
-
+[tool.uv]
+package = false
+default-groups = "all"
 
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
