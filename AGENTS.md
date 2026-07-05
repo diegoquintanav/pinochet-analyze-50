@@ -32,7 +32,7 @@ Do not commit secrets (passwords, API keys, etc.) to the repo. Use `.env` files 
 2. Install dependencies **per project**:
    * **Root**: `uv sync` (dbt, elementary, linting tools). Root `pyproject.toml` is `uv`-based and `package-mode = false`.
    * **FastAPI**: `cd pinochet-rettig-fastapi && uv sync`.
-   * **Streamlit**: `cd pinochet-rettig-streamlit && poetry install`.
+   * **Streamlit**: `cd pinochet-rettig-streamlit && uv sync`.
 
 ## Running Services (Makefile)
 
@@ -77,8 +77,10 @@ Key commands:
 
 ## Streamlit
 
-* Entrypoint is `src/app.py`.
-* Version is bumped via `poetry-bumpversion` (configured in its `pyproject.toml`).
+* Entrypoint is `streamlit_app.py`.
+* Dependency management: Uses `uv` with `pyproject.toml` (PEP 621). Run `make install` to sync deps.
+* **Local dev**: `make run.dev` — starts Streamlit with hardcoded dev credentials on `http://localhost:8501`.
+* Version is bumped via `poetry-bumpversion` (legacy tool still referenced in `pyproject.toml`).
 
 ## Code Quality
 
@@ -168,7 +170,7 @@ Current repo does not yet have a unified pre-push hook or check script. For now,
 
 * **Root / dbt**: `dbt build --target dev`, `sqlfluff lint` (after `dbt deps`)
 * **FastAPI**: `uv run pytest` (requires test DB on `localhost:5434`), `uv run ruff check .`, `uv run black --check .`
-* **Streamlit**: `ruff check .`, `black --check .`
+* **Streamlit**: `uv run ruff check .`, `uv run black --check .`
 
 If you are unsure, ask the user for guidance on which checks to run.
 
