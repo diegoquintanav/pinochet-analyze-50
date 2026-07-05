@@ -110,6 +110,7 @@ Key commands:
 * Work on **ONE PR at a time**. Do not create multiple open PRs simultaneously unless they are part of the same Linear issue and user explicitly approves.
 * Do not merge PRs without explicit user approval.
 * **Approval is scoped to the current PR only** — approval for one PR does not carry over.
+* Before creating a PR, check for `.github/pull_request_template.md` and use it to fill in the description. Include a summary of changes and the Linear issue reference under the `## References` header.
 * Before merging any PR:
   1. Check for any open reviews (human or AI) on the PR.
   2. Verify CI is green (all checks passing).
