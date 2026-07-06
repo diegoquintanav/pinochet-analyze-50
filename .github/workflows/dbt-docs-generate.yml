@@ -11,11 +11,12 @@ on:
       - ".github/**"
       - "pinochet-rettig-fastapi/**"
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages and container registry
 permissions:
   contents: read
   pages: write
   id-token: write
+  packages: write
 
 # Allow one concurrent deployment
 concurrency:
@@ -31,10 +32,34 @@ env:
   DBT_TARGET: prod
 
 jobs:
+  build-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push dbt pre-release image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./pinochet-rettig-dbt/
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/pinochet-dbt:prerelease-${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/pinochet-dbt:prerelease
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
   dbt-docs-generate:
+    needs: [build-images]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/diegoquintanav/pinochet-dbt:latest
+      image: ghcr.io/${{ github.repository_owner }}/pinochet-dbt:prerelease-${{ github.sha }}
       options: --user root # https://github.com/actions/checkout/issues/956
     steps:
       - name: checkout
